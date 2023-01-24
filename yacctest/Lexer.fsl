@@ -69,6 +69,7 @@ rule read =
   | "precision" { PRECISION }
   | ['a'-'z']+ { ID(lexeme lexbuf)}
   | "project property" { PROJECT_PROPERTY }
+  | "task" { TASK }
   | "when" { WHEN }
   | "get" { GET }
   | eof      { EOF }

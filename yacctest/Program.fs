@@ -1,13 +1,6 @@
 ﻿module Program
 open FSharp.Text.Lexing
-
-[<EntryPoint>]
-let main argv =
-    let parse json = 
-        let lexbuf = LexBuffer<char>.FromString json
-        let res = Parser.start Lexer.read lexbuf
-        res
-    let simpleJson = @"precision 2
+let simpleJson = @"precision 2
       rule satt automatiskt produktionsstart:
         project types: 
           ""Goteborg - 1 Sma projekt under 100 tkr""
@@ -22,6 +15,27 @@ let main argv =
         destination:
           project property produktionsstart 
     "
-    let (parseResult) = simpleJson |> parse
+[<EntryPoint>]
+let main argv =
+    let parse json = 
+        let lexbuf = LexBuffer<char>.FromString json
+        let res = Parser.start Lexer.read lexbuf
+        res
+    let simpleExample = @"precision 2
+      rule satt automatiskt produktionsstart:
+        project types: 
+
+      sources:
+          task 
+            when referens = genomfor 
+            get startdate"
+    let x = @"    
+      transformation:
+          none
+        destination:
+          project property produktionsstart 
+    "
+    let (parseResult) = simpleExample |> parse
     printfn "%A" (parseResult)
     0 
+
