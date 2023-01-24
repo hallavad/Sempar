@@ -2,7 +2,7 @@ module DataModel
 
 type Transformation =
   | NoTransform
-  | Arith of string
+  | Transform of string
 
 type Task = (string * string * string)
 type Destination =
