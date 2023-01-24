@@ -1,6 +1,5 @@
 ﻿module Program
 open FSharp.Text.Lexing
-open JsonParsing
 
 [<EntryPoint>]
 let main argv =
@@ -16,5 +15,5 @@ let main argv =
               ]
             }"
     let (Some parseResult) = simpleJson |> parse
-
-0
+    printfn "%A" parseResult
+    0
