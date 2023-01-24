@@ -5,15 +5,12 @@ open FSharp.Text.Lexing
 let main argv =
     let parse json = 
         let lexbuf = LexBuffer<char>.FromString json
-        let res = Parser.start Lexer.read lexbuf
-        res
-    let simpleJson = @"{
-              ""title"": ""Cities"",
-              ""cities"": [
-                { ""name"": ""Chicago"",  ""zips"": [60601,60600] },
-                { ""name"": ""New York"", ""zips"": [10001] } 
-              ]
-            }"
-    let (Some parseResult) = simpleJson |> parse
+        // let res = Parser.start Lexer.read lexbuf
+        lexbuf
+    let simpleJson = @"rule Testing for real: 
+      project types: 
+      ""Test test test""  
+    "
+    let (parseResult) = simpleJson |> parse
     printfn "%A" parseResult
     0
