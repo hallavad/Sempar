@@ -62,13 +62,14 @@ rule read =
 //  | '-'      { MINUS }
 //  | '_'      { UNDERSCORE }
   | eof      { EOF }
-  | "project type:" { PROJECT_TYPE }
+  | "project types:" { PROJECT_TYPE }
   | "rule"   { RULE }
   | "sources:" { SOURCES }
   | "transformation:" { TRANSFORMATION }
   | "destination:" { DESTINATION }
   | "precision" { PRECISION }
   | ['a'-'z']+ { ID(lexeme lexbuf)}
+  | "project property" { PROJECT_PROPERTY }
   | _ { raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (lexeme lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) }
 
 
