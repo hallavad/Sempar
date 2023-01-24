@@ -61,7 +61,7 @@ rule read =
 //  | '+'      { PLUS }
 //  | '-'      { MINUS }
 //  | '_'      { UNDERSCORE }
-  | "project types:" { PROJECT_TYPE }
+  | "project types:" { PROJECT_TYPES }
   | "rule"   { RULE }
   | "sources:" { SOURCES }
   | "transformation:" { TRANSFORMATION }

@@ -12,7 +12,7 @@ open DataModel
 %token COMMA
 %token DOT
 %token EQUAL 
-%token PROJECT_TYPE
+%token PROJECT_TYPES
 %token RULE
 %token SOURCES
 %token TRANSFORMATION
@@ -27,6 +27,8 @@ open DataModel
 
 %%
 
+//start: precision {{precision = Some $1; rules = []}}
+
 start: 
   | precision rule_list { { precision = Some $1; rules = $2 } }
   | rule_list { { precision = None; rules = $1 } }
@@ -38,14 +40,20 @@ rule_list:
   | rule rule_list { $1 :: $2 }
 
 rule: 
-  | RULE rule_name COLON types sources transformations destination { { name = Some $2; types = $4; sources = $5; transformation = $6; destination = $7 } }
-  | RULE COLON types sources transformations destination { { name = None; types = $3; sources = $4; transformation = $5; destination = $6 } }
+  | RULE COLON types { {name = None; types = $3; sources = []; transformation = None; destination = Property ""} }
+  | RULE rule_name COLON types { {name = Some $2; types = $4; sources = []; transformation = None; destination = Property ""} }
+
+//rule: 
+//  | RULE rule_name COLON types sources transformations destination { { name = Some $2; types = $4; sources = $5; transformation = $6; destination = $7 } }
+//  | RULE COLON types sources transformations destination { { name = None; types = $3; sources = $4; transformation = $5; destination = $6 } }
 
 rule_name: 
   |  { "" }
-  | ID rule_name { $1 + $2 }
+  | ID rule_name { $1 + " " + $2 }
 
-types: 
+types: PROJECT_TYPES type_list { $2 }
+
+type_list:
   |  { [] }
   | STRING types { $1 :: $2 }
 

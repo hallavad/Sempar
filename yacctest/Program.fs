@@ -10,17 +10,17 @@ let main argv =
     let simpleJson = @"precision 2
       rule satt automatiskt produktionsstart:
         project types: 
-          ""Göteborg - 1 Små projekt under 100 tkr""
-          ""Göteborg - 2 Mindre projekt mellan 100tkr -625tkr""
-          ""Göteborg - 3 Standard projekt över 625 tkr""
-        sources:
+          ""Goteborg - 1 Sma projekt under 100 tkr""
+          ""Goteborg - 2 Mindre projekt mellan 100tkr -625tkr""
+          ""Goteborg - 3 Standard projekt over 625 tkr""
+      sources:
           task 
-            when Referens = genomför 
-            get StartDate
+            when referens = genomfor 
+            get startdate
         transformation:
           none
         destination:
-          project property Produktionsstart 
+          project property produktionsstart 
     "
     let (parseResult) = simpleJson |> parse
     printfn "%A" (parseResult)
