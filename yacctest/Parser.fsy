@@ -18,6 +18,7 @@ open DataModel
 %token TRANSFORMATION
 %token DESTINATION
 %token PRECISION
+%token PROJECT_PROPERTY
 %token EOF
 
 %type <DataModel.Rules> start
