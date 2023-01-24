@@ -4,7 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
-  <Import Project="..\..\bin\Debug\FsLexYacc.targets" />
+
+  <ItemGroup>
+    <PackageReference Include="fslexyacc" Version="11.0.1" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Include="JsonValue.fs" />
@@ -14,10 +17,5 @@
     <FsLex Include="Lexer.fsl">
       <OtherFlags>--unicode</OtherFlags>
     </FsLex>
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <PackageReference Include="fslexyacc" Version="11.0.1" />
   </ItemGroup>
 </Project>
