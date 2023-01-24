@@ -21,6 +21,6 @@ type Rule =
 
 type Rules = 
   {
-    precision: uint option;
+    precision: int option;
     rules: Rule list;
   }
