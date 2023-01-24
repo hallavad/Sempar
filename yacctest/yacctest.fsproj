@@ -10,7 +10,7 @@
     <PackageReference Include="fslexyacc.runtime" Version="11.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JsonParsing.fs" />
+    <Compile Include="DataModel.fs" />
     <FsYacc Include="Parser.fsy">
       <OtherFlags>--module Parser</OtherFlags>
     </FsYacc>

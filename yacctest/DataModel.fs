@@ -8,10 +8,12 @@ type Task = (string * string * string)
 type Destination =
   | Property of string
 
+type Type = string
+
 type Rule = 
   {
     name: string option;
-    types: string list;
+    types: Type list;
     sources: Task list;
     transformation: Transformation option;
     destination: Destination option;

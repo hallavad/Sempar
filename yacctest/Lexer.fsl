@@ -67,6 +67,7 @@ rule read =
   | "sources:" { SOURCES }
   | "transformation:" { TRANSFORMATION }
   | "destination:" { DESTINATION }
+  | "precision" { PRECISION }
   | _ { raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (lexeme lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) }
 
 

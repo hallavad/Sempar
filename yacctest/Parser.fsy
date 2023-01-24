@@ -20,25 +20,23 @@ open JsonParsing
 %token COMMA
 %token EOF
 
-%type <JsonParsing.JsonValue option> start
+%type <DataModel.Rules> start
 
 %%
 
-start: prog { $1 }
+start: 
+  | precision rule_list { { precision: $1; rules: $2 } }
+  | rule_list { { precision: None; rules: $1 } }
 
-prog:
-  | EOF { None }
-  | value { Some $1 }
+precision: PRECISION INT 
 
-value:
-  | LEFT_BRACE object_fields RIGHT_BRACE { Assoc $2 }
-  | LEFT_BRACK array_values RIGHT_BRACK { List $2 }
-  | STRING { String $1 }
-  | INT { Int $1 }
-  | FLOAT { Float $1 }
-  | TRUE { Bool true }
-  | FALSE { Bool false }
-  | NULL { Null }
+rule_list: 
+  | { [] }
+  | rule rule_list { $1 :: $2 }
+
+rule: 
+  | RULE rule_name COLON types sources transformations destination {  }
+  | RULE COLON rule_body types sources transformations destination { { name: None;  } }
 
 object_fields: rev_object_fields { List.rev $1 };
 
