@@ -18,6 +18,7 @@ open JsonParsing
 %token RIGHT_BRACK
 %token COLON
 %token COMMA
+%token PRECISION
 %token EOF
 
 %type <DataModel.Rules> start
@@ -25,30 +26,34 @@ open JsonParsing
 %%
 
 start: 
-  | precision rule_list { { precision: $1; rules: $2 } }
+  | precision rule_list { { precision: Some $1; rules: $2 } }
   | rule_list { { precision: None; rules: $1 } }
 
-precision: PRECISION INT 
+precision: PRECISION INT { $2 }
 
 rule_list: 
-  | { [] }
+  |  { [] }
   | rule rule_list { $1 :: $2 }
 
 rule: 
-  | RULE rule_name COLON types sources transformations destination {  }
-  | RULE COLON rule_body types sources transformations destination { { name: None;  } }
+  | RULE rule_name COLON types sources transformations destination { { name: $2; types: $4, sources: $5, transformation: $5, destination: $7 } }
+  | RULE COLON types sources transformations destination { { name: None; types: $3, sources: $4, transformation: $5, destination: $6 } }
 
-object_fields: rev_object_fields { List.rev $1 };
+types: 
+  |  { [] }
+  | STRING types { $1 :: $2 }
 
-rev_object_fields:
-  | { [] }
-  | STRING COLON value { [($1,$3)] }
-  | rev_object_fields COMMA STRING COLON value { ($3, $5) :: $1 }
+sources: SOURCES source_list { $2 }
 
-array_values:
-  | { [] }
-  | rev_values { List.rev $1 }
+source_list: 
+  |  { [] }
+  | source sources { $1 :: $2 }
 
-rev_values:
-  | value { [$1] }
-  | rev_values COMMA value { $3 :: $1 }
+source: WHEN ID EQUAL ID GET ID { ($2, $4, $6) } 
+
+transformation: 
+  | TRANSFORMATION ID { Transform $2 }
+
+destination: DESTINATION property { $2 }
+
+property: PROJECT_PROPERTY ID { Property $2 }

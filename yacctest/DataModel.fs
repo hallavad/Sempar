@@ -1,8 +1,8 @@
 module DataModel
 
 type Transformation =
-  | All 
-  | Some of string
+  | NoTransform
+  | Arith of string
 
 type Task = (string * string * string)
 type Destination =
@@ -16,7 +16,7 @@ type Rule =
     types: Type list;
     sources: Task list;
     transformation: Transformation option;
-    destination: Destination option;
+    destination: Destination;
   }
 
 type Rules = 
