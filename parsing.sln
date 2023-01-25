@@ -7,6 +7,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "yacctest", "yacctest\yaccte
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "parsing", "parsing\parsing.fsproj", "{FE15B4DB-197B-44C8-8852-0193836DBA5F}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "sempar", "sempar\sempar.fsproj", "{0AE05B1A-D023-46C1-B57B-4D459035B679}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{FE15B4DB-197B-44C8-8852-0193836DBA5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE15B4DB-197B-44C8-8852-0193836DBA5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE15B4DB-197B-44C8-8852-0193836DBA5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AE05B1A-D023-46C1-B57B-4D459035B679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AE05B1A-D023-46C1-B57B-4D459035B679}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AE05B1A-D023-46C1-B57B-4D459035B679}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AE05B1A-D023-46C1-B57B-4D459035B679}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
