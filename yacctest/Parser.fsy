@@ -41,12 +41,8 @@ rule_list:
   | rule rule_list { $1 :: $2 }
 
 rule: 
-  | RULE COLON types sources { {name = None; types = $3; sources = $4; transformation = None; destination = Property ""} }
-  | RULE rule_name COLON types sources { {name = Some $2; types = $4; sources = $5; transformation = None; destination = Property ""} }
-
-//rule: 
-//  | RULE rule_name COLON types sources transformations destination { { name = Some $2; types = $4; sources = $5; transformation = $6; destination = $7 } }
-//  | RULE COLON types sources transformations destination { { name = None; types = $3; sources = $4; transformation = $5; destination = $6 } }
+  | RULE COLON types sources transformations destination { {name = None; types = $3; sources = $4; transformation = $5; destination = $6} }
+  | RULE rule_name COLON types sources transformations destination { {name = Some $2; types = $4; sources = $5; transformation = $6; destination = $7} }
 
 rule_name: 
   |  { "" }
@@ -56,19 +52,19 @@ types: PROJECT_TYPES type_list { $2 }
 
 type_list:
   |  { [] }
-  | STRING types { $1 :: $2 }
+  | STRING type_list { $1 :: $2 }
 
-sources: SOURCES source { [ $2 ] }
-//sources: SOURCES source_list { $2 }
+sources: SOURCES source_list { $2 }
+//! $2.startsWith("start")
 
 source_list: 
   |  { [] }
   | source source_list { $1 :: $2 }
 
-source: TASK WHEN ID EQUAL ID GET ID { ($3, $5, $7) } 
+source: TASK WHEN ID EQUAL ID GET ID { ($3, $5, $7) }
 
 transformations: 
-  | TRANSFORMATION ID { Some (Transform $2) }
+  | TRANSFORMATION ID { Some $2 }
 
 destination: DESTINATION property { $2 }
 

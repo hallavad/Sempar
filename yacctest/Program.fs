@@ -23,17 +23,22 @@ let main argv =
         res
     let simpleExample = @"precision 2
       rule satt automatiskt produktionsstart:
-        project types: 
-
-      sources:
-          task 
-            when referens = genomfor 
-            get startdate"
-    let x = @"    
-      transformation:
+        project types: ""asdasdad""
+        ""asdsadsadadasdsads""
+        sources:
+   task when referens = genomfor 
+            get startdate
+             
+          
+  transformation:
           none
-        destination:
-          project property produktionsstart 
+          destination:
+          project property produktionsstart
+      "
+    let x = @"    
+    
+          
+         
     "
     let (parseResult) = simpleExample |> parse
     printfn "%A" (parseResult)

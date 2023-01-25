@@ -1,8 +1,6 @@
 module DataModel
 
-type Transformation =
-  | NoTransform
-  | Transform of string
+type Transformation = string
 
 type Task = (string * string * string)
 type Destination =
