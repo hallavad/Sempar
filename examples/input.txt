@@ -12,18 +12,3 @@ rule Sätt_automatiskt_produktionsstart:
 	 	none
 	destination:
 		project property Produktionsstart
-
-
-rule [name]:
-	project types:
-		[proj type]
-		[proj type]
-		[proj type]
-	sources:
-		[source type] [prop name] = [prop value] //Holds if srouce type is "task"
-			[prop name] // Probably only startdate and enddate
-	transformation:
-		[transformation]
-	destination:
-		[destination type] property [prop name]
-

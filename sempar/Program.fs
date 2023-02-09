@@ -3,6 +3,7 @@
 open System.IO
 
 open FSharp.Text.Lexing
+open Fli
 
 open HelperFunctions
 open ParserType
@@ -25,6 +26,13 @@ let main argv =
 
         // call fslex/yacc on generated files to build Parser.fs
         
+        cli {
+            Shell PS
+            Command ("cat " + path)
+        }
+        |> Command.execute
+        |> Output.printText
+
         0
         
         // This should be moved to the first rule of the parser:

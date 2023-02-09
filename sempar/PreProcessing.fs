@@ -20,7 +20,22 @@ type FSY = {
     rules: Rule list;
 }
 
-let preprocess (contents : string[]) : Processed =
+type Code = string
+type Token = string
+type RuleCase = (Token list * Code)
+
+
+type Rule = {
+    name: string;
+    cases: RuleCase list;
+}
+
+type FSY = {
+    preamble: string;
+    rules: Rule list;
+}
+
+let preprocess (contents : string array) : Processed =
     P 
 
 

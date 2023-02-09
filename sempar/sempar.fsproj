@@ -11,6 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="fparsec" Version="1.1.1" />
+    <PackageReference Include="Fli" Version="1.0.1.0" />
     <PackageReference Include="fslexyacc" Version="11.0.1" />
     <PackageReference Include="fslexyacc.runtime" Version="11.0.1" />
   </ItemGroup>
