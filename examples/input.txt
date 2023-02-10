@@ -1,5 +1,5 @@
 precision 2
-rule Sätt_automatiskt_produktionsstart:
+rule Sätt automatiskt produktionsstart:
 	project types: 
 		"Göteborg - 1 Små projekt under 100 tkr"
 		"Göteborg - 2 Mindre projekt mellan 100tkr -625tkr"

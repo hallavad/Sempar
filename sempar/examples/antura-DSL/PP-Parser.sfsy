@@ -28,45 +28,166 @@ open DataModel
 %%
 
 start: 
-  | precision rule_list { { precision = Some $1; rules = $2 } }
-  | rule_list { { precision = None; rules = $1 } }
+  | precision rule_list { 
+    parserType {
+      let! p1 = $1
+      and! p2 = $2
 
-precision: PRECISION INT { $2 }
+      return ({ precision = Some $1; rules = $2 }) 
+    }
+  }
+  | rule_list { 
+    parserType {
+      let! p1 = $1
+
+      return ({ precision = None; rules = $1 }) 
+    }
+  }
+
+precision: PRECISION INT {
+  parserType {
+    let! p2 = $2
+
+    assertWith "Precision must be positive" ($2 >= 1)
+
+    return (p2)
+  }  
+}
 
 rule_list: 
-  |  { [] }
-  | rule rule_list { $1 :: $2 }
+  |  { 
+    parserType {
+      return ([])
+    }  
+  }
+  | rule rule_list { 
+    parserType {
+      let! p1 = $1
+      and! p2 = $2
+
+      return ($1 :: $2)
+    }  
+  }
 
 rule: 
-  | RULE COLON types sources transformations destination { {name = None; types = $3; sources = $4; transformation = $5; destination = $6} }
-  | RULE rule_name COLON types sources transformations destination { {name = Some $2; types = $4; sources = $5; transformation = $6; destination = $7} }
+  | RULE COLON types sources transformations destination { 
+    parserType {
+      let! p3 = $3
+      and! p4 = $4
+      and! p5 = $5
+      and! p6 = $6
+
+      return ({name = None; types = $3; sources = $4; transformation = $5; destination = $6})
+    }
+  }
+  | RULE rule_name COLON types sources transformations destination { 
+    parserType {
+      let! p2 = $2
+      and! p4 = $4
+      and! p5 = $5
+      and! p6 = $6
+      and! p7 = $7
+
+      return ({name = Some $2; types = $4; sources = $5; transformation = $6; destination = $7})
+    }
+  }
 
 rule_name: 
-  |  { "" }
-  | ID rule_name { $1 + " " + $2 }
+  |  { 
+    parserType {
+      return ("")
+    }  
+  }
+  | ID rule_name { 
+    parserType {
+      let! p1 = $1
+      and! p2 = $2
 
-types: PROJECT_TYPES type_list { $2 }
+      return (p1 ++ " " ++ p2)
+    }  
+  }
+
+types: PROJECT_TYPES type_list { 
+  parserType {
+    let! p2 = $2
+
+    return (p2)
+  }  
+}
 
 type_list:
-  |  { [] }
-  | STRING type_list { $1 :: $2 }
+  |  { 
+    parserType {
+      return ([])
+    }  
+  }
+  | STRING type_list { 
+    parserType {
+      let! p1 = $1
+      and! p2 = $2
 
-sources: SOURCES source_list { $2 }
+      return ($1 :: $2)
+    }  
+  }
+
+sources: SOURCES source_list { 
+  parserType {
+    let! p2 = $2
+
+    return (p2)
+  }  
+}
 
 source_list: 
-  |  { [] }
-  | source source_list { $1 :: $2 }
+  |  { 
+    parserType {
+      return ([])
+    }  
+  }
+  | source source_list { 
+    parserType {
+      let! p1 = $1
+      and! p2 = $2
 
-source: TASK WHEN ID EQUAL ID GET ID { ($3, $5, $7) }
+      return ($1 :: $2)
+    }  
+  }
 
-transformations: 
-  | TRANSFORMATION ID { Some $2 }
+source: TASK WHEN ID EQUAL ID GET ID { 
+  parserType {
+    let! p3 = $3
+    and! p5 = $5
+    and! p7 = $7
+
+    assertWith "Tasks must be certain values" ($7 == StartDate || $7 == EndDate || $7 == Property)
+
+    return (p3, p5, p7)
+  }
+}
+
+transformations: TRANSFORMATION ID { 
+  parserType {
+    let! p2 = $2
+
+    return (Some p2)
+  }  
+}
+
 
 destination: DESTINATION property { 
   parserType {
-    assertWith "Destination must start with \"Start\"" $2.StartsWith("Start") 
+    let! p2 = $2
+
+    warnWith "Destination should probably start with \"Start\"" $2.StartsWith("Start") 
+
     return $2 
   }
 }
 
-property: PROJECT_PROPERTY ID { Property $2 }  
+property: PROJECT_PROPERTY ID { 
+  parserType {
+    let! p2 = $2
+    
+    return (Property p2)
+  }  
+}

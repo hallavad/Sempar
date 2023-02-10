@@ -32,6 +32,7 @@ start:
   | precision rule_list { { precision = Some $1; rules = $2 } }
   | rule_list { { precision = None; rules = $1 } }
 
+//! assertWith "Precision must be positive" ($2 >= 1)
 precision: PRECISION INT { $2 }
 
 rule_list: 
@@ -58,12 +59,12 @@ source_list:
   |  { [] }
   | source source_list { $1 :: $2 }
 
+//! assertWith "Tasks must be certain values" ($7 == StartDate || $7 == EndDate || $7 == Property)
 source: TASK WHEN ID EQUAL ID GET ID { ($3, $5, $7) }
 
-transformations: 
-  | TRANSFORMATION ID { Some $2 }
+transformations: TRANSFORMATION ID { Some $2 }
 
-//! assertWith "Destination must start with \"Start\"" $2.StartsWith("Start") 
+//! warnWith "Destination should probably start with \"Start\"" $2.StartsWith("Start") 
 destination: DESTINATION property { $2 }
 
 property: PROJECT_PROPERTY ID { Property $2 }
