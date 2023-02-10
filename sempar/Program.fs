@@ -20,7 +20,7 @@ let main argv =
         printf "Must provide exactly one file"
         1
     | [| path |] ->
-        let contents = File.ReadAllLines path
+        let contents = File.ReadAllLines path |> String.concat "\n" 
         let processed = PreProcessing.preprocess contents
         // generates .fsl and .fsy
 

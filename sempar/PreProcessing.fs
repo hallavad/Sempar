@@ -21,10 +21,6 @@ type FSY = {
 }
 
 
-let preprocess (contents : string array) : Processed =
-    P 
-
-
 let pTokenDecls: Parser<string,unit> = manyCharsTill anyChar (pstring "%%")
 
 let pConstraint: Parser<string,unit> = pstring "//!" >>. restOfLine true
@@ -46,3 +42,9 @@ let pRule: Parser<Rule, unit> = pipe2 pRuleName pRuleCases (fun n c -> {name=n;c
 let pRules: Parser<Rule list, unit> = many pRule
 
 let pFsy: Parser<FSY, unit> = pipe2 pTokenDecls pRules (fun p rs -> {preamble=p;rules=rs})
+
+let preprocess (contents : string) : Processed =
+    match run pFsy contents with 
+    | Failure (msg, _, _) -> printfn "Parsing failed %A" msg
+    | Success (result, _, _) -> printfn "Parsing succeeded %A" result
+    undefined
