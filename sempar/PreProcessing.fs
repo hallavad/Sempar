@@ -21,10 +21,6 @@ type FSY = {
     rules: Rule list;
 }
 
-let preprocess (contents : string[]) : Processed =
-    P 
-
-
 let pTokenDecls: Parser<string,unit> = manyCharsTill anyChar (pstring "%%")
 
 let pRuleConstraint: Parser<string,unit> = pstring "//!" >>. restOfLine true
@@ -40,18 +36,21 @@ let pStringWithCurlys (p: Parser<string, unit>): Parser<string, unit> = pBetween
 let pUntilCurly: Parser<string, unit> = manyCharsTill anyChar (pchar '{')
 let pAfterCurly: Parser<string, unit> = manyCharsTill anyChar (pchar '}')
 
-let rec pNestedCurlys (p: Parser<string, unit>): Parser<string, unit> = 
-    pNestedCurlys (pipe3 pUntilCurly p pAfterCurly 
-        (fun before between after -> before + "{" + between + "}" + after)
-    )
+let rec pNestedCurlys (pBefore: Parser<char,unit>) (pBetween: Parser<char,unit>) (pAfter: Parser<char,unit>): Parser<string, unit> = 
+    choice [| 
+        manyCharsTill pBefore (pchar '{') .>>. pNestedCurlys pBefore pBetween pAfter |>> (fun (b, nested) -> b + "{" + nested + "}") ;
+        manyCharsTill pBetween (pchar '}');
+    |] .>>.  manyCharsTill pAfter (pchar '}') |>> (fun (before, after) -> before + "}" + after)
 
-// let pRuleCaseCode: Parser<Code, unit> = pNestedCurlys ( pUntilCurly .>>. pBetweenCurlys |>> 
-//     fun (before, between) -> 
-//         match String.length before with
-//         | 0 -> between
-//         | _ -> before + "{" + between
-    ) 
+    // (pipe3 pAfter (pNestedCurlys pBefore pBetween pAfter) pAfterCurly (fun before between after -> before + "{" + between + "}" + after)) <|> (pAfterCurly |>> (fun s -> s + "}"))
+
+let pRuleCaseCode: Parser<Code, unit> = pNestedCurlys anyChar anyChar anyChar 
 // let pRuleCaseCode: Parser<Code, unit> = manyCharsTill anyChar (pchar '}' >>? spaces >>? )
+
+(*
+jkhaldsfhjlkjasdf   { hlakjsdfhkj { sjdfklgjajdskl;j jkljkljsdf }  hjksldf jklsdjf }
+
+*)
 
 let pRuleSingleCase: Parser<RuleCase, unit> = pRuleCaseTokens .>>. pRuleCaseCode 
 

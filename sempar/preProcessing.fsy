@@ -1,0 +1,30 @@
+%{
+open PreProcessing
+%}
+
+%start start
+
+%token <string> ID
+%token END_PREAMBLE
+%token CONSTRAINT
+%token RULE_CASE
+%token EOF
+
+
+%type <PreProcessing.FSY> start
+
+%%
+
+start: preamble rules { { preamble = $1; rules = $2 } }
+
+preamble: 
+  | END_PREAMBLE { "" }
+  | ID preamble { $1 + " " + $2}
+
+
+rules: 
+  | CONSTRAINT constraint 
+
+constraint:
+  | newline
+  | ID constraint 
