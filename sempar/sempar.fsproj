@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="HelperFunctions.fs" />
     <Compile Include="ParserType.fs" />
+    <Compile Include="PPType.fs" />
     <FsYacc Include="PreProcessingParser.fsy">
       <OtherFlags>--module PreProcessingParser</OtherFlags>
     </FsYacc>
@@ -16,7 +17,6 @@
       <OtherFlags>--unicode</OtherFlags>
     </FsLex>
     <Compile Include="PreProcessing.fsi" />
-    <Compile Include="PPType.fs" />
     <Compile Include="PreProcessing.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
