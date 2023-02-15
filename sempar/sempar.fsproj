@@ -16,8 +16,8 @@
     <FsLex Include="PreProcessingLexer.fsl">
       <OtherFlags>--unicode</OtherFlags>
     </FsLex>
-    <Compile Include="PreProcessing.fsi" />
-    <Compile Include="PreProcessing.fs" />
+    <Compile Include="PreProcessingParser.fsi" />
+    <Compile Include="PreProcessingParser.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
