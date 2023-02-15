@@ -1,4 +1,4 @@
-﻿module Program
+module Program
 
 open System.IO
 
@@ -20,20 +20,27 @@ let main argv =
         printf "Must provide exactly one file"
         1
     | [| path |] ->
+        let parse input = 
+            let lexbuf = LexBuffer<char>.FromString input
+            let res = PreProcessing.start Lexer.read lexbuf
+            res
+
         let contents = File.ReadAllLines path |> String.concat "\n" 
-        let processed = PreProcessing.preprocess contents
-        // generates .fsl and .fsy
+
+        let (parseResult) = contents |> parse
+        printfn "%A" (parseResult)
+        0
 
         // call fslex/yacc on generated files to build Parser.fs
         
-        cli {
-            Shell PS
-            Command ("cat " + path)
-        }
-        |> Command.execute
-        |> Output.printText
+        // cli {
+        //     Shell PS
+        //     Command ("cat " + path)
+        // }
+        // |> Command.execute
+        // |> Output.printText
 
-        0
+        // 0
         
         // This should be moved to the first rule of the parser:
         (*
@@ -48,5 +55,4 @@ let main argv =
             printfn "All OK: %A" pt
             0
         *)
-
 

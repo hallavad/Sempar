@@ -1,5 +1,5 @@
 %{
-open PreProcessing
+open PPType
 %}
 
 %start start
@@ -11,7 +11,7 @@ open PreProcessing
 %token EOF
 
 
-%type <PreProcessing.FSY> start
+%type <PreProcessingType.FSY> start
 
 %%
 
