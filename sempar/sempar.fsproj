@@ -16,6 +16,7 @@
       <OtherFlags>--unicode</OtherFlags>
     </FsLex>
     <Compile Include="PreProcessing.fsi" />
+    <Compile Include="PPType.fs" />
     <Compile Include="PreProcessing.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

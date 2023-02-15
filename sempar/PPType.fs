@@ -74,5 +74,6 @@ let pFsy: Parser<FSY, unit> =
 let preprocess (contents : string) : Processed =
     match run pFsy contents with 
     | Failure (msg, _, _) -> printfn "Parsing failed %A" msg
-    | Success (result, _, _) -> printfn "Parsing succeeded %A" result
-    undefined
+    | Success (result, _, _) -> 
+        printfn "Parsing succeeded %A" result
+        undefined
