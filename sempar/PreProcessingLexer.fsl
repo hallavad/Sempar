@@ -27,10 +27,17 @@ rule read =
   parse
   | white    { read lexbuf }
   | newline  { newline lexbuf; read lexbuf }
-  | "%%"     { END_PREAMBLE }
   | "//!"    { CONSTRAINT }
   | "//"     { COMMENT }
-  | "|"      { RULE_CASE }
+  | "|"      { PIPE }
+  | "{"      { read_bracket "" 0 lexbuf }
+  | ":"      { COLON }
   | ['a'-'z']+ { ID(lexeme lexbuf)}
   | eof      { EOF }
   | _        { raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (lexeme lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) }
+
+and read_bracket str level = 
+  parse
+  | "{"   { read_bracket (str+(lexeme lexbuf)) (level+1) lexbuf }
+  | "}"   { if level == 0 then CODE (str) else read_bracket (str+(lexeme lexbuf)) (level-1) lexbuf}
+  | [^ '{' '}'] { read_bracket (str+(lexeme lexbuf)) lexbuf}

@@ -5,31 +5,38 @@ open PPType
 %start start
 
 %token <string> ID
-%token END_PREAMBLE
+%token <string> CODE
 %token CONSTRAINT
-%token COMMENT  
-%token RULE_CASE
+%token COMMENT 
+%token COLON
+%token PIPE 
 %token STRING
 %token EOF
 
 
-%type <PPType.Rules> start
+%type <PPType.Rules> rules
 
 %%
 
-start: preamble rules { { preamble = $1; rules = $2 } }
-
-preamble: 
-  | END_PREAMBLE { "" }
-  | ID preamble { $1 + " " + $2}
-
-
-rules: { [{constraints = None; name = "Namn"; cases = [(["sten"], "hej" )]}] }
+rules: 
+  | rule rules { $1 :: $2 }
+  | rule { [$1] }
 
 rule: 
-  | CONSTRAINT constraint { $2}
+  | ID COLON cases {  }
+  | constraints ID COLON caseContent 
 
-constraint:
-  | { "" }
-  | ID constraint {$1 + " " + $2} 
-  
+cases:
+  | constraints PIPE caseContent cases { $2 :: $3}
+  | constraints PIPE caseContent { $2 }
+
+caseContent:
+  | tokens CODE { ($1, $2)}
+
+tokens: 
+  | ID tokens { $1 :: $2}
+  | ID { [$1] }
+
+constraints:
+  | CONSTRAINT CODE constraints { $2 :: $3}
+  | { [] }
