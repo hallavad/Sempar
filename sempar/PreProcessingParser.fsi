@@ -2,13 +2,17 @@
 module PreProcessingParser
 type token = 
   | EOF
+  | STRING
   | RULE_CASE
+  | COMMENT
   | CONSTRAINT
   | END_PREAMBLE
   | ID of (string)
 type tokenId = 
     | TOKEN_EOF
+    | TOKEN_STRING
     | TOKEN_RULE_CASE
+    | TOKEN_COMMENT
     | TOKEN_CONSTRAINT
     | TOKEN_END_PREAMBLE
     | TOKEN_ID
@@ -32,4 +36,4 @@ val prodIdxToNonTerminal: int -> nonTerminalId
 
 /// This function gets the name of a token as a string
 val token_to_string: token -> string
-val start : (FSharp.Text.Lexing.LexBuffer<'cty> -> token) -> FSharp.Text.Lexing.LexBuffer<'cty> -> (PPType.FSY) 
+val start : (FSharp.Text.Lexing.LexBuffer<'cty> -> token) -> FSharp.Text.Lexing.LexBuffer<'cty> -> (PPType.Rules) 

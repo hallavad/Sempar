@@ -3,15 +3,16 @@ module Program
 open System.IO
 
 open FSharp.Text.Lexing
+
 open Fli
 
 open HelperFunctions
 open ParserType
 
-let parse (processed: PreProcessing.Processed) : ParserType<'a> = 
-    // let lexbuf = LexBuffer<char>.FromString json
-    let res = (* Parser.start Lexer.read lexbuf //*) processed
-    OK "cool parser type"
+// let parse (processed: PPType.Processed) : ParserType<'a> = 
+//     // let lexbuf = LexBuffer<char>.FromString json
+//     let res = (* Parser.start Lexer.read lexbuf //*) processed
+//     OK "cool parser type"
 
 [<EntryPoint>]
 let main argv =
@@ -20,10 +21,12 @@ let main argv =
         printf "Must provide exactly one file"
         1
     | [| path |] ->
-        let parse input = 
-            let lexbuf = LexBuffer<char>.FromString input
-            let res = PreProcessing.start Lexer.read lexbuf
-            res
+        let parse (input: string) = 
+            let splits = input.Split ("%%", 2)
+            let lexbuf = LexBuffer<char>.FromString splits[1]
+            let rules = PreProcessingParser.start PreProcessingLexer.read lexbuf
+            { preamble = splits[0] ;rules = rules} : PPType.FSY
+
 
         let contents = File.ReadAllLines path |> String.concat "\n" 
 

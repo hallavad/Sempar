@@ -7,11 +7,13 @@ open PPType
 %token <string> ID
 %token END_PREAMBLE
 %token CONSTRAINT
+%token COMMENT  
 %token RULE_CASE
+%token STRING
 %token EOF
 
 
-%type <PPType.FSY> start
+%type <PPType.Rules> start
 
 %%
 

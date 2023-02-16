@@ -11,6 +11,8 @@ type Rule = {
     cases: RuleCase list;
 }
 
+type Rules = Rule list
+
 type FSY = {
     preamble: string;
     rules: Rule list;

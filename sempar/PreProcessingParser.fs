@@ -11,14 +11,18 @@ open PPType
 // This type is the type of tokens accepted by the parser
 type token = 
   | EOF
+  | STRING
   | RULE_CASE
+  | COMMENT
   | CONSTRAINT
   | END_PREAMBLE
   | ID of (string)
 // This type is used to give symbolic names to token indexes, useful for error messages
 type tokenId = 
     | TOKEN_EOF
+    | TOKEN_STRING
     | TOKEN_RULE_CASE
+    | TOKEN_COMMENT
     | TOKEN_CONSTRAINT
     | TOKEN_END_PREAMBLE
     | TOKEN_ID
@@ -37,21 +41,25 @@ type nonTerminalId =
 let tagOfToken (t:token) = 
   match t with
   | EOF  -> 0 
-  | RULE_CASE  -> 1 
-  | CONSTRAINT  -> 2 
-  | END_PREAMBLE  -> 3 
-  | ID _ -> 4 
+  | STRING  -> 1 
+  | RULE_CASE  -> 2 
+  | COMMENT  -> 3 
+  | CONSTRAINT  -> 4 
+  | END_PREAMBLE  -> 5 
+  | ID _ -> 6 
 
 // This function maps integer indexes to symbolic token ids
 let tokenTagToTokenId (tokenIdx:int) = 
   match tokenIdx with
   | 0 -> TOKEN_EOF 
-  | 1 -> TOKEN_RULE_CASE 
-  | 2 -> TOKEN_CONSTRAINT 
-  | 3 -> TOKEN_END_PREAMBLE 
-  | 4 -> TOKEN_ID 
-  | 7 -> TOKEN_end_of_input
-  | 5 -> TOKEN_error
+  | 1 -> TOKEN_STRING 
+  | 2 -> TOKEN_RULE_CASE 
+  | 3 -> TOKEN_COMMENT 
+  | 4 -> TOKEN_CONSTRAINT 
+  | 5 -> TOKEN_END_PREAMBLE 
+  | 6 -> TOKEN_ID 
+  | 9 -> TOKEN_end_of_input
+  | 7 -> TOKEN_error
   | _ -> failwith "tokenTagToTokenId: bad token"
 
 /// This function maps production indexes returned in syntax errors to strings representing the non terminal that would be produced by that production
@@ -67,14 +75,16 @@ let prodIdxToNonTerminal (prodIdx:int) =
     | 7 -> NONTERM_constraint 
     | _ -> failwith "prodIdxToNonTerminal: bad production index"
 
-let _fsyacc_endOfInputTag = 7 
-let _fsyacc_tagOfErrorTerminal = 5
+let _fsyacc_endOfInputTag = 9 
+let _fsyacc_tagOfErrorTerminal = 7
 
 // This function gets the name of a token as a string
 let token_to_string (t:token) = 
   match t with 
   | EOF  -> "EOF" 
+  | STRING  -> "STRING" 
   | RULE_CASE  -> "RULE_CASE" 
+  | COMMENT  -> "COMMENT" 
   | CONSTRAINT  -> "CONSTRAINT" 
   | END_PREAMBLE  -> "END_PREAMBLE" 
   | ID _ -> "ID" 
@@ -83,7 +93,9 @@ let token_to_string (t:token) =
 let _fsyacc_dataOfToken (t:token) = 
   match t with 
   | EOF  -> (null : System.Object) 
+  | STRING  -> (null : System.Object) 
   | RULE_CASE  -> (null : System.Object) 
+  | COMMENT  -> (null : System.Object) 
   | CONSTRAINT  -> (null : System.Object) 
   | END_PREAMBLE  -> (null : System.Object) 
   | ID _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
@@ -92,100 +104,100 @@ let _fsyacc_sparseGotoTableRowOffsets = [|0us;1us;3us;6us;8us;9us;|]
 let _fsyacc_stateToProdIdxsTableElements = [| 1us;0us;1us;0us;1us;1us;1us;1us;1us;2us;1us;3us;1us;3us;|]
 let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us;2us;4us;6us;8us;10us;12us;|]
 let _fsyacc_action_rows = 7
-let _fsyacc_actionTableElements = [|2us;32768us;3us;4us;4us;5us;0us;49152us;0us;16388us;0us;16385us;0us;16386us;2us;32768us;3us;4us;4us;5us;0us;16387us;|]
+let _fsyacc_actionTableElements = [|2us;32768us;5us;4us;6us;5us;0us;49152us;0us;16388us;0us;16385us;0us;16386us;2us;32768us;5us;4us;6us;5us;0us;16387us;|]
 let _fsyacc_actionTableRowOffsets = [|0us;3us;4us;5us;6us;7us;10us;|]
 let _fsyacc_reductionSymbolCounts = [|1us;2us;1us;2us;0us;2us;0us;2us;|]
 let _fsyacc_productionToNonTerminalTable = [|0us;1us;2us;2us;3us;4us;5us;5us;|]
 let _fsyacc_immediateActions = [|65535us;49152us;65535us;16385us;16386us;65535us;16387us;|]
 let _fsyacc_reductions = lazy [|
-# 101 "PreProcessingParser.fs"
+# 113 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
-            let _1 = parseState.GetInput(1) :?> PPType.FSY in
+            let _1 = parseState.GetInput(1) :?> PPType.Rules in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
                       raise (FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
                  : 'gentype__startstart));
-# 110 "PreProcessingParser.fs"
+# 122 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> 'gentype_preamble in
             let _2 = parseState.GetInput(2) :?> 'gentype_rules in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 18 "PreProcessingParser.fsy"
+# 20 "PreProcessingParser.fsy"
                                              { preamble = _1; rules = _2 } 
                    )
-# 18 "PreProcessingParser.fsy"
-                 : PPType.FSY));
-# 122 "PreProcessingParser.fs"
+# 20 "PreProcessingParser.fsy"
+                 : PPType.Rules));
+# 134 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 21 "PreProcessingParser.fsy"
+# 23 "PreProcessingParser.fsy"
                                         "" 
                    )
-# 21 "PreProcessingParser.fsy"
+# 23 "PreProcessingParser.fsy"
                  : 'gentype_preamble));
-# 132 "PreProcessingParser.fs"
+# 144 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> string in
             let _2 = parseState.GetInput(2) :?> 'gentype_preamble in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 22 "PreProcessingParser.fsy"
+# 24 "PreProcessingParser.fsy"
                                        _1 + " " + _2
                    )
-# 22 "PreProcessingParser.fsy"
+# 24 "PreProcessingParser.fsy"
                  : 'gentype_preamble));
-# 144 "PreProcessingParser.fs"
+# 156 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 25 "PreProcessingParser.fsy"
+# 27 "PreProcessingParser.fsy"
                               [{constraints = None; name = "Namn"; cases = [(["sten"], "hej" )]}] 
                    )
-# 25 "PreProcessingParser.fsy"
+# 27 "PreProcessingParser.fsy"
                  : 'gentype_rules));
-# 154 "PreProcessingParser.fs"
+# 166 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> 'gentype_constraint in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 28 "PreProcessingParser.fsy"
+# 30 "PreProcessingParser.fsy"
                                                  _2
                    )
-# 28 "PreProcessingParser.fsy"
+# 30 "PreProcessingParser.fsy"
                  : 'gentype_rule));
-# 165 "PreProcessingParser.fs"
+# 177 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 31 "PreProcessingParser.fsy"
+# 33 "PreProcessingParser.fsy"
                            "" 
                    )
-# 31 "PreProcessingParser.fsy"
+# 33 "PreProcessingParser.fsy"
                  : 'gentype_constraint));
-# 175 "PreProcessingParser.fs"
+# 187 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> string in
             let _2 = parseState.GetInput(2) :?> 'gentype_constraint in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 32 "PreProcessingParser.fsy"
+# 34 "PreProcessingParser.fsy"
                                         _1 + " " + _2
                    )
-# 32 "PreProcessingParser.fsy"
+# 34 "PreProcessingParser.fsy"
                  : 'gentype_constraint));
 |]
-# 188 "PreProcessingParser.fs"
+# 200 "PreProcessingParser.fs"
 let tables : FSharp.Text.Parsing.Tables<_> = 
   { reductions = _fsyacc_reductions.Value;
     endOfInputTag = _fsyacc_endOfInputTag;
@@ -204,8 +216,8 @@ let tables : FSharp.Text.Parsing.Tables<_> =
                               match parse_error_rich with 
                               | Some f -> f ctxt
                               | None -> parse_error ctxt.Message);
-    numTerminals = 8;
+    numTerminals = 10;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = tables.Interpret(lexer, lexbuf, startState)
-let start lexer lexbuf : PPType.FSY =
+let start lexer lexbuf : PPType.Rules =
     engine lexer lexbuf 0 :?> _
