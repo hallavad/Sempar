@@ -71,7 +71,9 @@ let parserType = new ParserTypeBuilder()
 let warn (w: Warning): ParserType<unit> = Warnings ((), [w])
 let error (e: Error): ParserType<unit> = Errors [e]
 let warnWhen (w: Warning) (c: bool): ParserType<unit> = if c then OK () else warn w
+let warnUnless (w: Warning) (c: bool): ParserType<unit> = if !c then OK () else warn w
 let errorWhen (e: Error) (c: bool): ParserType<unit> = if c then OK () else error e
+let errorUnless (e: Error) (c: bool): ParserType<unit> = if !c then OK () else error e
 
 let x = parserType {
     let! x = OK 1

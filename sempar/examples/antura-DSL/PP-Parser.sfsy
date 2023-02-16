@@ -30,7 +30,7 @@ open DataModel
 start: 
   | precision rule_list { 
     parserType {
-      let! p1 = $1
+      let! p1 = $1 
       and! p2 = $2
 
       return ({ precision = Some $1; rules = $2 }) 
@@ -48,7 +48,7 @@ precision: PRECISION INT {
   parserType {
     let! p2 = $2
 
-    assertWith "Precision must be positive" ($2 >= 1)
+    errorUnless "Precision must be positive" ($2 >= 1)
 
     return (p2)
   }  
@@ -159,7 +159,7 @@ source: TASK WHEN ID EQUAL ID GET ID {
     and! p5 = $5
     and! p7 = $7
 
-    assertWith "Tasks must be certain values" ($7 == StartDate || $7 == EndDate || $7 == Property)
+    errorUnless "Tasks must be certain values" ($7 == StartDate || $7 == EndDate || $7 == Property)
 
     return (p3, p5, p7)
   }
@@ -178,7 +178,7 @@ destination: DESTINATION property {
   parserType {
     let! p2 = $2
 
-    warnWith "Destination should probably start with \"Start\"" $2.StartsWith("Start") 
+    warnUnless "Destination should probably start with \"Start\"" $2.StartsWith("Start") 
 
     return $2 
   }
@@ -187,7 +187,7 @@ destination: DESTINATION property {
 property: PROJECT_PROPERTY ID { 
   parserType {
     let! p2 = $2
-    
+
     return (Property p2)
   }  
 }
