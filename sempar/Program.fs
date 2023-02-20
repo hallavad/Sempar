@@ -1,4 +1,4 @@
-module Program
+﻿module Program
 
 open System.IO
 
@@ -25,8 +25,7 @@ let main argv =
             let splits = input.Split ("%%", 2)
             let lexbuf = LexBuffer<char>.FromString splits[1]
             let rules = PreProcessingParser.start PreProcessingLexer.read lexbuf
-            { preamble = splits[0] ;rules = rules} : PPType.FSY
-
+            { preamble = splits[0]; rules = rules} : PPType.FSY
 
         let contents = File.ReadAllLines path |> String.concat "\n" 
 
