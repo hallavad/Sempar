@@ -27,18 +27,23 @@ rule read =
   parse
   | white    { read lexbuf }
   | newline  { newline lexbuf; read lexbuf }
-  | "//!"    { CONSTRAINT }
+  | "//!"    { read_constraint "" lexbuf }
   | "//"     { COMMENT }
   | "|"      { PIPE }
   | "{"      { read_bracket "" 0 lexbuf }
   | ":"      { COLON }
-  | ['a'-'z' '_' '-']+ { ID(lexeme lexbuf)}
+  | ['a'-'z' 'A'-'Z' '_' '-']+ { ID(lexeme lexbuf)}
   | eof      { EOF }
   | _        { raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (lexeme lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) }
 
+and read_constraint str =
+  parse
+  | newline     { CONSTRAINT (str) }
+  | [^ '\r' '\n'] { read_constraint (str+(lexeme lexbuf)) lexbuf }
+
 and read_bracket str level = 
   parse
-  | "{"   { read_bracket (str+(lexeme lexbuf)) (level+1) lexbuf }
-  | "}"   { if level < 1 then CODE (str) else read_bracket (str+(lexeme lexbuf)) (level-1) lexbuf}
+  | "{"         { read_bracket (str+(lexeme lexbuf)) (level+1) lexbuf }
+  | "}"         { if level < 1 then CODE (str) else read_bracket (str+(lexeme lexbuf)) (level-1) lexbuf}
   | [^ '{' '}'] { read_bracket (str+(lexeme lexbuf)) level lexbuf}
-  | _     { raise (Exception (sprintf "SyntaxError: Mismatched curly braces: Line: %d Column: %d" (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column))}
+  | _           { raise (Exception (sprintf "SyntaxError: Mismatched curly braces: Line: %d Column: %d" (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column))}

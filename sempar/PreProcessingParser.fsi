@@ -6,7 +6,7 @@ type token =
   | PIPE
   | COLON
   | COMMENT
-  | CONSTRAINT
+  | CONSTRAINT of (string)
   | CODE of (string)
   | ID of (string)
 type tokenId = 

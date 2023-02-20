@@ -15,7 +15,7 @@ type token =
   | PIPE
   | COLON
   | COMMENT
-  | CONSTRAINT
+  | CONSTRAINT of (string)
   | CODE of (string)
   | ID of (string)
 // This type is used to give symbolic names to token indexes, useful for error messages
@@ -47,7 +47,7 @@ let tagOfToken (t:token) =
   | PIPE  -> 2 
   | COLON  -> 3 
   | COMMENT  -> 4 
-  | CONSTRAINT  -> 5 
+  | CONSTRAINT _ -> 5 
   | CODE _ -> 6 
   | ID _ -> 7 
 
@@ -93,7 +93,7 @@ let token_to_string (t:token) =
   | PIPE  -> "PIPE" 
   | COLON  -> "COLON" 
   | COMMENT  -> "COMMENT" 
-  | CONSTRAINT  -> "CONSTRAINT" 
+  | CONSTRAINT _ -> "CONSTRAINT" 
   | CODE _ -> "CODE" 
   | ID _ -> "ID" 
 
@@ -105,19 +105,19 @@ let _fsyacc_dataOfToken (t:token) =
   | PIPE  -> (null : System.Object) 
   | COLON  -> (null : System.Object) 
   | COMMENT  -> (null : System.Object) 
-  | CONSTRAINT  -> (null : System.Object) 
+  | CONSTRAINT _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | CODE _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | ID _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
-let _fsyacc_gotos = [| 0us;65535us;2us;65535us;0us;1us;2us;3us;2us;65535us;0us;2us;2us;2us;2us;65535us;5us;6us;15us;16us;3us;65535us;9us;10us;13us;14us;17us;18us;5us;65535us;0us;7us;2us;7us;5us;12us;15us;12us;20us;21us;|]
+let _fsyacc_gotos = [| 0us;65535us;2us;65535us;0us;1us;2us;3us;2us;65535us;0us;2us;2us;2us;2us;65535us;10us;11us;15us;16us;3us;65535us;6us;7us;13us;14us;17us;18us;5us;65535us;0us;4us;2us;4us;10us;12us;15us;12us;19us;20us;|]
 let _fsyacc_sparseGotoTableRowOffsets = [|0us;1us;4us;7us;10us;14us;|]
-let _fsyacc_stateToProdIdxsTableElements = [| 1us;0us;1us;0us;2us;1us;2us;1us;1us;1us;3us;1us;3us;1us;3us;1us;4us;1us;4us;1us;4us;1us;4us;1us;4us;2us;5us;6us;2us;5us;6us;2us;5us;6us;2us;5us;6us;1us;5us;2us;7us;8us;1us;7us;1us;9us;1us;9us;1us;9us;|]
-let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us;2us;4us;7us;9us;11us;13us;15us;17us;19us;21us;23us;25us;28us;31us;34us;37us;39us;42us;44us;46us;48us;|]
-let _fsyacc_action_rows = 22
-let _fsyacc_actionTableElements = [|2us;16394us;5us;19us;7us;4us;0us;49152us;2us;16386us;5us;19us;7us;4us;0us;16385us;1us;32768us;3us;5us;1us;16394us;5us;19us;0us;16387us;1us;32768us;7us;8us;1us;32768us;3us;9us;1us;32768us;7us;17us;1us;32768us;6us;11us;0us;16388us;1us;32768us;2us;13us;1us;32768us;7us;17us;1us;32768us;6us;15us;2us;16390us;2us;16394us;5us;19us;0us;16389us;1us;16392us;7us;17us;0us;16391us;1us;32768us;6us;20us;1us;16394us;5us;19us;0us;16393us;|]
-let _fsyacc_actionTableRowOffsets = [|0us;3us;4us;7us;8us;10us;12us;13us;15us;17us;19us;21us;22us;24us;26us;28us;31us;32us;34us;35us;37us;39us;|]
-let _fsyacc_reductionSymbolCounts = [|1us;2us;1us;3us;5us;5us;4us;2us;1us;3us;0us;|]
+let _fsyacc_stateToProdIdxsTableElements = [| 1us;0us;1us;0us;2us;1us;2us;1us;1us;1us;3us;1us;3us;1us;3us;1us;3us;1us;3us;1us;4us;1us;4us;1us;4us;2us;5us;6us;2us;5us;6us;2us;5us;6us;2us;5us;6us;1us;5us;1us;7us;1us;7us;1us;9us;1us;9us;|]
+let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us;2us;4us;7us;9us;11us;13us;15us;17us;19us;21us;23us;25us;28us;31us;34us;37us;39us;41us;43us;45us;|]
+let _fsyacc_action_rows = 21
+let _fsyacc_actionTableElements = [|2us;16394us;5us;19us;7us;9us;0us;49152us;2us;16386us;5us;19us;7us;9us;0us;16385us;1us;32768us;7us;5us;1us;32768us;3us;6us;1us;16392us;7us;17us;1us;32768us;6us;8us;0us;16387us;1us;32768us;3us;10us;1us;16394us;5us;19us;0us;16388us;1us;32768us;2us;13us;1us;16392us;7us;17us;1us;32768us;6us;15us;2us;16390us;2us;16394us;5us;19us;0us;16389us;1us;16392us;7us;17us;0us;16391us;1us;16394us;5us;19us;0us;16393us;|]
+let _fsyacc_actionTableRowOffsets = [|0us;3us;4us;7us;8us;10us;12us;14us;16us;17us;19us;21us;22us;24us;26us;28us;31us;32us;34us;35us;37us;|]
+let _fsyacc_reductionSymbolCounts = [|1us;2us;1us;5us;3us;5us;4us;2us;0us;2us;0us;|]
 let _fsyacc_productionToNonTerminalTable = [|0us;1us;1us;2us;2us;3us;3us;4us;4us;5us;5us;|]
-let _fsyacc_immediateActions = [|65535us;49152us;65535us;16385us;65535us;65535us;16387us;65535us;65535us;65535us;65535us;16388us;65535us;65535us;65535us;65535us;16389us;65535us;16391us;65535us;65535us;16393us;|]
+let _fsyacc_immediateActions = [|65535us;49152us;65535us;16385us;65535us;65535us;65535us;65535us;16387us;65535us;65535us;16388us;65535us;65535us;65535us;65535us;16389us;65535us;16391us;65535us;16393us;|]
 let _fsyacc_reductions = lazy [|
 # 122 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
@@ -153,18 +153,6 @@ let _fsyacc_reductions = lazy [|
                  : PPType.Rules));
 # 154 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
-            let _1 = parseState.GetInput(1) :?> string in
-            let _3 = parseState.GetInput(3) :?> 'gentype_cases in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 26 "PreProcessingParser.fsy"
-                                          {name = _1; cases = _3} 
-                   )
-# 26 "PreProcessingParser.fsy"
-                 : 'gentype_rule));
-# 166 "PreProcessingParser.fs"
-        (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> 'gentype_constraints in
             let _2 = parseState.GetInput(2) :?> string in
             let _4 = parseState.GetInput(4) :?> 'gentype_tokens in
@@ -172,8 +160,20 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 27 "PreProcessingParser.fsy"
+# 26 "PreProcessingParser.fsy"
                                                             {name = _2; cases = [{tokens = _4; code = Code _5; constraints = _1}]}
+                   )
+# 26 "PreProcessingParser.fsy"
+                 : 'gentype_rule));
+# 168 "PreProcessingParser.fs"
+        (fun (parseState : FSharp.Text.Parsing.IParseState) ->
+            let _1 = parseState.GetInput(1) :?> string in
+            let _3 = parseState.GetInput(3) :?> 'gentype_cases in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 27 "PreProcessingParser.fsy"
+                                          {name = _1; cases = _3} 
                    )
 # 27 "PreProcessingParser.fsy"
                  : 'gentype_rule));
@@ -218,39 +218,38 @@ let _fsyacc_reductions = lazy [|
                  : 'gentype_tokens));
 # 219 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
-            let _1 = parseState.GetInput(1) :?> string in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
 # 35 "PreProcessingParser.fsy"
-                              [Token _1] 
+                           [] 
                    )
 # 35 "PreProcessingParser.fsy"
                  : 'gentype_tokens));
-# 230 "PreProcessingParser.fs"
+# 229 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
-            let _2 = parseState.GetInput(2) :?> string in
-            let _3 = parseState.GetInput(3) :?> 'gentype_constraints in
+            let _1 = parseState.GetInput(1) :?> string in
+            let _2 = parseState.GetInput(2) :?> 'gentype_constraints in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
 # 38 "PreProcessingParser.fsy"
-                                                       ((Constr _2) :: _3): Constraint list 
+                                                  (Constr _1) :: _2 
                    )
 # 38 "PreProcessingParser.fsy"
                  : 'gentype_constraints));
-# 242 "PreProcessingParser.fs"
+# 241 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
 # 39 "PreProcessingParser.fsy"
-                           []: Constraint list 
+                           [] 
                    )
 # 39 "PreProcessingParser.fsy"
                  : 'gentype_constraints));
 |]
-# 253 "PreProcessingParser.fs"
+# 252 "PreProcessingParser.fs"
 let tables : FSharp.Text.Parsing.Tables<_> = 
   { reductions = _fsyacc_reductions.Value;
     endOfInputTag = _fsyacc_endOfInputTag;
