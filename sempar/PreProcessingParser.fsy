@@ -23,7 +23,7 @@ rules:
   | rule { [$1] }
 
 rule: 
-  | constraints ID COLON tokens CODE { {name = $2; cases = [{tokens = $4; code = Code $5; constraints = $1}]}}
+  | ID COLON tokens CODE { {name = $1; cases = [{tokens = $3; code = Code $4; constraints = []}]}}
   | ID COLON cases { {name = $1; cases = $3} }
 
 cases:

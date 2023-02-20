@@ -127,7 +127,7 @@ and read_constraint str lexbuf =
   match _fslex_tables.Interpret(4,lexbuf) with
   | 0 -> ( 
 # 41 "PreProcessingLexer.fsl"
-                                 CONSTRAINT (str) 
+                                 newline lexbuf; CONSTRAINT (str); read lexbuf 
 # 131 "PreProcessingLexer.fs"
           )
   | 1 -> ( 

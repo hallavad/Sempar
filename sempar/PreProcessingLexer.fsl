@@ -38,7 +38,7 @@ rule read =
 
 and read_constraint str =
   parse
-  | newline     { CONSTRAINT (str) }
+  | newline     { newline lexbuf; CONSTRAINT (str); read lexbuf }
   | [^ '\r' '\n'] { read_constraint (str+(lexeme lexbuf)) lexbuf }
 
 and read_bracket str level = 
