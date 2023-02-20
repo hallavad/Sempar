@@ -1,4 +1,3 @@
-//This parser has been writen with help of "Real world OCaml" book By Yaron Minsky, Anil Madhavapeddy, Jason Hickey (chapter 16)
 %{
 open DataModel 
 %}
@@ -32,8 +31,9 @@ start:
   | precision rule_list { { precision = Some $1; rules = $2 } }
   | rule_list { { precision = None; rules = $1 } }
 
+precision: 
 //! { errorUnless "Precision must be positive" ($2 >= 1) }
-precision: PRECISION INT { $2 }
+  | PRECISION INT { $2 }
 
 rule_list: 
   |  { [] }
@@ -47,24 +47,30 @@ rule_name:
   |  { "" }
   | ID rule_name { $1 + " " + $2 }
 
-types: PROJECT_TYPES type_list { $2 }
+types: 
+  | PROJECT_TYPES type_list { $2 }
 
 type_list:
   |  { [] }
   | STRING type_list { $1 :: $2 }
 
-sources: SOURCES source_list { $2 }
+sources: 
+  | SOURCES source_list { $2 }
 
 source_list: 
   |  { [] }
   | source source_list { $1 :: $2 }
 
+source: 
 //! { errorUnless "Tasks must be certain values" ($7 == StartDate || $7 == EndDate || $7 == Property) }
-source: TASK WHEN ID EQUAL ID GET ID { ($3, $5, $7) }
+  | TASK WHEN ID EQUAL ID GET ID { ($3, $5, $7) }
 
-transformations: TRANSFORMATION ID { Some $2 }
+transformations: 
+  | TRANSFORMATION ID { Some $2 }
 
+destination: 
 //! { warnUnless "Destination should probably start with \"Start\"" $2.StartsWith("Start") }
-destination: DESTINATION property { $2 }
+  | DESTINATION property { $2 }
 
-property: PROJECT_PROPERTY ID { Property $2 }
+property: 
+  | PROJECT_PROPERTY ID { Property $2 }
