@@ -1,6 +1,7 @@
 Lexer.fs
 Parser.fs
 Parser.fsi
+*.ppfsy
 
 .vscode/*
 
