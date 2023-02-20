@@ -1,5 +1,7 @@
 module PPType
 
+open ParserType
+
 let mapToString (os : 'a list) : string list = 
     List.map (fun x -> x.ToString()) os
 
@@ -9,12 +11,34 @@ let concatSpaces (ss : string list) : string =
 let concatNewlines (ss : string list) : string = 
     String.concat "\n" ss 
 
+type Constraint =
+    | Constr of string
+        override this.ToString() = 
+            let (Constr constr) = this
+            constr
+
 type Code = 
     | Code of string
-        override this.ToString() =
+        member this.ToString(cs: Constraint list) =
             let (Code code) = this
-            code
-        member this.UsedVariables() =
+            $"""
+parserType {{
+    {this.UsedVariablesToString}
+    {concatNewlines (mapToString cs)}
+
+    return ({code})
+}} 
+"""
+
+        member private this.UsedVariablesToString =
+            let usedVars = this.UsedVariables
+            match usedVars with 
+            | [] -> ""
+            | (v :: vs) -> $"""let! var{v} = ${v}
+{vs |> List.map (fun v -> $"    and! var{v} = ${v}") |> concatNewlines}
+"""
+
+        member this.UsedVariables =
             let (Code code) = this
             let mutable vars = []
             let mutable includeNext = false
@@ -22,7 +46,7 @@ type Code =
             for (c : char) in code do 
                 if includeNext then
                     if System.Char.IsNumber(c) then
-                        vars <- $"${c}" :: vars
+                        vars <- string c :: vars
                         startedIncluding <- true
                     includeNext <- false
                 else if startedIncluding then
@@ -39,12 +63,6 @@ type Code =
                         includeNext <- false
             List.rev vars
 
-type Constraint =
-    | Constr of string
-        override this.ToString() = 
-            let (Constr constr) = this
-            constr
-
 type Token = 
     | Token of string
         override this.ToString() =
@@ -60,7 +78,7 @@ type RuleCase =
         constraints: Constraint list;
     }
     override this.ToString() =
-        "| " + Token.ListToString this.tokens + " { " + this.code.ToString() + " }"
+        "| " + Token.ListToString this.tokens + " { " + this.code.ToString(this.constraints) + " }"
 
 type Rule = 
     {
@@ -68,7 +86,7 @@ type Rule =
         cases: RuleCase list;
     }
     override this.ToString() =
-        "Rule"
+        this.name + ":\n" + concatNewlines (mapToString this.cases)
 
 type Rules = Rule list
 
@@ -82,7 +100,7 @@ type FSY =
 
 let testCode = Code("test code that uses $3, $7 and $11")
 let testConstraint = Constr("test constraint")
-let testToken = Token("test token")
+let testToken = Token("token1 token2 token3")
 let testRuleCase = { tokens = [testToken]; code = testCode; constraints = [testConstraint] }
-let testRule = { name = "Test rule"; cases = [testRuleCase] }
+let testRule = { name = "test_rule"; cases = [testRuleCase] }
 let testFSY = { preamble = "%token important\nTest FSY"; rules = [testRule]; }
