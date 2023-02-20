@@ -12,81 +12,89 @@ open PPType
 type token = 
   | EOF
   | STRING
-  | RULE_CASE
+  | PIPE
+  | COLON
   | COMMENT
   | CONSTRAINT
-  | END_PREAMBLE
+  | CODE of (string)
   | ID of (string)
 // This type is used to give symbolic names to token indexes, useful for error messages
 type tokenId = 
     | TOKEN_EOF
     | TOKEN_STRING
-    | TOKEN_RULE_CASE
+    | TOKEN_PIPE
+    | TOKEN_COLON
     | TOKEN_COMMENT
     | TOKEN_CONSTRAINT
-    | TOKEN_END_PREAMBLE
+    | TOKEN_CODE
     | TOKEN_ID
     | TOKEN_end_of_input
     | TOKEN_error
 // This type is used to give symbolic names to token indexes, useful for error messages
 type nonTerminalId = 
-    | NONTERM__startstart
-    | NONTERM_start
-    | NONTERM_preamble
+    | NONTERM__startrules
     | NONTERM_rules
     | NONTERM_rule
-    | NONTERM_constraint
+    | NONTERM_cases
+    | NONTERM_tokens
+    | NONTERM_constraints
 
 // This function maps tokens to integer indexes
 let tagOfToken (t:token) = 
   match t with
   | EOF  -> 0 
   | STRING  -> 1 
-  | RULE_CASE  -> 2 
-  | COMMENT  -> 3 
-  | CONSTRAINT  -> 4 
-  | END_PREAMBLE  -> 5 
-  | ID _ -> 6 
+  | PIPE  -> 2 
+  | COLON  -> 3 
+  | COMMENT  -> 4 
+  | CONSTRAINT  -> 5 
+  | CODE _ -> 6 
+  | ID _ -> 7 
 
 // This function maps integer indexes to symbolic token ids
 let tokenTagToTokenId (tokenIdx:int) = 
   match tokenIdx with
   | 0 -> TOKEN_EOF 
   | 1 -> TOKEN_STRING 
-  | 2 -> TOKEN_RULE_CASE 
-  | 3 -> TOKEN_COMMENT 
-  | 4 -> TOKEN_CONSTRAINT 
-  | 5 -> TOKEN_END_PREAMBLE 
-  | 6 -> TOKEN_ID 
-  | 9 -> TOKEN_end_of_input
-  | 7 -> TOKEN_error
+  | 2 -> TOKEN_PIPE 
+  | 3 -> TOKEN_COLON 
+  | 4 -> TOKEN_COMMENT 
+  | 5 -> TOKEN_CONSTRAINT 
+  | 6 -> TOKEN_CODE 
+  | 7 -> TOKEN_ID 
+  | 10 -> TOKEN_end_of_input
+  | 8 -> TOKEN_error
   | _ -> failwith "tokenTagToTokenId: bad token"
 
 /// This function maps production indexes returned in syntax errors to strings representing the non terminal that would be produced by that production
 let prodIdxToNonTerminal (prodIdx:int) = 
   match prodIdx with
-    | 0 -> NONTERM__startstart 
-    | 1 -> NONTERM_start 
-    | 2 -> NONTERM_preamble 
-    | 3 -> NONTERM_preamble 
-    | 4 -> NONTERM_rules 
-    | 5 -> NONTERM_rule 
-    | 6 -> NONTERM_constraint 
-    | 7 -> NONTERM_constraint 
+    | 0 -> NONTERM__startrules 
+    | 1 -> NONTERM_rules 
+    | 2 -> NONTERM_rules 
+    | 3 -> NONTERM_rule 
+    | 4 -> NONTERM_rule 
+    | 5 -> NONTERM_cases 
+    | 6 -> NONTERM_cases 
+    | 7 -> NONTERM_tokens 
+    | 8 -> NONTERM_tokens 
+    | 9 -> NONTERM_constraints 
+    | 10 -> NONTERM_constraints 
     | _ -> failwith "prodIdxToNonTerminal: bad production index"
 
-let _fsyacc_endOfInputTag = 9 
-let _fsyacc_tagOfErrorTerminal = 7
+let _fsyacc_endOfInputTag = 10 
+let _fsyacc_tagOfErrorTerminal = 8
 
 // This function gets the name of a token as a string
 let token_to_string (t:token) = 
   match t with 
   | EOF  -> "EOF" 
   | STRING  -> "STRING" 
-  | RULE_CASE  -> "RULE_CASE" 
+  | PIPE  -> "PIPE" 
+  | COLON  -> "COLON" 
   | COMMENT  -> "COMMENT" 
   | CONSTRAINT  -> "CONSTRAINT" 
-  | END_PREAMBLE  -> "END_PREAMBLE" 
+  | CODE _ -> "CODE" 
   | ID _ -> "ID" 
 
 // This function gets the data carried by a token as an object
@@ -94,23 +102,24 @@ let _fsyacc_dataOfToken (t:token) =
   match t with 
   | EOF  -> (null : System.Object) 
   | STRING  -> (null : System.Object) 
-  | RULE_CASE  -> (null : System.Object) 
+  | PIPE  -> (null : System.Object) 
+  | COLON  -> (null : System.Object) 
   | COMMENT  -> (null : System.Object) 
   | CONSTRAINT  -> (null : System.Object) 
-  | END_PREAMBLE  -> (null : System.Object) 
+  | CODE _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | ID _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
-let _fsyacc_gotos = [| 0us;65535us;1us;65535us;0us;1us;0us;65535us;1us;65535us;0us;2us;0us;65535us;0us;65535us;|]
-let _fsyacc_sparseGotoTableRowOffsets = [|0us;1us;3us;4us;6us;7us;|]
-let _fsyacc_stateToProdIdxsTableElements = [| 1us;0us;1us;0us;1us;1us;|]
-let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us;2us;4us;|]
-let _fsyacc_action_rows = 3
-let _fsyacc_actionTableElements = [|0us;16388us;0us;49152us;0us;16385us;|]
-let _fsyacc_actionTableRowOffsets = [|0us;1us;2us;|]
-let _fsyacc_reductionSymbolCounts = [|1us;1us;1us;2us;0us;2us;0us;2us;|]
-let _fsyacc_productionToNonTerminalTable = [|0us;1us;2us;2us;3us;4us;5us;5us;|]
-let _fsyacc_immediateActions = [|65535us;49152us;16385us;|]
+let _fsyacc_gotos = [| 0us;65535us;2us;65535us;0us;1us;2us;3us;2us;65535us;0us;2us;2us;2us;2us;65535us;5us;6us;15us;16us;3us;65535us;9us;10us;13us;14us;17us;18us;5us;65535us;0us;7us;2us;7us;5us;12us;15us;12us;20us;21us;|]
+let _fsyacc_sparseGotoTableRowOffsets = [|0us;1us;4us;7us;10us;14us;|]
+let _fsyacc_stateToProdIdxsTableElements = [| 1us;0us;1us;0us;2us;1us;2us;1us;1us;1us;3us;1us;3us;1us;3us;1us;4us;1us;4us;1us;4us;1us;4us;1us;4us;2us;5us;6us;2us;5us;6us;2us;5us;6us;2us;5us;6us;1us;5us;2us;7us;8us;1us;7us;1us;9us;1us;9us;1us;9us;|]
+let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us;2us;4us;7us;9us;11us;13us;15us;17us;19us;21us;23us;25us;28us;31us;34us;37us;39us;42us;44us;46us;48us;|]
+let _fsyacc_action_rows = 22
+let _fsyacc_actionTableElements = [|2us;16394us;5us;19us;7us;4us;0us;49152us;2us;16386us;5us;19us;7us;4us;0us;16385us;1us;32768us;3us;5us;1us;16394us;5us;19us;0us;16387us;1us;32768us;7us;8us;1us;32768us;3us;9us;1us;32768us;7us;17us;1us;32768us;6us;11us;0us;16388us;1us;32768us;2us;13us;1us;32768us;7us;17us;1us;32768us;6us;15us;2us;16390us;2us;16394us;5us;19us;0us;16389us;1us;16392us;7us;17us;0us;16391us;1us;32768us;6us;20us;1us;16394us;5us;19us;0us;16393us;|]
+let _fsyacc_actionTableRowOffsets = [|0us;3us;4us;7us;8us;10us;12us;13us;15us;17us;19us;21us;22us;24us;26us;28us;31us;32us;34us;35us;37us;39us;|]
+let _fsyacc_reductionSymbolCounts = [|1us;2us;1us;3us;5us;5us;4us;2us;1us;3us;0us;|]
+let _fsyacc_productionToNonTerminalTable = [|0us;1us;1us;2us;2us;3us;3us;4us;4us;5us;5us;|]
+let _fsyacc_immediateActions = [|65535us;49152us;65535us;16385us;65535us;65535us;16387us;65535us;65535us;65535us;65535us;16388us;65535us;65535us;65535us;65535us;16389us;65535us;16391us;65535us;65535us;16393us;|]
 let _fsyacc_reductions = lazy [|
-# 113 "PreProcessingParser.fs"
+# 122 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> PPType.Rules in
             Microsoft.FSharp.Core.Operators.box
@@ -118,85 +127,130 @@ let _fsyacc_reductions = lazy [|
                    (
                       raise (FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
-                 : 'gentype__startstart));
-# 122 "PreProcessingParser.fs"
+                 : 'gentype__startrules));
+# 131 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
-            let _1 = parseState.GetInput(1) :?> 'gentype_rules in
+            let _1 = parseState.GetInput(1) :?> 'gentype_rule in
+            let _2 = parseState.GetInput(2) :?> PPType.Rules in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 20 "PreProcessingParser.fsy"
-                                    _1 
+# 22 "PreProcessingParser.fsy"
+                                      _1 :: _2 
                    )
-# 20 "PreProcessingParser.fsy"
+# 22 "PreProcessingParser.fsy"
                  : PPType.Rules));
-# 133 "PreProcessingParser.fs"
-        (fun (parseState : FSharp.Text.Parsing.IParseState) ->
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 23 "PreProcessingParser.fsy"
-                                        "" 
-                   )
-# 23 "PreProcessingParser.fsy"
-                 : 'gentype_preamble));
 # 143 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
+            let _1 = parseState.GetInput(1) :?> 'gentype_rule in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 23 "PreProcessingParser.fsy"
+                                [_1] 
+                   )
+# 23 "PreProcessingParser.fsy"
+                 : PPType.Rules));
+# 154 "PreProcessingParser.fs"
+        (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> string in
-            let _2 = parseState.GetInput(2) :?> 'gentype_preamble in
+            let _3 = parseState.GetInput(3) :?> 'gentype_cases in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 24 "PreProcessingParser.fsy"
-                                       _1 + " " + _2
+# 26 "PreProcessingParser.fsy"
+                                          {name = _1; cases = _3} 
                    )
-# 24 "PreProcessingParser.fsy"
-                 : 'gentype_preamble));
-# 155 "PreProcessingParser.fs"
-        (fun (parseState : FSharp.Text.Parsing.IParseState) ->
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 27 "PreProcessingParser.fsy"
-                              [{constraints = None; name = "Namn"; cases = [(["sten"], "hej" )]}] 
-                   )
-# 27 "PreProcessingParser.fsy"
-                 : 'gentype_rules));
-# 165 "PreProcessingParser.fs"
-        (fun (parseState : FSharp.Text.Parsing.IParseState) ->
-            let _2 = parseState.GetInput(2) :?> 'gentype_constraint in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 30 "PreProcessingParser.fsy"
-                                                 _2
-                   )
-# 30 "PreProcessingParser.fsy"
+# 26 "PreProcessingParser.fsy"
                  : 'gentype_rule));
-# 176 "PreProcessingParser.fs"
+# 166 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
+            let _1 = parseState.GetInput(1) :?> 'gentype_constraints in
+            let _2 = parseState.GetInput(2) :?> string in
+            let _4 = parseState.GetInput(4) :?> 'gentype_tokens in
+            let _5 = parseState.GetInput(5) :?> string in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 33 "PreProcessingParser.fsy"
-                           "" 
+# 27 "PreProcessingParser.fsy"
+                                                            {name = _2; cases = [{tokens = _4; code = Code _5; constraints = _1}]}
                    )
-# 33 "PreProcessingParser.fsy"
-                 : 'gentype_constraint));
-# 186 "PreProcessingParser.fs"
+# 27 "PreProcessingParser.fsy"
+                 : 'gentype_rule));
+# 180 "PreProcessingParser.fs"
+        (fun (parseState : FSharp.Text.Parsing.IParseState) ->
+            let _1 = parseState.GetInput(1) :?> 'gentype_constraints in
+            let _3 = parseState.GetInput(3) :?> 'gentype_tokens in
+            let _4 = parseState.GetInput(4) :?> string in
+            let _5 = parseState.GetInput(5) :?> 'gentype_cases in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 30 "PreProcessingParser.fsy"
+                                                              ({tokens = _3; code = Code _4; constraints = _1} :: _5)
+                   )
+# 30 "PreProcessingParser.fsy"
+                 : 'gentype_cases));
+# 194 "PreProcessingParser.fs"
+        (fun (parseState : FSharp.Text.Parsing.IParseState) ->
+            let _1 = parseState.GetInput(1) :?> 'gentype_constraints in
+            let _3 = parseState.GetInput(3) :?> 'gentype_tokens in
+            let _4 = parseState.GetInput(4) :?> string in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 31 "PreProcessingParser.fsy"
+                                                        [{tokens = _3; code = Code _4; constraints = _1}] 
+                   )
+# 31 "PreProcessingParser.fsy"
+                 : 'gentype_cases));
+# 207 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> string in
-            let _2 = parseState.GetInput(2) :?> 'gentype_constraint in
+            let _2 = parseState.GetInput(2) :?> 'gentype_tokens in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
 # 34 "PreProcessingParser.fsy"
-                                        _1 + " " + _2
+                                     (Token _1) :: _2
                    )
 # 34 "PreProcessingParser.fsy"
-                 : 'gentype_constraint));
+                 : 'gentype_tokens));
+# 219 "PreProcessingParser.fs"
+        (fun (parseState : FSharp.Text.Parsing.IParseState) ->
+            let _1 = parseState.GetInput(1) :?> string in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 35 "PreProcessingParser.fsy"
+                              [Token _1] 
+                   )
+# 35 "PreProcessingParser.fsy"
+                 : 'gentype_tokens));
+# 230 "PreProcessingParser.fs"
+        (fun (parseState : FSharp.Text.Parsing.IParseState) ->
+            let _2 = parseState.GetInput(2) :?> string in
+            let _3 = parseState.GetInput(3) :?> 'gentype_constraints in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 38 "PreProcessingParser.fsy"
+                                                       ((Constr _2) :: _3): Constraint list 
+                   )
+# 38 "PreProcessingParser.fsy"
+                 : 'gentype_constraints));
+# 242 "PreProcessingParser.fs"
+        (fun (parseState : FSharp.Text.Parsing.IParseState) ->
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 39 "PreProcessingParser.fsy"
+                           []: Constraint list 
+                   )
+# 39 "PreProcessingParser.fsy"
+                 : 'gentype_constraints));
 |]
-# 199 "PreProcessingParser.fs"
+# 253 "PreProcessingParser.fs"
 let tables : FSharp.Text.Parsing.Tables<_> = 
   { reductions = _fsyacc_reductions.Value;
     endOfInputTag = _fsyacc_endOfInputTag;
@@ -215,8 +269,8 @@ let tables : FSharp.Text.Parsing.Tables<_> =
                               match parse_error_rich with 
                               | Some f -> f ctxt
                               | None -> parse_error ctxt.Message);
-    numTerminals = 10;
+    numTerminals = 11;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = tables.Interpret(lexer, lexbuf, startState)
-let start lexer lexbuf : PPType.Rules =
+let rules lexer lexbuf : PPType.Rules =
     engine lexer lexbuf 0 :?> _

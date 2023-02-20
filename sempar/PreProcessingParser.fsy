@@ -2,7 +2,7 @@
 open PPType
 %}
 
-%start start
+%start rules 
 
 %token <string> ID
 %token <string> CODE
@@ -23,20 +23,17 @@ rules:
   | rule { [$1] }
 
 rule: 
-  | ID COLON cases {  }
-  | constraints ID COLON caseContent 
+  | ID COLON cases { {name = $1; cases = $3} }
+  | constraints ID COLON tokens CODE { {name = $2; cases = [{tokens = $4; code = Code $5; constraints = $1}]}}
 
 cases:
-  | constraints PIPE caseContent cases { $2 :: $3}
-  | constraints PIPE caseContent { $2 }
-
-caseContent:
-  | tokens CODE { ($1, $2)}
+  | constraints PIPE tokens CODE cases { ({tokens = $3; code = Code $4; constraints = $1} :: $5)}
+  | constraints PIPE tokens CODE { [{tokens = $3; code = Code $4; constraints = $1}] }
 
 tokens: 
-  | ID tokens { $1 :: $2}
-  | ID { [$1] }
+  | ID tokens { (Token $1) :: $2}
+  | ID { [Token $1] }
 
 constraints:
-  | CONSTRAINT CODE constraints { $2 :: $3}
-  | { [] }
+  | CONSTRAINT CODE constraints { ((Constr $2) :: $3): Constraint list }
+  | { []: Constraint list } 
