@@ -8,11 +8,7 @@ open Fli
 
 open HelperFunctions
 open ParserType
-
-// let parse (processed: PPType.Processed) : ParserType<'a> = 
-//     // let lexbuf = LexBuffer<char>.FromString json
-//     let res = (* Parser.start Lexer.read lexbuf //*) processed
-//     OK "cool parser type"
+open PPType
 
 [<EntryPoint>]
 let main argv =
@@ -21,17 +17,19 @@ let main argv =
         printf "Must provide exactly one file"
         1
     | [| path |] ->
-        let parse (input: string) = 
+        let parse (input: string): FSY = 
             let splits = input.Split ("%%", 2)
             let lexbuf = LexBuffer<char>.FromString splits[1]
             let rules = PreProcessingParser.rules PreProcessingLexer.read lexbuf
-            { preamble = splits[0] ;rules = rules} : PPType.FSY
+            { preamble = splits[0]; rules = rules } : FSY
 
 
         let contents = File.ReadAllLines path |> String.concat "\n" 
+        printfn "%s" contents
+        let parseResult = contents |> parse |> (fun x -> x.ToString())
+        File.WriteAllText(path + ".sfsy", parseResult)
+        printfn "%s" parseResult
 
-        let (parseResult) = contents |> parse
-        printfn "%A" (parseResult)
         0
 
         // call fslex/yacc on generated files to build Parser.fs
