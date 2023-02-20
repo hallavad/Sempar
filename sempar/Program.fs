@@ -31,28 +31,4 @@ let main argv =
 
         0
 
-        // call fslex/yacc on generated files to build Parser.fs
         
-        // cli {
-        //     Shell PS
-        //     Command ("cat " + path)
-        // }
-        // |> Command.execute
-        // |> Output.printText
-
-        // 0
-        
-        // This should be moved to the first rule of the parser:
-        (*
-        match parsed with
-        | Errors es -> 
-            printfn "errors, no file produced: %A" es
-            2
-        | Warnings (pt, ws) -> 
-            printfn "warnings: %A\n%A" ws pt
-            0
-        | OK pt -> 
-            printfn "All OK: %A" pt
-            0
-        *)
-

@@ -6,9 +6,9 @@ Sempar is a tool developed to aid in creating external DSLs. It's core functiona
 
 The repository has a couple of folders at top level
 * examples - A folder containing some examples of input and it's expected output.
-* parsing - A .NET project testing out the functionality of FSparsec.
-* yacctest - A .NET project testing out the functionality of FSLexYacc.
-* sempar - Main .NET project containing the projects actual code.
+* parsing - A .NET project testing the functionality of FParsec.
+* yacctest - A .NET project testing the functionality of FSLexYacc.
+* sempar - Main .NET project containing the project's actual code.
 
 ## Usage
 
@@ -22,9 +22,9 @@ Move into the sempar directory
 
 Build & Run the program
 `dotnet run -- [file]`
-where file is the file .sfsy containing the parser specification for your DSL. 
+where file is the file .sfsy containing the parser specification for your DSL, including constraints. An example can be found in `exjobb/sempar/examples/antura-DSL`.
 
-The program generates an .fs file which can then be used as a parser for your language
+The program generates an .ppfsy file which can then be used with FSLexYacc as a parser for your language. An example project that uses the generated file can be found in the folder `antura-dsl-parser`.s
 
 *MORE INFORMATION ABOUT HOW THE RESULTING .fs CAN BE USED. WHAT DATATYPE DOES IT RETURN AND HOW CAN YOU HANDLE THE POTENTIAL ERRORS AND WARNINGS.*
 
