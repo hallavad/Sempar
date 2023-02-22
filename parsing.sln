@@ -9,6 +9,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "parsing", "parsing\parsing.
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "sempar", "sempar\sempar.fsproj", "{0AE05B1A-D023-46C1-B57B-4D459035B679}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "Tests\Tests.fsproj", "{AC4627A9-5A87-48DE-853B-A9E24B56D6E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{0AE05B1A-D023-46C1-B57B-4D459035B679}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AE05B1A-D023-46C1-B57B-4D459035B679}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AE05B1A-D023-46C1-B57B-4D459035B679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC4627A9-5A87-48DE-853B-A9E24B56D6E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC4627A9-5A87-48DE-853B-A9E24B56D6E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC4627A9-5A87-48DE-853B-A9E24B56D6E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC4627A9-5A87-48DE-853B-A9E24B56D6E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
