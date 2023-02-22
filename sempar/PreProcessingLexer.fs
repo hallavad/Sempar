@@ -1,4 +1,4 @@
-# 2 "PreProcessingLexer.fsl"
+# 1 "PreProcessingLexer.fsl"
  
 module PreProcessingLexer 
 
@@ -72,52 +72,52 @@ let rec _fslex_dummy () = _fslex_dummy()
 and read  lexbuf =
   match _fslex_tables.Interpret(8,lexbuf) with
   | 0 -> ( 
-# 28 "PreProcessingLexer.fsl"
+# 27 "PreProcessingLexer.fsl"
                               read lexbuf 
 # 77 "PreProcessingLexer.fs"
           )
   | 1 -> ( 
-# 29 "PreProcessingLexer.fsl"
+# 28 "PreProcessingLexer.fsl"
                               newline lexbuf; read lexbuf 
 # 82 "PreProcessingLexer.fs"
           )
   | 2 -> ( 
-# 30 "PreProcessingLexer.fsl"
+# 29 "PreProcessingLexer.fsl"
                               read_constraint "" lexbuf 
 # 87 "PreProcessingLexer.fs"
           )
   | 3 -> ( 
-# 31 "PreProcessingLexer.fsl"
+# 30 "PreProcessingLexer.fsl"
                               COMMENT 
 # 92 "PreProcessingLexer.fs"
           )
   | 4 -> ( 
-# 32 "PreProcessingLexer.fsl"
+# 31 "PreProcessingLexer.fsl"
                               PIPE 
 # 97 "PreProcessingLexer.fs"
           )
   | 5 -> ( 
-# 33 "PreProcessingLexer.fsl"
+# 32 "PreProcessingLexer.fsl"
                               read_bracket "" 0 lexbuf 
 # 102 "PreProcessingLexer.fs"
           )
   | 6 -> ( 
-# 34 "PreProcessingLexer.fsl"
+# 33 "PreProcessingLexer.fsl"
                               COLON 
 # 107 "PreProcessingLexer.fs"
           )
   | 7 -> ( 
-# 35 "PreProcessingLexer.fsl"
+# 34 "PreProcessingLexer.fsl"
                                                 ID(lexeme lexbuf)
 # 112 "PreProcessingLexer.fs"
           )
   | 8 -> ( 
-# 36 "PreProcessingLexer.fsl"
+# 35 "PreProcessingLexer.fsl"
                               EOF 
 # 117 "PreProcessingLexer.fs"
           )
   | 9 -> ( 
-# 37 "PreProcessingLexer.fsl"
+# 36 "PreProcessingLexer.fsl"
                               raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (lexeme lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) 
 # 122 "PreProcessingLexer.fs"
           )
@@ -126,12 +126,12 @@ and read  lexbuf =
 and read_constraint str lexbuf =
   match _fslex_tables.Interpret(4,lexbuf) with
   | 0 -> ( 
-# 41 "PreProcessingLexer.fsl"
+# 40 "PreProcessingLexer.fsl"
                                  newline lexbuf; CONSTRAINT (str); read lexbuf 
 # 131 "PreProcessingLexer.fs"
           )
   | 1 -> ( 
-# 42 "PreProcessingLexer.fsl"
+# 41 "PreProcessingLexer.fsl"
                                    read_constraint (str+(lexeme lexbuf)) lexbuf 
 # 136 "PreProcessingLexer.fs"
           )
@@ -140,22 +140,22 @@ and read_constraint str lexbuf =
 and read_bracket str level lexbuf =
   match _fslex_tables.Interpret(0,lexbuf) with
   | 0 -> ( 
-# 46 "PreProcessingLexer.fsl"
+# 45 "PreProcessingLexer.fsl"
                                  read_bracket (str+(lexeme lexbuf)) (level+1) lexbuf 
 # 145 "PreProcessingLexer.fs"
           )
   | 1 -> ( 
-# 47 "PreProcessingLexer.fsl"
+# 46 "PreProcessingLexer.fsl"
                                  if level < 1 then CODE (str) else read_bracket (str+(lexeme lexbuf)) (level-1) lexbuf
 # 150 "PreProcessingLexer.fs"
           )
   | 2 -> ( 
-# 48 "PreProcessingLexer.fsl"
+# 47 "PreProcessingLexer.fsl"
                                  read_bracket (str+(lexeme lexbuf)) level lexbuf
 # 155 "PreProcessingLexer.fs"
           )
   | 3 -> ( 
-# 49 "PreProcessingLexer.fsl"
+# 48 "PreProcessingLexer.fsl"
                                  raise (Exception (sprintf "SyntaxError: Mismatched curly braces: Line: %d Column: %d" (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column))
 # 160 "PreProcessingLexer.fs"
           )
