@@ -10,18 +10,23 @@
     <FsYacc Include="PreProcessingParser.fsy">
       <OtherFlags>--module PreProcessingParser</OtherFlags>
     </FsYacc>
-
     <FsLex Include="PreProcessingLexer.fsl">
       <OtherFlags> --unicode</OtherFlags>
     </FsLex>
     <Compile Include="PreProcessingParser.fsi" />
     <Compile Include="PreProcessingParser.fs" />
     <Compile Include="PreProcessingLexer.fs" />
+    <Compile Include="Parser.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Expecto" Version="9.0.4" />
+    <PackageReference Include="Expecto.BenchmarkDotNet" Version="9.0.4" />
+    <PackageReference Include="Expecto.FsCheck" Version="9.0.4" />
+    <PackageReference Include="Expecto.Hopac" Version="9.0.4" />
     <PackageReference Include="fparsec" Version="1.1.1" />
     <PackageReference Include="Fli" Version="1.0.1.0" />
+    <PackageReference Include="FsCheck" Version="2.16.5" />
     <PackageReference Include="fslexyacc" Version="11.0.1" />
     <PackageReference Include="fslexyacc.runtime" Version="11.0.1" />
   </ItemGroup>
