@@ -2,13 +2,9 @@
 
 open System.IO
 
-open FSharp.Text.Lexing
 
 open Fli
 
-open HelperFunctions
-open ParserType
-open PPType
 
 [<EntryPoint>]
 let main argv =
