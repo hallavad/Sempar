@@ -8,14 +8,7 @@
   <Import Project="../sempar/Sempar.targets" />
   
   <ItemGroup>
-    <ProjectReference Include="..\sempar\sempar.fsproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Sempar Include="inputs/Parser.sfsy" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <Compile Include="Program.fs" />
   </ItemGroup>
   

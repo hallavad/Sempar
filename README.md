@@ -6,13 +6,26 @@ Sempar is a tool developed to aid in creating external DSLs. It's core functiona
 
 The repository has a couple of folders at top level
 * examples - A folder containing some examples of input and it's expected output.
-* parsing - A .NET project testing the functionality of FParsec.
-* yacctest - A .NET project testing the functionality of FSLexYacc.
 * sempar - Main .NET project containing the project's actual code.
+* Tests - Testing of the project.
+* test-msbuild-action - An example project that uses the MSBuild functionality.
 
 ## Usage
 
+### MSBuild functionality
+The recommended way to use the tool is to depend on it using MSBuild. 
+To use it, import `Sempar.targets` from your .fsproj file:
+`<Import Project="../sempar/Sempar.targets"/>`. 
+Then, include the Sempar target, pointing to your .sfsy file:
+`<Sempar Include="inputs/Parser.sfsy" />`. 
+When building your project, a file will be created with the .ppsfsy file ending.
+This file can then be used by fslexyacc to generate the files to be included in your project. See the [documentation for fslexyacc](https://fsprojects.github.io/FsLexYacc/fsyacc.html) for usage.
+
+An example of this functionality can be seen in `test-msbuild-action.fsproj`.
+
+### Running the .exe
 Install .NET 7 (can be installed from [here](https://dotnet.microsoft.com/en-us/download))
+or from your [favorite package manager](https://learn.microsoft.com/en-us/dotnet/core/install/linux). 
 
 Clone this repo
 `git clone git@github.com/hallavad/exjobb.git`
