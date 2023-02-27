@@ -20,9 +20,6 @@
 		<!-- <Exec Command="$(SemparToolRunner)&quot;$(SemparToolPath)\$(SemparToolExe)&quot; -o &quot;$(SemparOutputFolder)%(Sempar.Filename).ppfsy&quot; %(Sempar.OtherFlags) %(Sempar.Identity)"/> -->
 		<Exec Command="$(SemparToolRunner)&quot;$(SemparToolPath)\$(SemparToolExe)&quot; %(Sempar.OtherFlags) %(Sempar.Identity)"/>
         
-		<!--Exec Command="echo Contents of file:"/>
-        <Exec Command="type %(Sempar.FullPath)"/-->
-		<!-- Make sure it will get cleaned  -->
 		<ItemGroup>
 			<FileWrites Include="$(SemparOutputFolder)%(Filename)%(Extension).ppfsy"/>
 		</ItemGroup>

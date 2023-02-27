@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "sempar", "sempar\sempar.fsproj", "{0AE05B1A-D023-46C1-B57B-4D459035B679}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "test-msbuild-action", "test-msbuild-action\test-msbuild-action.fsproj", "{A99AB2B1-2409-4053-A88F-D4534B286977}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "anutra-dsl", "antura-dsl\antura-dsl.fsproj", "{A99AB2B1-2409-4053-A88F-D4534B286977}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "Tests\Tests.fsproj", "{677A3E5D-F98C-42EA-BCF2-155C978A4213}"
 EndProject
