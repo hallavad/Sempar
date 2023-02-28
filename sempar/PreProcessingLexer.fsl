@@ -31,7 +31,7 @@ rule read =
   | "|"      { PIPE }
   | "{"      { read_bracket "" 0 lexbuf }
   | ":"      { COLON }
-  | ['a'-'z' 'A'-'Z' '_' '-']+ { ID(lexeme lexbuf)}
+  | ['a'-'z' 'A'-'Z' 'å' 'ä' 'ö' 'Å' 'Ä' 'Ö' '_' '-']+ { ID(lexeme lexbuf)}
   | eof      { EOF }
   | _        { raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (lexeme lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) }
 

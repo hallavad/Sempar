@@ -1,7 +1,5 @@
 module PPType
 
-open ParserType
-
 let mapToString (os : 'a list) : string list = 
     List.map (fun x -> x.ToString()) os
 
@@ -16,12 +14,18 @@ type Constraint =
         override this.ToString() = 
             let (Constr constr) = this
             constr
+        static member ListToString (cs : Constraint list) : string =
+            cs |> mapToString |> concatNewlines
 
 type Code = 
     | Code of string
-        member this.ToString(cs: Constraint list) =
+        override this.ToString() =
+            let (Code code) = this 
+            code
+
+        member this.AddConstraints(cs: Constraint list) =
             let (Code code) = this
-            $"""
+            Code $"""
 parserType {{
     {this.UsedVariablesToString}
     {concatNewlines (mapToString cs)}
@@ -78,7 +82,7 @@ type RuleCase =
         constraints: Constraint list;
     }
     override this.ToString() =
-        "| " + Token.ListToString this.tokens + " { " + this.code.ToString(this.constraints) + " }"
+        "//! {"+ Constraint.ListToString this.constraints + "}\n| " + Token.ListToString this.tokens + " { " + this.code.ToString() + " }"
 
 type Rule = 
     {
@@ -96,7 +100,7 @@ type FSY =
         rules: Rule list;
     }
     override this.ToString() =
-        this.preamble + "\n" + concatNewlines (mapToString this.rules)
+        this.preamble + "%%\n" + concatNewlines (mapToString this.rules)
 
 let testCode = Code("test code that uses $3, $7 and $11")
 let testConstraint = Constr("test constraint")
