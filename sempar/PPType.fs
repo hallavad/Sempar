@@ -26,10 +26,9 @@ type Code =
         member this.AddConstraints(cs: Constraint list) =
             let (Code code) = this
             Code $"""
-parserType {{
+ParserType.parserType {{
     {this.UsedVariablesToString}
     {concatNewlines (mapToString cs)}
-
     return ({code})
 }} 
 """

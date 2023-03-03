@@ -17,6 +17,7 @@
         Inputs="@(Sempar)"
         Outputs="@(Sempar->'$(SemparOutputFolder)%(Filename)%(Extension).ppfsy')"
         Condition="'@(Sempar)'!=''"
+		AfterTargets="CallFsLex;CallFsYacc;FsLex;FsYacc"
         >
 
 		<!-- Create the output directory -->

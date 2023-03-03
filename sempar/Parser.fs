@@ -10,7 +10,7 @@ let parse (input: string): FSY =
     let rules = PreProcessingParser.rules PreProcessingLexer.read lexbuf
     { preamble = splits[0]; rules = rules } : FSY
 
-let transformCode (fsy: FSY): FSY =
+let insertConstraints (fsy: FSY): FSY =
     let { rules = rules} = fsy
     let newRules = rules |> List.map (
         fun rule -> 

@@ -2,10 +2,6 @@
 
 open System.IO
 
-
-open Fli
-
-
 [<EntryPoint>]
 let main argv =
     match argv with 
@@ -14,7 +10,7 @@ let main argv =
         1
     | [| path |] ->
         let contents = File.ReadAllLines path |> String.concat "\n" 
-        let parseResult = contents |> Parser.parse |> (fun x -> x.ToString())
+        let parseResult = contents |> Parser.parse |> Parser.insertConstraints |> (fun x -> x.ToString())
         File.WriteAllText(path + ".ppfsy", parseResult)
         //printfn "%s" parseResult
 
