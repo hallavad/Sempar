@@ -16,7 +16,7 @@ let main argv =
         let contents = File.ReadAllLines path |> String.concat "\n" 
         let parseResult = contents |> Parser.parse |> (fun x -> x.ToString())
         File.WriteAllText(path + ".ppfsy", parseResult)
-        printfn "%s" parseResult
+        //printfn "%s" parseResult
 
         0
 

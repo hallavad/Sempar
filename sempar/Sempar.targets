@@ -6,6 +6,11 @@
         <SemparToolRunner Condition="'$(UseSemparToolRunner)' != 'false' AND '$(SemparToolRunner)' == ''">dotnet </SemparToolRunner>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="fslexyacc" Version="11.0.1" />
+    	<PackageReference Include="fslexyacc.runtime" Version="11.0.1" />
+	</ItemGroup>
+
     <Target
 		Name="CallSempar"
         BeforeTargets="CoreCompile"
@@ -16,12 +21,10 @@
 
 		<!-- Create the output directory -->
 		<MakeDir Directories="$(SemparOutputFolder)"/>
+
 		<!-- Call Sempar -->
-		<!-- <Exec Command="$(SemparToolRunner)&quot;$(SemparToolPath)\$(SemparToolExe)&quot; -o &quot;$(SemparOutputFolder)%(Sempar.Filename).ppfsy&quot; %(Sempar.OtherFlags) %(Sempar.Identity)"/> -->
-		<Exec Command="$(SemparToolRunner)&quot;$(SemparToolPath)\$(SemparToolExe)&quot; %(Sempar.OtherFlags) %(Sempar.Identity)"/>
-        
-		<ItemGroup>
-			<FileWrites Include="$(SemparOutputFolder)%(Filename)%(Extension).ppfsy"/>
-		</ItemGroup>
+		<Message Text="Calling sempar..." />
+		<Exec Command="$(SemparToolRunner)&quot;$(SemparToolPath)\$(SemparToolExe)&quot; %(Sempar.OtherFlags) %(Sempar.Identity)" />
+		
 	</Target>
 </Project>
