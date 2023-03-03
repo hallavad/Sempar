@@ -93,9 +93,27 @@ type Rule =
 
 type Rules = Rule list
 
+type preaToken = 
+    | PreaToken of string
+        override this.ToString() =
+            let (PreaToken tok) = this 
+            tok 
+
+type preaCode = 
+    | PreaCode of string
+        override this.ToString() =
+            let (PreaCode code) = this 
+            code 
+
+type Preamble = 
+    {
+        preaCode: preaCode;
+        preaTokens: preaToken list;
+    }
+
 type FSY = 
     {
-        preamble: string;
+        preamble: Preamble;
         rules: Rule list;
     }
     override this.ToString() =
@@ -103,7 +121,7 @@ type FSY =
 
 let testCode = Code("test code that uses $3, $7 and $11")
 let testConstraint = Constr("test constraint")
-let testToken = Token("token1 token2 token3")
+let testToken = Token("tokenA tokenB tokenC")
 let testRuleCase = { tokens = [testToken]; code = testCode; constraints = [testConstraint] }
 let testRule = { name = "test_rule"; cases = [testRuleCase] }
 let testFSY = { preamble = "%token important\nTest FSY"; rules = [testRule]; }

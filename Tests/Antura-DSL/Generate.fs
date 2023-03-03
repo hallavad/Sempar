@@ -36,7 +36,7 @@ let genRule : Gen<PPType.Rule> =
             return {name = name; cases = cases} }
 
 let genFSY : Gen<PPType.FSY> = 
-    gen {   let! preamble = genPreamble 
+    gen {   let preamble = "PREAMBLE WITHOUT CONTENT" 
             let! rules = genRule |> Gen.nonEmptyListOf
             return {preamble = preamble; rules = rules} }
 
@@ -90,13 +90,23 @@ let addWSFSY (fsy: PPType.FSY): Gen<PPType.FSY> = gen {
     return ({preamble = newPreamble; rules = newRules})
 }
 
-type FSYWithWS = PPType.FSY * PPType.FSY
+type FSYWithWS = PPType.FSY * PPType.Code
 
 let genFSYWithWS: Gen<FSYWithWS> = gen {
     let! fsy = genFSY
     let! fsyWS = addWSFSY fsy
-    return (fsy, fsyWS)
+    return (fsy, PPType.Code "KULKUL")
 }
 
+type FSYGenerator =
+    static member FSY() = 
+        {new Arbitrary<PPType.FSY>() with
+            override x.Generator = genFSY
+            override x.Shrinker t = Seq.empty }
+
 type FSYWithWSGenerator =
-    static member FSY() = Arb.fromGen genFSYWithWS
+    static member FSYWithWS() = 
+        {new Arbitrary<FSYWithWS>() with
+            override x.Generator = genFSYWithWS
+            override x.Shrinker t = Seq.empty }
+
