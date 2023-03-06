@@ -6,7 +6,11 @@ type token =
   | PIPE
   | COLON
   | COMMENT
+  | PREATOKEN of (string)
+  | PREACODE of (string)
   | CONSTRAINT of (string)
+  | PERCENT
+  | DOUBLEPERCENT
   | CODE of (string)
   | ID of (string)
 type tokenId = 
@@ -15,13 +19,20 @@ type tokenId =
     | TOKEN_PIPE
     | TOKEN_COLON
     | TOKEN_COMMENT
+    | TOKEN_PREATOKEN
+    | TOKEN_PREACODE
     | TOKEN_CONSTRAINT
+    | TOKEN_PERCENT
+    | TOKEN_DOUBLEPERCENT
     | TOKEN_CODE
     | TOKEN_ID
     | TOKEN_end_of_input
     | TOKEN_error
 type nonTerminalId = 
-    | NONTERM__startrules
+    | NONTERM__startstart
+    | NONTERM_start
+    | NONTERM_preamble
+    | NONTERM_preaTokens
     | NONTERM_rules
     | NONTERM_rule
     | NONTERM_cases
@@ -38,4 +49,4 @@ val prodIdxToNonTerminal: int -> nonTerminalId
 
 /// This function gets the name of a token as a string
 val token_to_string: token -> string
-val rules : (FSharp.Text.Lexing.LexBuffer<'cty> -> token) -> FSharp.Text.Lexing.LexBuffer<'cty> -> (PPType.Rules) 
+val start : (FSharp.Text.Lexing.LexBuffer<'cty> -> token) -> FSharp.Text.Lexing.LexBuffer<'cty> -> (PPType.FSY) 

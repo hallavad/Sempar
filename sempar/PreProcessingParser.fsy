@@ -2,11 +2,15 @@
 open PPType
 %}
 
-%start rules 
+%start start 
 
 %token <string> ID
 %token <string> CODE
+%token DOUBLEPERCENT
+%token PERCENT
 %token <string> CONSTRAINT
+%token <string> PREACODE
+%token <string> PREATOKEN
 %token COMMENT 
 %token COLON
 %token PIPE 
@@ -16,16 +20,17 @@ open PPType
 
 %type <PPType.FSY> start
 
-PERCENT 
+%%
 
 start: 
   | preamble DOUBLEPERCENT rules { {preamble = $1; rules = $3} }
 
 preamble: 
-  | PREACODE preaTokens { { preaCode = $1; preaTokens = $2 }}
+  | PREACODE preaTokens { { preaCode = PreaCode $1; preaTokens = $2 }}
 
 preaTokens: 
-  | PERCENT 
+  | PERCENT ID PREATOKEN preaTokens { { name = $2; value = $3} :: $4}
+  | { [] }
 
 rules: 
   | rule rules { $1 :: $2 }

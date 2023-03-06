@@ -26,6 +26,9 @@ rule read =
   parse
   | white    { read lexbuf }
   | newline  { newline lexbuf; read lexbuf }
+  | "%{"     { read_preamble_code "" lexbuf }
+  | "%%"     { DOUBLEPERCENT }
+  | "%"      { PERCENT }
   | "//!"    { read_constraint "" lexbuf }
   | "//"     { COMMENT }
   | "|"      { PIPE }
@@ -40,9 +43,21 @@ and read_constraint str =
   | newline     { newline lexbuf; CONSTRAINT (str); read lexbuf }
   | [^ '\r' '\n'] { read_constraint (str+(lexeme lexbuf)) lexbuf }
 
+
 and read_bracket str level = 
   parse
   | "{"         { read_bracket (str+(lexeme lexbuf)) (level+1) lexbuf }
   | "}"         { if level < 1 then CODE (str) else read_bracket (str+(lexeme lexbuf)) (level-1) lexbuf}
   | [^ '{' '}'] { read_bracket (str+(lexeme lexbuf)) level lexbuf}
   | _           { raise (Exception (sprintf "SyntaxError: Mismatched curly braces: Line: %d Column: %d" (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column))}
+
+and read_preamble_code str =
+  parse
+  | "}%"        { PREACODE (str) }
+  | [^ '{' '}'] { read_preamble_code (str+(lexeme lexbuf)) lexbuf}
+  | _           { raise (Exception (sprintf "SyntaxError: Mismatched curly braces: Line: %d Column: %d" (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column))}
+
+and read_preatoken str =
+  parse
+  | newline     { newline lexbuf; PREATOKEN (str); read lexbuf }
+  | [^ '\r' '\n'] { read_preatoken (str+(lexeme lexbuf)) lexbuf }
