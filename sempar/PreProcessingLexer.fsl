@@ -18,6 +18,7 @@ let digit = ['0'-'9']
 //let frac = '.' digit*
 //let exp = ['e' 'E'] ['-' '+']? digit+
 //let float = '-'? digit* frac? exp?
+let word = ['a'-'z' 'A'-'Z' 'å' 'ä' 'ö' 'Å' 'Ä' 'Ö' '_' '-']+
 
 let white = [' ' '\t']+
 let newline = '\r' | '\n' | "\r\n"
@@ -28,13 +29,13 @@ rule read =
   | newline  { newline lexbuf; read lexbuf }
   | "%{"     { read_preamble_code "" lexbuf }
   | "%%"     { DOUBLEPERCENT }
-  | "%"      { PERCENT }
+  | "%"      { PERCENT; read_preatoken "" lexbuf }
   | "//!"    { read_constraint "" lexbuf }
   | "//"     { COMMENT }
   | "|"      { PIPE }
   | "{"      { read_bracket "" 0 lexbuf }
   | ":"      { COLON }
-  | ['a'-'z' 'A'-'Z' 'å' 'ä' 'ö' 'Å' 'Ä' 'Ö' '_' '-']+ { ID(lexeme lexbuf)}
+  | word { ID(lexeme lexbuf)}
   | eof      { EOF }
   | _        { raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (lexeme lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) }
 
@@ -53,11 +54,12 @@ and read_bracket str level =
 
 and read_preamble_code str =
   parse
-  | "}%"        { PREACODE (str) }
-  | [^ '{' '}'] { read_preamble_code (str+(lexeme lexbuf)) lexbuf}
+  | "%}"        { PREACODE (str) }
+  | [^ '%'] { read_preamble_code (str+(lexeme lexbuf)) lexbuf}
   | _           { raise (Exception (sprintf "SyntaxError: Mismatched curly braces: Line: %d Column: %d" (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column))}
 
 and read_preatoken str =
   parse
   | newline     { newline lexbuf; PREATOKEN (str); read lexbuf }
   | [^ '\r' '\n'] { read_preatoken (str+(lexeme lexbuf)) lexbuf }
+

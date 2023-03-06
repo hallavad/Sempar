@@ -17,7 +17,6 @@ open PPType
 %token STRING
 %token EOF
 
-
 %type <PPType.FSY> start
 
 %%
@@ -29,7 +28,7 @@ preamble:
   | PREACODE preaTokens { { preaCode = PreaCode $1; preaTokens = $2 }}
 
 preaTokens: 
-  | PERCENT ID PREATOKEN preaTokens { { name = $2; value = $3} :: $4}
+  | PREATOKEN preaTokens { { name = $1; value = $1 } :: $2}
   | { [] }
 
 rules: 
