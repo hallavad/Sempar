@@ -11,7 +11,7 @@ let concatNewlines (ss : string list) : string =
 
 type Constraint =
     | Constr of string
-        override this.ToString() = 
+        override this.ToString(): string = 
             let (Constr constr) = this
             constr
         static member ListToString (cs : Constraint list) : string =
@@ -19,29 +19,31 @@ type Constraint =
 
 type Code = 
     | Code of string
-        override this.ToString() =
+        override this.ToString(): string =
             let (Code code) = this 
             code
 
-        member this.AddConstraints(cs: Constraint list) =
+        member this.GenCode (cs: Constraint list) (tokens: string list): Code =
             let (Code code) = this
             Code $"""
-ParserType.parserType {{
-    {this.UsedVariablesToString}
-    {concatNewlines (mapToString cs)}
+parserType {{
+    {this.GenVariableDecls tokens}
+    {cs |> mapToString |> concatNewlines}
     return ({code})
 }}
 """
 
-        member private this.UsedVariablesToString =
-            let usedVars = this.UsedVariables
-            match usedVars with 
-            | [] -> ""
-            | (v :: vs) -> $"""let! var{v} = ${v}
-{vs |> List.map (fun v -> $"    and! var{v} = ${v}") |> concatNewlines}
-"""
+        member private this.GenVariableDecls (predefTokens: string list): string =
+            this.UsedVariables
+                |> List.map (fun v -> 
+                    if List.contains v predefTokens then
+                        $"let var{v} = ${v}"
+                    else 
+                        $"let! var{v} = ${v}"
+                    ) 
+                |> concatNewlines
 
-        member this.UsedVariables =
+        member this.UsedVariables: string list =
             let (Code code) = this
             let mutable vars = []
             let mutable includeNext = false
@@ -68,11 +70,12 @@ ParserType.parserType {{
 
 type Token = 
     | Token of string
-        override this.ToString() =
-            let (Token token) = this
-            token
-        static member ListToString (ts : Token list) : string =
-            ts |> mapToString |> concatSpaces
+    override this.ToString(): string =
+        let (Token token) = this
+        token
+    
+    static member ListToString (ts : Token list) : string =
+        ts |> mapToString |> concatSpaces
 
 type RuleCase = 
     {
@@ -80,15 +83,23 @@ type RuleCase =
         code: Code;
         constraints: Constraint list;
     }
-    override this.ToString() =
+    override this.ToString(): string =
         $"//! {{ {Constraint.ListToString this.constraints} }}\n| {{ {Token.ListToString this.tokens} }} {{ {this.code.ToString()} }}"
+    
+    member this.predefinedTokenIndices (usedTokens: string list): string list = 
+        this.tokens 
+            |> List.indexed 
+            |> List.filter 
+                (fun (_, (Token t)) -> List.contains t usedTokens) 
+            |> List.map 
+                (fun (i, _) -> string (i + 1))
 
 type Rule = 
     {
         name: string;
         cases: RuleCase list;
     }
-    override this.ToString() =
+    override this.ToString(): string =
         $"{this.name}:\n {this.cases |> mapToString |> concatNewlines}"
 
 type Rules = Rule list
@@ -98,12 +109,12 @@ type PreaItem =
         name: string;
         value: string;
     }
-    override this.ToString() = 
+    override this.ToString(): string = 
         $"%%{this.name} {this.value}"
 
 type PreaCode = 
     | PreaCode of string
-    override this.ToString() =
+    override this.ToString(): string =
         let (PreaCode code) = this
         $"""%%{{
 {code}
@@ -113,21 +124,24 @@ type PreaCode =
 type Preamble = 
     {
         preaCode: PreaCode;
-        preaTokens: PreaItem list;
+        preaItems: PreaItem list;
     }
-    override this.ToString() =
+    override this.ToString(): string =
         $"""{this.preaCode.ToString()}
 
-{concatNewlines (mapToString this.preaTokens)}
+{concatNewlines (mapToString this.preaItems)}
 """
+    member this.usedTokens: string list = 
+        this.preaItems |> List.filter (fun i -> i.name = "token") |> List.map (fun i -> i.value)
 
 type FSY = 
     {
         preamble: Preamble;
         rules: Rule list;
     }
-    override this.ToString() =
+    override this.ToString(): string =
         $"{this.preamble.ToString()} %%%%\n {concatNewlines (mapToString this.rules)}"
+    
 
 let testCode = Code("test code that uses $3, $7 and $11")
 let testConstraint = Constr("test constraint")
@@ -138,5 +152,5 @@ let testRuleCase = { tokens = [testTokenA; testTokenB; testTokenC]; code = testC
 let testRule = { name = "test_rule"; cases = [testRuleCase] }
 let testPreaCode = PreaCode("some test preamble code\nover two lines")
 let testPreaItems = [ {name = "token"; value = "ID"}; {name = "type"; value = "<CoolType> start"} ]
-let testPreamble = { preaCode = testPreaCode; preaTokens = testPreaItems; }
+let testPreamble = { preaCode = testPreaCode; preaItems = testPreaItems; }
 let testFSY = { preamble = testPreamble; rules = [testRule]; }

@@ -12,14 +12,16 @@ let parse (input: string): FSY =
     FSY
 
 let insertConstraints (fsy: FSY): FSY =
-    let { rules = rules } = fsy
+    let { rules = rules; preamble = preamble } = fsy
+    let usedTokens = preamble.usedTokens
     let newRules = rules |> List.map (
         fun rule -> 
             let {cases = cases} = rule
             let newCases = cases |> List.map (
                 fun case -> 
-                    let {code = code; constraints = constraints } = case
-                    let newCode = code.AddConstraints(constraints)
+                    let {code = code; constraints = constraints; tokens = tokens } = case
+                    let usedTokenIndices = case.predefinedTokenIndices usedTokens
+                    let newCode = code.GenCode constraints usedTokenIndices
                     {case with code = newCode})
             {rule with cases = newCases})
     {fsy with rules = newRules}
