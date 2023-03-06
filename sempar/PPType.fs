@@ -94,10 +94,10 @@ type Rule =
 type Rules = Rule list
 
 type preaToken = 
-    | PreaToken of string
-        override this.ToString() =
-            let (PreaToken tok) = this 
-            tok 
+    {
+        name: string;
+        value: string;
+    }
 
 type preaCode = 
     | PreaCode of string
