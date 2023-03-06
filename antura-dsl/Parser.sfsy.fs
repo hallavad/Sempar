@@ -6,7 +6,7 @@ open FSharp.Text.Parsing.ParseHelpers
 # 1 "inputs/Parser.sfsy.ppfsy"
 
 open DataModel 
-open Sempar.ParserType
+open ParserType
 
 # 11 "Parser.sfsy.fs"
 // This type is the type of tokens accepted by the parser
@@ -233,7 +233,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 42 "inputs/Parser.sfsy.ppfsy"
                                    
-                     ParserType.parserType {
+                     parserType {
                          let! var1 = _1
                          
                          return ( { precision = None; rules = _1 } )
@@ -250,7 +250,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 53 "inputs/Parser.sfsy.ppfsy"
                                        
-                     ParserType.parserType {
+                     parserType {
                          let! var2 = _2
                          
                          return ( _2 )
@@ -266,7 +266,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 64 "inputs/Parser.sfsy.ppfsy"
                           
-                     ParserType.parserType {
+                     parserType {
                          
                          
                          return ( [] )
@@ -284,7 +284,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 72 "inputs/Parser.sfsy.ppfsy"
                                         
-                     ParserType.parserType {
+                     parserType {
                          let! var1 = _1
                          and! var2 = _2
                          
@@ -305,7 +305,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 83 "inputs/Parser.sfsy.ppfsy"
                                                                               
-                     ParserType.parserType {
+                     parserType {
                          let! var3 = _3
                          and! var4 = _4
                          and! var5 = _5
@@ -329,7 +329,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 95 "inputs/Parser.sfsy.ppfsy"
                                                                                         
-                     ParserType.parserType {
+                     parserType {
                          let! var2 = _2
                          and! var4 = _4
                          and! var5 = _5
@@ -349,7 +349,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 109 "inputs/Parser.sfsy.ppfsy"
                           
-                     ParserType.parserType {
+                     parserType {
                          
                          
                          return ( "" )
@@ -367,7 +367,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 117 "inputs/Parser.sfsy.ppfsy"
                                       
-                     ParserType.parserType {
+                     parserType {
                          let! var1 = _1
                          and! var2 = _2
                          
@@ -385,7 +385,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 128 "inputs/Parser.sfsy.ppfsy"
                                                  
-                     ParserType.parserType {
+                     parserType {
                          let! var2 = _2
                          
                          return ( _2 )
@@ -401,7 +401,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 139 "inputs/Parser.sfsy.ppfsy"
                           
-                     ParserType.parserType {
+                     parserType {
                          
                          
                          return ( [] )
@@ -419,7 +419,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 147 "inputs/Parser.sfsy.ppfsy"
                                           
-                     ParserType.parserType {
+                     parserType {
                          let! var1 = _1
                          and! var2 = _2
                          
@@ -437,7 +437,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 158 "inputs/Parser.sfsy.ppfsy"
                                              
-                     ParserType.parserType {
+                     parserType {
                          let! var2 = _2
                          
                          return ( _2 )
@@ -453,7 +453,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 169 "inputs/Parser.sfsy.ppfsy"
                           
-                     ParserType.parserType {
+                     parserType {
                          
                          
                          return ( [] )
@@ -471,7 +471,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 177 "inputs/Parser.sfsy.ppfsy"
                                             
-                     ParserType.parserType {
+                     parserType {
                          let! var1 = _1
                          and! var2 = _2
                          
@@ -491,7 +491,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 188 "inputs/Parser.sfsy.ppfsy"
                                                       
-                     ParserType.parserType {
+                     parserType {
                          let! var3 = _3
                          and! var5 = _5
                          and! var7 = _7
@@ -510,7 +510,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 200 "inputs/Parser.sfsy.ppfsy"
                                            
-                     ParserType.parserType {
+                     parserType {
                          let! var2 = _2
                          
                          return ( Some _2 )
@@ -527,7 +527,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 211 "inputs/Parser.sfsy.ppfsy"
                                               
-                     ParserType.parserType {
+                     parserType {
                          let! var2 = _2
                          
                          return ( _2 )
@@ -544,7 +544,7 @@ let _fsyacc_reductions = lazy [|
                    (
 # 222 "inputs/Parser.sfsy.ppfsy"
                                              
-                     ParserType.parserType {
+                     parserType {
                          let! var2 = _2
                          
                          return ( Property _2 )

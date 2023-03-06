@@ -13,7 +13,7 @@ let parse (input: string): FSY =
     | _ -> { preamble = ""; rules = []}
 
 let insertConstraints (fsy: FSY): FSY =
-    let { rules = rules} = fsy
+    let { rules = rules } = fsy
     let newRules = rules |> List.map (
         fun rule -> 
             let {cases = cases} = rule
@@ -25,3 +25,8 @@ let insertConstraints (fsy: FSY): FSY =
             {rule with cases = newCases})
     {fsy with rules = newRules}
 
+let insertImport (fsy: FSY): FSY =
+    let (PreaCode code) = fsy.preamble.preaCode
+    let newPreaCode = PreaCode(code + "\nopen ParserType")
+    let newPreamble = { fsy.preamble with preaCode = newPreaCode }
+    { fsy with preamble = newPreamble }

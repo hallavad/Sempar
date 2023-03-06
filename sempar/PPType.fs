@@ -30,7 +30,7 @@ ParserType.parserType {{
     {this.UsedVariablesToString}
     {concatNewlines (mapToString cs)}
     return ({code})
-}} 
+}}
 """
 
         member private this.UsedVariablesToString =
@@ -81,7 +81,7 @@ type RuleCase =
         constraints: Constraint list;
     }
     override this.ToString() =
-        "//! {"+ Constraint.ListToString this.constraints + "}\n| " + Token.ListToString this.tokens + " { " + this.code.ToString() + " }"
+        $"//! {{ {Constraint.ListToString this.constraints} }}\n| {{ {Token.ListToString this.tokens} }} {{ {this.code.ToString()} }}"
 
 type Rule = 
     {
@@ -89,27 +89,37 @@ type Rule =
         cases: RuleCase list;
     }
     override this.ToString() =
-        this.name + ":\n" + concatNewlines (mapToString this.cases)
+        $"{this.name}:\n {this.cases |> mapToString |> concatNewlines}"
 
 type Rules = Rule list
 
-type preaToken = 
+type PreaItem = 
     {
         name: string;
         value: string;
     }
+    override this.ToString() = 
+        $"%%{this.name} {this.value}"
 
-type preaCode = 
+type PreaCode = 
     | PreaCode of string
-        override this.ToString() =
-            let (PreaCode code) = this 
-            code 
+    override this.ToString() =
+        let (PreaCode code) = this
+        $"""%%{{
+{code}
+%%}}
+"""
 
 type Preamble = 
     {
-        preaCode: preaCode;
-        preaTokens: preaToken list;
+        preaCode: PreaCode;
+        preaTokens: PreaItem list;
     }
+    override this.ToString() =
+        $"""{this.preaCode.ToString()}
+
+{concatNewlines (mapToString this.preaTokens)}
+"""
 
 type FSY = 
     {
@@ -117,11 +127,16 @@ type FSY =
         rules: Rule list;
     }
     override this.ToString() =
-        this.preamble + "%%\n" + concatNewlines (mapToString this.rules)
+        $"{this.preamble.ToString()} %%%%\n {concatNewlines (mapToString this.rules)}"
 
 let testCode = Code("test code that uses $3, $7 and $11")
 let testConstraint = Constr("test constraint")
-let testToken = Token("tokenA tokenB tokenC")
-let testRuleCase = { tokens = [testToken]; code = testCode; constraints = [testConstraint] }
+let testTokenA = Token("tokenA")
+let testTokenB = Token("tokenB")
+let testTokenC = Token("tokenC")
+let testRuleCase = { tokens = [testTokenA; testTokenB; testTokenC]; code = testCode; constraints = [testConstraint] }
 let testRule = { name = "test_rule"; cases = [testRuleCase] }
-let testFSY = { preamble = "%token important\nTest FSY"; rules = [testRule]; }
+let testPreaCode = PreaCode("some test preamble code\nover two lines")
+let testPreaItems = [ {name = "token"; value = "ID"}; {name = "type"; value = "<CoolType> start"} ]
+let testPreamble = { preaCode = testPreaCode; preaTokens = testPreaItems; }
+let testFSY = { preamble = testPreamble; rules = [testRule]; }
