@@ -25,10 +25,10 @@ start:
   | preamble DOUBLEPERCENT rules { {preamble = $1; rules = $3} }
 
 preamble: 
-  | PREACODE preaTokens { { preaCode = PreaCode $1; preaTokens = $2 }}
+  | PREACODE preaItems { { preaCode = PreaCode $1; preaItems = $2 }}
 
-preaTokens: 
-  | PREATOKEN preaTokens { { name = $1; value = $1 } :: $2}
+preaItems: 
+  | PREATOKEN preaItems { { name = $1; value = $1 } :: $2}
   | { [] }
 
 rules: 
