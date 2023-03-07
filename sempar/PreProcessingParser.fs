@@ -43,7 +43,7 @@ type nonTerminalId =
     | NONTERM__startstart
     | NONTERM_start
     | NONTERM_preamble
-    | NONTERM_preaTokens
+    | NONTERM_preaItems
     | NONTERM_rules
     | NONTERM_rule
     | NONTERM_cases
@@ -91,8 +91,8 @@ let prodIdxToNonTerminal (prodIdx:int) =
     | 0 -> NONTERM__startstart 
     | 1 -> NONTERM_start 
     | 2 -> NONTERM_preamble 
-    | 3 -> NONTERM_preaTokens 
-    | 4 -> NONTERM_preaTokens 
+    | 3 -> NONTERM_preaItems 
+    | 4 -> NONTERM_preaItems 
     | 5 -> NONTERM_rules 
     | 6 -> NONTERM_rules 
     | 7 -> NONTERM_rule 
@@ -174,17 +174,23 @@ let _fsyacc_reductions = lazy [|
 # 174 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> string in
-            let _2 = parseState.GetInput(2) :?> 'gentype_preaTokens in
+            let _2 = parseState.GetInput(2) :?> 'gentype_preaItems in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
+<<<<<<< Updated upstream
 # 28 "PreProcessingParser.fsy"
                                                { preaCode = PreaCode _1; preaTokens = _2 }
+=======
+# 29 "PreProcessingParser.fsy"
+                                              { preaCode = PreaCode _1; preaItems = _2 }
+>>>>>>> Stashed changes
                    )
 # 28 "PreProcessingParser.fsy"
                  : 'gentype_preamble));
 # 186 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
+<<<<<<< Updated upstream
             let _1 = parseState.GetInput(1) :?> string in
             let _2 = parseState.GetInput(2) :?> 'gentype_preaTokens in
             Microsoft.FSharp.Core.Operators.box
@@ -196,6 +202,20 @@ let _fsyacc_reductions = lazy [|
 # 31 "PreProcessingParser.fsy"
                  : 'gentype_preaTokens));
 # 198 "PreProcessingParser.fs"
+=======
+            let _2 = parseState.GetInput(2) :?> string in
+            let _3 = parseState.GetInput(3) :?> string in
+            let _4 = parseState.GetInput(4) :?> 'gentype_preaItems in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 32 "PreProcessingParser.fsy"
+                                                          { name = _2; value = _3 } :: _4 
+                   )
+# 32 "PreProcessingParser.fsy"
+                 : 'gentype_preaItems));
+# 199 "PreProcessingParser.fs"
+>>>>>>> Stashed changes
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
@@ -203,9 +223,15 @@ let _fsyacc_reductions = lazy [|
 # 32 "PreProcessingParser.fsy"
                            [] 
                    )
+<<<<<<< Updated upstream
 # 32 "PreProcessingParser.fsy"
                  : 'gentype_preaTokens));
 # 208 "PreProcessingParser.fs"
+=======
+# 33 "PreProcessingParser.fsy"
+                 : 'gentype_preaItems));
+# 209 "PreProcessingParser.fs"
+>>>>>>> Stashed changes
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> 'gentype_rule in
             let _2 = parseState.GetInput(2) :?> 'gentype_rules in

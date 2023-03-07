@@ -32,7 +32,7 @@ type nonTerminalId =
     | NONTERM__startstart
     | NONTERM_start
     | NONTERM_preamble
-    | NONTERM_preaTokens
+    | NONTERM_preaItems
     | NONTERM_rules
     | NONTERM_rule
     | NONTERM_cases

@@ -1,15 +1,10 @@
 module Parser
 
+open System.Text.RegularExpressions
+
 open FSharp.Text.Lexing
 
 open PPType
-
-let parse (input: string): FSY = 
-    let lexbuf = LexBuffer<char>.FromString input
-    printfn "INPUT: %A" input
-    let FSY = PreProcessingParser.start PreProcessingLexer.read lexbuf
-    printfn "FSY: %A" FSY
-    FSY
 
 let insertConstraints (fsy: FSY): FSY =
     let { rules = rules; preamble = preamble } = fsy
@@ -31,3 +26,22 @@ let insertImport (fsy: FSY): FSY =
     let newPreaCode = PreaCode(code + "\nopen ParserType")
     let newPreamble = { fsy.preamble with preaCode = newPreaCode }
     { fsy with preamble = newPreamble }
+
+// Must happen after `insertConstraints`
+let replaceVars (fsy: FSY): FSY =
+    let regex = "\$(?:[0-9]+)"
+    let newRules = fsy.rules |> List.map (fun r -> 
+        let newCases = r.cases |> List.map (fun c ->
+            let (Code oldCode) = c.code
+            let newCode = Regex.Replace(oldCode, regex, "semparVar")
+            { c with code = Code newCode }        
+        )
+        { r with cases = newCases }
+    )
+    { fsy with rules = newRules }
+    
+let parse (input: string): FSY = 
+    let lexbuf = LexBuffer<char>.FromString input
+    let FSY = PreProcessingParser.start PreProcessingLexer.read lexbuf
+    let processedFSY = FSY |> insertConstraints |> insertImport |> replaceVars
+    processedFSY

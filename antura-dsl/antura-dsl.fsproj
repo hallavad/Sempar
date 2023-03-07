@@ -7,7 +7,7 @@
   <Import Project="../sempar/Sempar.targets" />
   <ItemGroup>
     <Compile Include="DataModel.fs" />
-    <!-- <Sempar Include="inputs/Parser.sfsy" /> -->
+    <Sempar Include="inputs/Parser.sfsy" />
     <FsYacc Include="inputs/Parser.sfsy.ppfsy">
       <OtherFlags>--module Parser</OtherFlags>
     </FsYacc>

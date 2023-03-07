@@ -37,9 +37,9 @@ parserType {{
             this.UsedVariables
                 |> List.map (fun v -> 
                     if List.contains v predefTokens then
-                        $"let var{v} = ${v}"
+                        $"let semparVar{v} = ${v}"
                     else 
-                        $"let! var{v} = ${v}"
+                        $"let! semparVar{v} = ${v}"
                     ) 
                 |> concatNewlines
 
