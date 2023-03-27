@@ -11,6 +11,10 @@ let lexeme = LexBuffer<_>.LexemeString
 
 let newline (lexbuf: LexBuffer<_>) = 
   lexbuf.StartPos <- lexbuf.StartPos.NextLine
+
+let fromUntilNewline (untilnewline): string =
+  match untilnewline with
+  | UNTILNEWLINE x -> x
 }
 
 let int = ['-' '+']? ['0'-'9']+
@@ -27,10 +31,10 @@ rule read =
   parse
   | white    { read lexbuf }
   | newline  { newline lexbuf; read lexbuf }
-  | "%{"     { read_preamble_code "" lexbuf }
+  | ("%{" newline+)     { read_preamble_code "" lexbuf }
   | "%%"     { DOUBLEPERCENT }
-  | "%"      { PERCENT; read_preatoken "" lexbuf }
-  | "//!"    { read_constraint "" lexbuf }
+  | "%"      { read_preamble_items lexbuf }
+  | "//!"    { read_until_newline "" lexbuf }
   | "//"     { COMMENT }
   | "|"      { PIPE }
   | "{"      { read_bracket "" 0 lexbuf }
@@ -39,10 +43,10 @@ rule read =
   | eof      { EOF }
   | _        { raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (lexeme lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) }
 
-and read_constraint str =
+and read_until_newline str =
   parse
-  | newline     { newline lexbuf; CONSTRAINT (str); read lexbuf }
-  | [^ '\r' '\n'] { read_constraint (str+(lexeme lexbuf)) lexbuf }
+  | newline     { newline lexbuf; UNTILNEWLINE (str)}
+  | [^ '\r' '\n'] { read_until_newline (str+(lexeme lexbuf)) lexbuf }
 
 
 and read_bracket str level = 
@@ -54,12 +58,18 @@ and read_bracket str level =
 
 and read_preamble_code str =
   parse
-  | "%}"        { PREACODE (str) }
+  | (newline+ "%}" )        { PREACODE (str) }
   | [^ '%']     { read_preamble_code (str+(lexeme lexbuf)) lexbuf}
   | _           { raise (Exception (sprintf "SyntaxError: Mismatched curly braces: Line: %d Column: %d" (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column))}
 
-and read_preatoken str =
+and read_preamble_items = 
   parse
-  | newline     { newline lexbuf; PREATOKEN (str); read lexbuf }
-  | [^ '\r' '\n'] { read_preatoken (str+(lexeme lexbuf)) lexbuf }
+  | white?       { read_preamble_items lexbuf }
+  | "token"     { TOKEN (fromUntilNewline (read_until_newline "" lexbuf))}
+  | "start"     { START (fromUntilNewline (read_until_newline "" lexbuf))}
+  | "prec"      { PREC (fromUntilNewline (read_until_newline "" lexbuf))}
+  | "type"      { TYPE (fromUntilNewline (read_until_newline "" lexbuf))}
+  | "left"      { LEFT (fromUntilNewline (read_until_newline "" lexbuf))}
+  | "right"     { RIGHT (fromUntilNewline (read_until_newline "" lexbuf))}
+  | "nonassoc"  { NONASSOC (fromUntilNewline (read_until_newline "" lexbuf))}
 

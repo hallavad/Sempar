@@ -8,14 +8,20 @@ open PPType
 %token <string> CODE
 %token DOUBLEPERCENT
 %token PERCENT
-%token <string> CONSTRAINT
 %token <string> PREACODE
-%token <string> PREATOKEN
+%token <string> UNTILNEWLINE 
 %token COMMENT 
 %token COLON
 %token PIPE 
 %token STRING
 %token EOF
+%token <string> TOKEN
+%token <string> START
+%token <string> PREC
+%token <string> TYPE
+%token <string> LEFT
+%token <string> RIGHT 
+%token <string> NONASSOC
 
 %type <PPType.FSY> start
 
@@ -27,8 +33,17 @@ start:
 preamble: 
   | PREACODE preaItems { { preaCode = PreaCode $1; preaItems = $2 }}
 
+preaItem: 
+  | TOKEN    { { name = "token"; value = $1 } }
+  | START    { { name = "start"; value = $1 } }
+  | PREC     { { name = "prec"; value = $1 } }
+  | TYPE     { { name = "type"; value = $1 } }
+  | LEFT     { { name = "left"; value = $1 } }
+  | RIGHT    { { name = "right"; value = $1 } }
+  | NONASSOC { { name = "nonassoc"; value = $1 } }
+
 preaItems: 
-  | PREATOKEN preaItems { { name = $1; value = $1 } :: $2}
+  | preaItem preaItems { $1 :: $2}
   | { [] }
 
 rules: 
@@ -48,5 +63,5 @@ tokens:
   | { [] }
 
 constraints:
-  | CONSTRAINT constraints { (Constr $1) :: $2 }
+  | UNTILNEWLINE constraints { (Constr $1) :: $2 }
   | { [] } 
