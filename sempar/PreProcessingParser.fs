@@ -178,31 +178,13 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-<<<<<<< Updated upstream
-# 28 "PreProcessingParser.fsy"
-                                               { preaCode = PreaCode _1; preaTokens = _2 }
-=======
 # 29 "PreProcessingParser.fsy"
                                               { preaCode = PreaCode _1; preaItems = _2 }
->>>>>>> Stashed changes
                    )
 # 28 "PreProcessingParser.fsy"
                  : 'gentype_preamble));
 # 186 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
-<<<<<<< Updated upstream
-            let _1 = parseState.GetInput(1) :?> string in
-            let _2 = parseState.GetInput(2) :?> 'gentype_preaTokens in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 31 "PreProcessingParser.fsy"
-                                                { name = _1; value = _1 } :: _2
-                   )
-# 31 "PreProcessingParser.fsy"
-                 : 'gentype_preaTokens));
-# 198 "PreProcessingParser.fs"
-=======
             let _2 = parseState.GetInput(2) :?> string in
             let _3 = parseState.GetInput(3) :?> string in
             let _4 = parseState.GetInput(4) :?> 'gentype_preaItems in
@@ -215,7 +197,6 @@ let _fsyacc_reductions = lazy [|
 # 32 "PreProcessingParser.fsy"
                  : 'gentype_preaItems));
 # 199 "PreProcessingParser.fs"
->>>>>>> Stashed changes
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
@@ -223,15 +204,9 @@ let _fsyacc_reductions = lazy [|
 # 32 "PreProcessingParser.fsy"
                            [] 
                    )
-<<<<<<< Updated upstream
-# 32 "PreProcessingParser.fsy"
-                 : 'gentype_preaTokens));
-# 208 "PreProcessingParser.fs"
-=======
 # 33 "PreProcessingParser.fsy"
                  : 'gentype_preaItems));
 # 209 "PreProcessingParser.fs"
->>>>>>> Stashed changes
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> 'gentype_rule in
             let _2 = parseState.GetInput(2) :?> 'gentype_rules in
