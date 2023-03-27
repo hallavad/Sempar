@@ -10,9 +10,9 @@ let main argv =
         1
     | [| path |] ->
         let contents = File.ReadAllLines path |> String.concat "\n" 
-        let parseResult = contents |> Parser.parse |> Parser.insertConstraints |> (fun x -> x.ToString())
+        let parseResult = contents |> Parser.parse (* |> Parser.insertConstraints *) |> (fun x -> printfn "%A" x; x.ToString())
         File.WriteAllText(path + ".ppfsy", parseResult)
-        //printfn "%s" parseResult
+        // printfn "%s" parseResult
 
         0
 

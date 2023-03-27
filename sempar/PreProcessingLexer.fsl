@@ -11,10 +11,6 @@ let lexeme = LexBuffer<_>.LexemeString
 
 let newline (lexbuf: LexBuffer<_>) = 
   lexbuf.StartPos <- lexbuf.StartPos.NextLine
-
-let fromUntilNewline (untilnewline): string =
-  match untilnewline with
-  | UNTILNEWLINE x -> x
 }
 
 let int = ['-' '+']? ['0'-'9']+
@@ -25,6 +21,7 @@ let digit = ['0'-'9']
 let word = ['a'-'z' 'A'-'Z' 'å' 'ä' 'ö' 'Å' 'Ä' 'Ö' '_' '-']+
 
 let white = [' ' '\t']+
+let maybeWhite = [' ' '\t']?
 let newline = '\r' | '\n' | "\r\n"
 
 rule read =
@@ -34,7 +31,7 @@ rule read =
   | ("%{" newline+)     { read_preamble_code "" lexbuf }
   | "%%"     { DOUBLEPERCENT }
   | "%"      { read_preamble_items lexbuf }
-  | "//!"    { read_until_newline "" lexbuf }
+  | ("//!" maybeWhite)    { CONSTRAINT (read_until_newline "" lexbuf) }
   | "//"     { COMMENT }
   | "|"      { PIPE }
   | "{"      { read_bracket "" 0 lexbuf }
@@ -45,7 +42,7 @@ rule read =
 
 and read_until_newline str =
   parse
-  | newline     { newline lexbuf; UNTILNEWLINE (str)}
+  | (maybeWhite newline)     { newline lexbuf; str}
   | [^ '\r' '\n'] { read_until_newline (str+(lexeme lexbuf)) lexbuf }
 
 
@@ -64,12 +61,10 @@ and read_preamble_code str =
 
 and read_preamble_items = 
   parse
-  | white?       { read_preamble_items lexbuf }
-  | "token"     { TOKEN (fromUntilNewline (read_until_newline "" lexbuf))}
-  | "start"     { START (fromUntilNewline (read_until_newline "" lexbuf))}
-  | "prec"      { PREC (fromUntilNewline (read_until_newline "" lexbuf))}
-  | "type"      { TYPE (fromUntilNewline (read_until_newline "" lexbuf))}
-  | "left"      { LEFT (fromUntilNewline (read_until_newline "" lexbuf))}
-  | "right"     { RIGHT (fromUntilNewline (read_until_newline "" lexbuf))}
-  | "nonassoc"  { NONASSOC (fromUntilNewline (read_until_newline "" lexbuf))}
-
+  | ("token" white)     { PREAITEM ("token", (read_until_newline "" lexbuf))}
+  | ("start" white)     { PREAITEM ("start", (read_until_newline "" lexbuf))}
+  | ("prec" white)      { PREAITEM ("prec", (read_until_newline "" lexbuf))}
+  | ("type" white)      { PREAITEM ("type", (read_until_newline "" lexbuf))}
+  | ("left" white)      { PREAITEM ("left", (read_until_newline "" lexbuf))}
+  | ("right" white)     { PREAITEM ("right", (read_until_newline "" lexbuf))}
+  | ("nonassoc" white)  { PREAITEM ("nonassoc", (read_until_newline "" lexbuf))}

@@ -10,28 +10,28 @@ open PPType
 # 10 "PreProcessingParser.fs"
 // This type is the type of tokens accepted by the parser
 type token = 
+  | PREAITEM of (string * string)
   | EOF
   | STRING
   | PIPE
   | COLON
   | COMMENT
-  | PREATOKEN of (string)
-  | PREACODE of (string)
   | CONSTRAINT of (string)
+  | PREACODE of (string)
   | PERCENT
   | DOUBLEPERCENT
   | CODE of (string)
   | ID of (string)
 // This type is used to give symbolic names to token indexes, useful for error messages
 type tokenId = 
+    | TOKEN_PREAITEM
     | TOKEN_EOF
     | TOKEN_STRING
     | TOKEN_PIPE
     | TOKEN_COLON
     | TOKEN_COMMENT
-    | TOKEN_PREATOKEN
-    | TOKEN_PREACODE
     | TOKEN_CONSTRAINT
+    | TOKEN_PREACODE
     | TOKEN_PERCENT
     | TOKEN_DOUBLEPERCENT
     | TOKEN_CODE
@@ -53,14 +53,14 @@ type nonTerminalId =
 // This function maps tokens to integer indexes
 let tagOfToken (t:token) = 
   match t with
-  | EOF  -> 0 
-  | STRING  -> 1 
-  | PIPE  -> 2 
-  | COLON  -> 3 
-  | COMMENT  -> 4 
-  | PREATOKEN _ -> 5 
-  | PREACODE _ -> 6 
-  | CONSTRAINT _ -> 7 
+  | PREAITEM _ -> 0 
+  | EOF  -> 1 
+  | STRING  -> 2 
+  | PIPE  -> 3 
+  | COLON  -> 4 
+  | COMMENT  -> 5 
+  | CONSTRAINT _ -> 6 
+  | PREACODE _ -> 7 
   | PERCENT  -> 8 
   | DOUBLEPERCENT  -> 9 
   | CODE _ -> 10 
@@ -69,14 +69,14 @@ let tagOfToken (t:token) =
 // This function maps integer indexes to symbolic token ids
 let tokenTagToTokenId (tokenIdx:int) = 
   match tokenIdx with
-  | 0 -> TOKEN_EOF 
-  | 1 -> TOKEN_STRING 
-  | 2 -> TOKEN_PIPE 
-  | 3 -> TOKEN_COLON 
-  | 4 -> TOKEN_COMMENT 
-  | 5 -> TOKEN_PREATOKEN 
-  | 6 -> TOKEN_PREACODE 
-  | 7 -> TOKEN_CONSTRAINT 
+  | 0 -> TOKEN_PREAITEM 
+  | 1 -> TOKEN_EOF 
+  | 2 -> TOKEN_STRING 
+  | 3 -> TOKEN_PIPE 
+  | 4 -> TOKEN_COLON 
+  | 5 -> TOKEN_COMMENT 
+  | 6 -> TOKEN_CONSTRAINT 
+  | 7 -> TOKEN_PREACODE 
   | 8 -> TOKEN_PERCENT 
   | 9 -> TOKEN_DOUBLEPERCENT 
   | 10 -> TOKEN_CODE 
@@ -111,14 +111,14 @@ let _fsyacc_tagOfErrorTerminal = 12
 // This function gets the name of a token as a string
 let token_to_string (t:token) = 
   match t with 
+  | PREAITEM _ -> "PREAITEM" 
   | EOF  -> "EOF" 
   | STRING  -> "STRING" 
   | PIPE  -> "PIPE" 
   | COLON  -> "COLON" 
   | COMMENT  -> "COMMENT" 
-  | PREATOKEN _ -> "PREATOKEN" 
-  | PREACODE _ -> "PREACODE" 
   | CONSTRAINT _ -> "CONSTRAINT" 
+  | PREACODE _ -> "PREACODE" 
   | PERCENT  -> "PERCENT" 
   | DOUBLEPERCENT  -> "DOUBLEPERCENT" 
   | CODE _ -> "CODE" 
@@ -127,14 +127,14 @@ let token_to_string (t:token) =
 // This function gets the data carried by a token as an object
 let _fsyacc_dataOfToken (t:token) = 
   match t with 
+  | PREAITEM _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | EOF  -> (null : System.Object) 
   | STRING  -> (null : System.Object) 
   | PIPE  -> (null : System.Object) 
   | COLON  -> (null : System.Object) 
   | COMMENT  -> (null : System.Object) 
-  | PREATOKEN _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
-  | PREACODE _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | CONSTRAINT _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
+  | PREACODE _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | PERCENT  -> (null : System.Object) 
   | DOUBLEPERCENT  -> (null : System.Object) 
   | CODE _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
@@ -144,7 +144,7 @@ let _fsyacc_sparseGotoTableRowOffsets = [|0us;1us;3us;5us;8us;11us;14us;17us;21u
 let _fsyacc_stateToProdIdxsTableElements = [| 1us;0us;1us;0us;1us;1us;1us;1us;1us;1us;1us;2us;1us;2us;1us;3us;1us;3us;2us;5us;6us;1us;5us;1us;7us;1us;7us;1us;7us;1us;7us;1us;7us;1us;8us;1us;8us;1us;8us;2us;9us;10us;2us;9us;10us;2us;9us;10us;2us;9us;10us;1us;9us;1us;11us;1us;11us;1us;13us;1us;13us;|]
 let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us;2us;4us;6us;8us;10us;12us;14us;16us;18us;21us;23us;25us;27us;29us;31us;33us;35us;37us;39us;42us;45us;48us;51us;53us;55us;57us;59us;|]
 let _fsyacc_action_rows = 28
-let _fsyacc_actionTableElements = [|1us;32768us;6us;5us;0us;49152us;1us;32768us;9us;3us;2us;16398us;7us;26us;11us;16us;0us;16385us;1us;16388us;5us;7us;0us;16386us;1us;16388us;5us;7us;0us;16387us;2us;16390us;7us;26us;11us;16us;0us;16389us;1us;32768us;11us;12us;1us;32768us;3us;13us;1us;16396us;11us;24us;1us;32768us;10us;15us;0us;16391us;1us;32768us;3us;17us;1us;16398us;7us;26us;0us;16392us;1us;32768us;2us;20us;1us;16396us;11us;24us;1us;32768us;10us;22us;2us;16394us;2us;16398us;7us;26us;0us;16393us;1us;16396us;11us;24us;0us;16395us;1us;16398us;7us;26us;0us;16397us;|]
+let _fsyacc_actionTableElements = [|1us;32768us;7us;5us;0us;49152us;1us;32768us;9us;3us;2us;16398us;6us;26us;11us;16us;0us;16385us;1us;16388us;0us;7us;0us;16386us;1us;16388us;0us;7us;0us;16387us;2us;16390us;6us;26us;11us;16us;0us;16389us;1us;32768us;11us;12us;1us;32768us;4us;13us;1us;16396us;11us;24us;1us;32768us;10us;15us;0us;16391us;1us;32768us;4us;17us;1us;16398us;6us;26us;0us;16392us;1us;32768us;3us;20us;1us;16396us;11us;24us;1us;32768us;10us;22us;2us;16394us;3us;16398us;6us;26us;0us;16393us;1us;16396us;11us;24us;0us;16395us;1us;16398us;6us;26us;0us;16397us;|]
 let _fsyacc_actionTableRowOffsets = [|0us;2us;3us;5us;8us;9us;11us;12us;14us;15us;18us;19us;21us;23us;25us;27us;28us;30us;32us;33us;35us;37us;39us;42us;43us;45us;46us;48us;|]
 let _fsyacc_reductionSymbolCounts = [|1us;3us;2us;2us;0us;2us;1us;5us;3us;5us;4us;2us;0us;2us;0us;|]
 let _fsyacc_productionToNonTerminalTable = [|0us;1us;2us;3us;3us;4us;4us;5us;5us;6us;6us;7us;7us;8us;8us;|]
@@ -178,25 +178,24 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 29 "PreProcessingParser.fsy"
+# 28 "PreProcessingParser.fsy"
                                               { preaCode = PreaCode _1; preaItems = _2 }
                    )
 # 28 "PreProcessingParser.fsy"
                  : 'gentype_preamble));
 # 186 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
-            let _2 = parseState.GetInput(2) :?> string in
-            let _3 = parseState.GetInput(3) :?> string in
-            let _4 = parseState.GetInput(4) :?> 'gentype_preaItems in
+            let _1 = parseState.GetInput(1) :?> string * string in
+            let _2 = parseState.GetInput(2) :?> 'gentype_preaItems in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 32 "PreProcessingParser.fsy"
-                                                          { name = _2; value = _3 } :: _4 
+# 31 "PreProcessingParser.fsy"
+                                              { name = fst _1; value = snd _1 } :: _2
                    )
-# 32 "PreProcessingParser.fsy"
+# 31 "PreProcessingParser.fsy"
                  : 'gentype_preaItems));
-# 199 "PreProcessingParser.fs"
+# 198 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
@@ -204,9 +203,9 @@ let _fsyacc_reductions = lazy [|
 # 32 "PreProcessingParser.fsy"
                            [] 
                    )
-# 33 "PreProcessingParser.fsy"
+# 32 "PreProcessingParser.fsy"
                  : 'gentype_preaItems));
-# 209 "PreProcessingParser.fs"
+# 208 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> 'gentype_rule in
             let _2 = parseState.GetInput(2) :?> 'gentype_rules in
