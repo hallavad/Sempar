@@ -23,32 +23,6 @@ type Code =
             let (Code code) = this 
             code
 
-        member this.UsedVariables: string list =
-            let (Code code) = this
-            let mutable vars = []
-            let mutable includeNext = false
-            let mutable startedIncluding = false
-            for (c : char) in code do 
-                if includeNext then
-                    if System.Char.IsNumber(c) then
-                        vars <- string c :: vars
-                        startedIncluding <- true
-                    includeNext <- false
-                else if startedIncluding then
-                    if System.Char.IsNumber(c) then
-                        // We know that the list isn't empty here
-                        let (head :: tail) = vars
-                        vars <- (head + string c) :: tail
-                    else 
-                        startedIncluding <- false
-                else 
-                    match c with 
-                    | '$' -> 
-                        includeNext <- true
-                    | _ -> 
-                        includeNext <- false
-            List.rev vars
-
 type Token = 
     | Token of string
     override this.ToString(): string =

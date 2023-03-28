@@ -6,8 +6,34 @@ open FSharp.Text.Lexing
 
 open PPType
 
+let usedVariables (Code code: Code): string list =
+    let mutable vars = []
+    let mutable includeNext = false
+    let mutable startedIncluding = false
+    for (c : char) in code do 
+        if includeNext then
+            if System.Char.IsNumber(c) then
+                vars <- string c :: vars
+                startedIncluding <- true
+            includeNext <- false
+        else if startedIncluding then
+            if System.Char.IsNumber(c) then
+                // We know that the list isn't empty here
+                let (head :: tail) = vars
+                vars <- (head + string c) :: tail
+            else 
+                startedIncluding <- false
+        else 
+            match c with 
+            | '$' -> 
+                includeNext <- true
+            | _ -> 
+                includeNext <- false
+    List.rev vars
+
 let genVariableDecls (code: Code) (predefTokens: string list): string =
-    code.UsedVariables
+    code 
+        |> usedVariables
         |> List.map (fun v -> 
             if List.contains v predefTokens then
                 $"  let semparVar{v} = ${v}"
@@ -17,7 +43,6 @@ let genVariableDecls (code: Code) (predefTokens: string list): string =
         |> concatNewlines
         
 let genCode (code: Code) (cs: Constraint list) (tokens: string list): Code =
-    let (Code codeStr) = code
     Code $"""parserType {{
 {genVariableDecls code tokens}
   {cs |> mapToString |> concatNewlines}
