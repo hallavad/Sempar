@@ -5,7 +5,7 @@ open FSharp.Text.Lexing
 open FSharp.Text.Parsing.ParseHelpers
 # 1 "PreProcessingParser.fsy"
 
-open PPType
+open Diagnostics
 
 # 10 "PreProcessingParser.fs"
 // This type is the type of tokens accepted by the parser
@@ -152,7 +152,7 @@ let _fsyacc_immediateActions = [|65535us;49152us;65535us;65535us;16385us;65535us
 let _fsyacc_reductions = lazy [|
 # 153 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
-            let _1 = parseState.GetInput(1) :?> PPType.FSY in
+            let _1 = parseState.GetInput(1) :?> Diagnostics.FSY in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
@@ -170,7 +170,7 @@ let _fsyacc_reductions = lazy [|
                                                         {preamble = _1; rules = _3} 
                    )
 # 25 "PreProcessingParser.fsy"
-                 : PPType.FSY));
+                 : Diagnostics.FSY));
 # 174 "PreProcessingParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> string in
@@ -191,7 +191,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 31 "PreProcessingParser.fsy"
-                                              { name = fst _1; value = snd _1 } :: _2
+                                              { name = fst _1; value = List.ofArray ((snd _1).Split ' ')} :: _2
                    )
 # 31 "PreProcessingParser.fsy"
                  : 'gentype_preaItems));
@@ -348,5 +348,5 @@ let tables : FSharp.Text.Parsing.Tables<_> =
     numTerminals = 15;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = tables.Interpret(lexer, lexbuf, startState)
-let start lexer lexbuf : PPType.FSY =
+let start lexer lexbuf : Diagnostics.FSY =
     engine lexer lexbuf 0 :?> _
