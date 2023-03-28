@@ -62,10 +62,10 @@ type Rules = Rule list
 type PreaItem = 
     {
         name: string;
-        value: string;
+        value: string list;
     }
     override this.ToString(): string = 
-        $"%%{this.name} {this.value}"
+        $"%%{this.name} {this.value |> mapToString}"
 
 type PreaCode = 
     | PreaCode of string
@@ -82,7 +82,7 @@ type Preamble =
         $"{this.preaCode.ToString()}\n\n{concatNewlines (mapToString this.preaItems)}"
 
     member this.usedTokens: string list = 
-        this.preaItems |> List.filter (fun i -> i.name = "token") |> List.map (fun i -> i.value)
+        this.preaItems |> List.filter (fun i -> i.name = "token") |> List.map (fun i -> List.last i.value)
 
 type FSY = 
     {
@@ -101,6 +101,6 @@ let testTokenC = Token("IDToken")
 let testRuleCase = { tokens = [testTokenA; testTokenB; testTokenC]; code = testCode; constraints = [testConstraint] }
 let testRule = { name = "test_rule"; cases = [testRuleCase] }
 let testPreaCode = PreaCode("some test preamble code\nover two lines")
-let testPreaItems = [ {name = "token"; value = "IDToken"}; { name = "token"; value = "OtherIDToken"}; {name = "type"; value = "<CoolType> start"} ]
+let testPreaItems = [ {name = "token"; value = ["IDToken"]}; { name = "token"; value = ["OtherIDToken"]}; {name = "type"; value = ["<CoolType>"; "start"]} ]
 let testPreamble = { preaCode = testPreaCode; preaItems = testPreaItems; }
 let testFSY = { preamble = testPreamble; rules = [testRule]; }

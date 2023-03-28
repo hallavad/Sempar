@@ -28,7 +28,7 @@ preamble:
   | PREACODE preaItems { { preaCode = PreaCode $1; preaItems = $2 }}
 
 preaItems: 
-  | PREAITEM preaItems { { name = fst $1; value = snd $1 } :: $2}
+  | PREAITEM preaItems { { name = fst $1; value = List.ofArray ((snd $1).Split ' ')} :: $2}
   | { [] }
 
 rules: 

@@ -49,7 +49,7 @@ let genVariableDecls (Code code: Code) (constrs: Constraint list) (predefTokens:
 let genCode (code: Code) (cs: Constraint list) (varDecls: string): Code =
     Code $"""parserType {{
 {varDecls}
-  {cs |> mapToString |> concatNewlines}
+  {cs |> List.map (fun (Constr c) -> c) |> concatNewlines}
   return ({code})
 }}
 """
