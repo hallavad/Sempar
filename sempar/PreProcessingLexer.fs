@@ -251,7 +251,7 @@ and read  lexbuf =
           )
   | 8 -> ( 
 # 37 "PreProcessingLexer.fsl"
-                         read_bracket "{" 0 lexbuf 
+                         read_bracket "" 0 lexbuf 
 # 255 "PreProcessingLexer.fs"
           )
   | 9 -> ( 
@@ -299,7 +299,7 @@ and read_bracket str level lexbuf =
           )
   | 1 -> ( 
 # 52 "PreProcessingLexer.fsl"
-                                 if level < 1 then CODE (str+(lexeme lexbuf)) else read_bracket (str+(lexeme lexbuf)) (level-1) lexbuf
+                                 if level < 1 then CODE (str) else read_bracket (str+(lexeme lexbuf)) (level-1) lexbuf
 # 303 "PreProcessingLexer.fs"
           )
   | 2 -> ( 

@@ -3,7 +3,7 @@ module ParserType
 open HelperFunctions
 
 type Error = string
-type Warning = W
+type Warning = string
 
 type ParserType<'a> =
     | Errors of Error list

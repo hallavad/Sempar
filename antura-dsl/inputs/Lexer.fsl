@@ -24,6 +24,8 @@ let digit = ['0'-'9']
 let white = [' ' '\t']+
 let newline = '\r' | '\n' | "\r\n"
 
+let word = ['a'-'z' 'A'-'Z' 'å' 'ä' 'ö' 'Å' 'Ä' 'Ö' '_' '-']+
+
 rule read =
   parse
   | white    { read lexbuf }
@@ -71,7 +73,7 @@ rule read =
   | "project property" { PROJECT_PROPERTY }
   | "when" { WHEN }
   | "get" { GET }
-  | ['a'-'z']+ { ID(lexeme lexbuf)}
+  | word { ID(lexeme lexbuf)}
   | eof      { EOF }
   | _ { raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (lexeme lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) }
 

@@ -39,7 +39,7 @@ type RuleCase =
         constraints: Constraint list;
     }
     override this.ToString(): string =
-        $"{Constraint.ListToString this.constraints}| {Token.ListToString this.tokens} {this.code.ToString()}"
+        $"{Constraint.ListToString this.constraints}| {Token.ListToString this.tokens} {{{this.code.ToString()}}}"
     
     member this.predefinedTokenIndices (usedTokens: string list): string list = 
         this.tokens 

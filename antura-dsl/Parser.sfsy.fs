@@ -199,7 +199,7 @@ let _fsyacc_immediateActions = [|65535us;49152us;65535us;16385us;16386us;65535us
 let _fsyacc_reductions = lazy [|
 # 200 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
-            let _1 = parseState.GetInput(1) :?> DataModel.Rules in
+            let _1 = parseState.GetInput(1) :?> ParserType<DataModel.Rules> in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
@@ -213,88 +213,77 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 32 "inputs/Parser.sfsy.ppfsy"
-                                             
-                     parserType {
-                         let! var1 = _1
-                         and! var2 = _2
-                         
-                         return ( { precision = Some _1; rules = _2 } )
-                     } 
-                      
+# 30 "inputs/Parser.sfsy.ppfsy"
+                                            parserType {
+                       let! semparVar1 = _1
+                       let! semparVar2 = _2
+                       
+                       return ( { precision = Some semparVar1; rules = semparVar2 } )
+                     }
                    )
-# 32 "inputs/Parser.sfsy.ppfsy"
-                 : DataModel.Rules));
-# 228 "Parser.sfsy.fs"
+# 30 "inputs/Parser.sfsy.ppfsy"
+                 : ParserType<DataModel.Rules>));
+# 226 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> 'gentype_rule_list in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 42 "inputs/Parser.sfsy.ppfsy"
-                                   
-                     parserType {
-                         let! var1 = _1
-                         
-                         return ( { precision = None; rules = _1 } )
-                     } 
-                      
+# 36 "inputs/Parser.sfsy.ppfsy"
+                                  parserType {
+                       let! semparVar1 = _1
+                       
+                       return ( { precision = None; rules = semparVar1 } )
+                     }
                    )
-# 42 "inputs/Parser.sfsy.ppfsy"
-                 : DataModel.Rules));
-# 245 "Parser.sfsy.fs"
+# 36 "inputs/Parser.sfsy.ppfsy"
+                 : ParserType<DataModel.Rules>));
+# 241 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> int in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 53 "inputs/Parser.sfsy.ppfsy"
-                                       
-                     parserType {
-                         let! var2 = _2
-                         
-                         return ( _2 )
-                     } 
-                      
+# 44 "inputs/Parser.sfsy.ppfsy"
+                                      parserType {
+                       let semparVar2 = _2
+                       errorUnless "Precision must be positive" (semparVar2 >= 1)
+                       return ( semparVar2 )
+                     }
                    )
-# 53 "inputs/Parser.sfsy.ppfsy"
+# 44 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_precision));
-# 262 "Parser.sfsy.fs"
+# 256 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 64 "inputs/Parser.sfsy.ppfsy"
-                          
-                     parserType {
-                         
-                         
-                         return ( [] )
-                     } 
-                      
+# 51 "inputs/Parser.sfsy.ppfsy"
+                         parserType {
+                       
+                       return ( [] )
+                     }
                    )
-# 64 "inputs/Parser.sfsy.ppfsy"
+# 51 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_rule_list));
-# 278 "Parser.sfsy.fs"
+# 269 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> 'gentype_rule in
             let _2 = parseState.GetInput(2) :?> 'gentype_rule_list in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 72 "inputs/Parser.sfsy.ppfsy"
-                                        
-                     parserType {
-                         let! var1 = _1
-                         and! var2 = _2
-                         
-                         return ( _1 :: _2 )
-                     } 
-                      
+# 56 "inputs/Parser.sfsy.ppfsy"
+                                       parserType {
+                       let! semparVar1 = _1
+                       let! semparVar2 = _2
+                       
+                       return ( semparVar1 :: semparVar2 )
+                     }
                    )
-# 72 "inputs/Parser.sfsy.ppfsy"
+# 56 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_rule_list));
-# 297 "Parser.sfsy.fs"
+# 286 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _3 = parseState.GetInput(3) :?> 'gentype_types in
             let _4 = parseState.GetInput(4) :?> 'gentype_sources in
@@ -303,21 +292,19 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 83 "inputs/Parser.sfsy.ppfsy"
-                                                                              
-                     parserType {
-                         let! var3 = _3
-                         and! var4 = _4
-                         and! var5 = _5
-                         and! var6 = _6
-                         
-                         return ( {name = None; types = _3; sources = _4; transformation = _5; destination = _6} )
-                     } 
-                      
+# 64 "inputs/Parser.sfsy.ppfsy"
+                                                                             parserType {
+                       let! semparVar3 = _3
+                       let! semparVar4 = _4
+                       let! semparVar5 = _5
+                       let! semparVar6 = _6
+                       
+                       return ( {name = None; types = semparVar3; sources = semparVar4; transformation = semparVar5; destination = semparVar6} )
+                     }
                    )
-# 83 "inputs/Parser.sfsy.ppfsy"
+# 64 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_rule));
-# 320 "Parser.sfsy.fs"
+# 307 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> 'gentype_rule_name in
             let _4 = parseState.GetInput(4) :?> 'gentype_types in
@@ -327,161 +314,140 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 95 "inputs/Parser.sfsy.ppfsy"
-                                                                                        
-                     parserType {
-                         let! var2 = _2
-                         and! var4 = _4
-                         and! var5 = _5
-                         and! var6 = _6
-                         and! var7 = _7
-                         
-                         return ( {name = Some _2; types = _4; sources = _5; transformation = _6; destination = _7} )
-                     } 
-                      
+# 72 "inputs/Parser.sfsy.ppfsy"
+                                                                                       parserType {
+                       let! semparVar2 = _2
+                       let! semparVar4 = _4
+                       let! semparVar5 = _5
+                       let! semparVar6 = _6
+                       let! semparVar7 = _7
+                       
+                       return ( {name = Some semparVar2; types = semparVar4; sources = semparVar5; transformation = semparVar6; destination = semparVar7} )
+                     }
                    )
-# 95 "inputs/Parser.sfsy.ppfsy"
+# 72 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_rule));
-# 345 "Parser.sfsy.fs"
+# 330 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 109 "inputs/Parser.sfsy.ppfsy"
-                          
-                     parserType {
-                         
-                         
-                         return ( "" )
-                     } 
-                      
+# 83 "inputs/Parser.sfsy.ppfsy"
+                         parserType {
+                       
+                       return ( "" )
+                     }
                    )
-# 109 "inputs/Parser.sfsy.ppfsy"
+# 83 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_rule_name));
-# 361 "Parser.sfsy.fs"
+# 343 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> string in
             let _2 = parseState.GetInput(2) :?> 'gentype_rule_name in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 117 "inputs/Parser.sfsy.ppfsy"
-                                      
-                     parserType {
-                         let! var1 = _1
-                         and! var2 = _2
-                         
-                         return ( _1 + " " + _2 )
-                     } 
-                      
+# 88 "inputs/Parser.sfsy.ppfsy"
+                                     parserType {
+                       let semparVar1 = _1
+                       let! semparVar2 = _2
+                       
+                       return ( semparVar1 + " " + semparVar2 )
+                     }
                    )
-# 117 "inputs/Parser.sfsy.ppfsy"
+# 88 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_rule_name));
-# 380 "Parser.sfsy.fs"
+# 360 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> 'gentype_type_list in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 128 "inputs/Parser.sfsy.ppfsy"
-                                                 
-                     parserType {
-                         let! var2 = _2
-                         
-                         return ( _2 )
-                     } 
-                      
+# 96 "inputs/Parser.sfsy.ppfsy"
+                                                parserType {
+                       let! semparVar2 = _2
+                       
+                       return ( semparVar2 )
+                     }
                    )
-# 128 "inputs/Parser.sfsy.ppfsy"
+# 96 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_types));
-# 397 "Parser.sfsy.fs"
+# 375 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 139 "inputs/Parser.sfsy.ppfsy"
-                          
-                     parserType {
-                         
-                         
-                         return ( [] )
-                     } 
-                      
+# 103 "inputs/Parser.sfsy.ppfsy"
+                         parserType {
+                       
+                       return ( [] )
+                     }
                    )
-# 139 "inputs/Parser.sfsy.ppfsy"
+# 103 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_type_list));
-# 413 "Parser.sfsy.fs"
+# 388 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> string in
             let _2 = parseState.GetInput(2) :?> 'gentype_type_list in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 147 "inputs/Parser.sfsy.ppfsy"
-                                          
-                     parserType {
-                         let! var1 = _1
-                         and! var2 = _2
-                         
-                         return ( _1 :: _2 )
-                     } 
-                      
+# 108 "inputs/Parser.sfsy.ppfsy"
+                                         parserType {
+                       let semparVar1 = _1
+                       let! semparVar2 = _2
+                       
+                       return ( semparVar1 :: semparVar2 )
+                     }
                    )
-# 147 "inputs/Parser.sfsy.ppfsy"
+# 108 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_type_list));
-# 432 "Parser.sfsy.fs"
+# 405 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> 'gentype_source_list in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 158 "inputs/Parser.sfsy.ppfsy"
-                                             
-                     parserType {
-                         let! var2 = _2
-                         
-                         return ( _2 )
-                     } 
-                      
+# 116 "inputs/Parser.sfsy.ppfsy"
+                                            parserType {
+                       let! semparVar2 = _2
+                       
+                       return ( semparVar2 )
+                     }
                    )
-# 158 "inputs/Parser.sfsy.ppfsy"
+# 116 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_sources));
-# 449 "Parser.sfsy.fs"
+# 420 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 169 "inputs/Parser.sfsy.ppfsy"
-                          
-                     parserType {
-                         
-                         
-                         return ( [] )
-                     } 
-                      
+# 123 "inputs/Parser.sfsy.ppfsy"
+                         parserType {
+                       
+                       return ( [] )
+                     }
                    )
-# 169 "inputs/Parser.sfsy.ppfsy"
+# 123 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_source_list));
-# 465 "Parser.sfsy.fs"
+# 433 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> 'gentype_source in
             let _2 = parseState.GetInput(2) :?> 'gentype_source_list in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 177 "inputs/Parser.sfsy.ppfsy"
-                                            
-                     parserType {
-                         let! var1 = _1
-                         and! var2 = _2
-                         
-                         return ( _1 :: _2 )
-                     } 
-                      
+# 128 "inputs/Parser.sfsy.ppfsy"
+                                           parserType {
+                       let! semparVar1 = _1
+                       let! semparVar2 = _2
+                       
+                       return ( semparVar1 :: semparVar2 )
+                     }
                    )
-# 177 "inputs/Parser.sfsy.ppfsy"
+# 128 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_source_list));
-# 484 "Parser.sfsy.fs"
+# 450 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _3 = parseState.GetInput(3) :?> string in
             let _5 = parseState.GetInput(5) :?> string in
@@ -489,72 +455,64 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 188 "inputs/Parser.sfsy.ppfsy"
-                                                      
-                     parserType {
-                         let! var3 = _3
-                         and! var5 = _5
-                         and! var7 = _7
-                         
-                         return ( (_3, _5, _7) )
-                     } 
-                      
+# 137 "inputs/Parser.sfsy.ppfsy"
+                                                     parserType {
+                       let semparVar3 = _3
+                       let semparVar5 = _5
+                       let semparVar7 = _7
+                       errorUnless "Tasks must be certain values" (semparVar7 = "StartDate" || semparVar7 = "EndDate" || semparVar7 = "Property")
+                       return ( (semparVar3, semparVar5, semparVar7) )
+                     }
                    )
-# 188 "inputs/Parser.sfsy.ppfsy"
+# 137 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_source));
-# 505 "Parser.sfsy.fs"
+# 469 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> string in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 200 "inputs/Parser.sfsy.ppfsy"
-                                           
-                     parserType {
-                         let! var2 = _2
-                         
-                         return ( Some _2 )
-                     } 
-                      
+# 146 "inputs/Parser.sfsy.ppfsy"
+                                          parserType {
+                       let semparVar2 = _2
+                       
+                       return ( Some semparVar2 )
+                     }
                    )
-# 200 "inputs/Parser.sfsy.ppfsy"
+# 146 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_transformations));
-# 522 "Parser.sfsy.fs"
+# 484 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> 'gentype_property in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 211 "inputs/Parser.sfsy.ppfsy"
-                                              
-                     parserType {
-                         let! var2 = _2
-                         
-                         return ( _2 )
-                     } 
-                      
+# 154 "inputs/Parser.sfsy.ppfsy"
+                                             parserType {
+                       let! semparVar2 = _2
+                       // warnUnless "Destination should probably start with \"Start\"" (semparVar2.StartsWith("Start"))
+                       return ( semparVar2 )
+                     }
                    )
-# 211 "inputs/Parser.sfsy.ppfsy"
+# 154 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_destination));
-# 539 "Parser.sfsy.fs"
+# 499 "Parser.sfsy.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> string in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 222 "inputs/Parser.sfsy.ppfsy"
-                                             
-                     parserType {
-                         let! var2 = _2
-                         
-                         return ( Property _2 )
-                     } 
-                      
+# 161 "inputs/Parser.sfsy.ppfsy"
+                                            parserType {
+                       let semparVar2 = _2
+                       
+                       return ( Property semparVar2 )
+                     }
                    )
-# 222 "inputs/Parser.sfsy.ppfsy"
+# 161 "inputs/Parser.sfsy.ppfsy"
                  : 'gentype_property));
 |]
-# 557 "Parser.sfsy.fs"
+# 515 "Parser.sfsy.fs"
 let tables : FSharp.Text.Parsing.Tables<_> = 
   { reductions = _fsyacc_reductions.Value;
     endOfInputTag = _fsyacc_endOfInputTag;
@@ -576,5 +534,5 @@ let tables : FSharp.Text.Parsing.Tables<_> =
     numTerminals = 21;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = tables.Interpret(lexer, lexbuf, startState)
-let start lexer lexbuf : DataModel.Rules =
+let start lexer lexbuf : ParserType<DataModel.Rules> =
     engine lexer lexbuf 0 :?> _
