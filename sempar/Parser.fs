@@ -56,18 +56,20 @@ let genCode (code: Code) (cs: Constraint list) (varDecls: string): Code =
 
 let insertConstraintsAndReplaceVars (fsy: FSY): FSY =
     let { rules = rules; preamble = preamble } = fsy
+    let regex = "\$(?=[0-9]+)"
     let usedTokens = preamble.usedTokens
     let newRules = rules |> List.map (fun rule -> 
         let {cases = cases} = rule
         let newCases = cases |> List.map (fun case -> 
             let {code = Code code; constraints = constraints } = case
+            // Which tokens are predefined by the lexer, and used in this case?
             let usedTokenIndices = case.predefinedTokenIndices usedTokens
-            let regex = "\$(?=[0-9]+)"
-            let varDecls = genVariableDecls (Code code) case.constraints usedTokenIndices
+            // Generate the code that declares the used variables
+            let varDecls = genVariableDecls (Code code) constraints usedTokenIndices
+            // Now that we've done that, we can replace both variables in the code and the constraints
             let code = Regex.Replace(code, regex, "semparVar")
-            let newConstraints = case.constraints |> List.map (fun constr -> 
-                let (Constr oldConstraint) = constr
-                let newConstraint = Regex.Replace(oldConstraint, regex, "semparVar")
+            let newConstraints = constraints |> List.map (fun (Constr constr) -> 
+                let newConstraint = Regex.Replace(constr, regex, "semparVar")
                 Constr newConstraint
             )
             let newCode = genCode (Code code) newConstraints varDecls
