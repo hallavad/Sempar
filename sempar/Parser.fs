@@ -51,8 +51,7 @@ let genCode (code: Code) (cs: Constraint list) (varDecls: string): Code =
 {varDecls}
   {cs |> List.map (fun (Constr c) -> c) |> concatNewlines}
   return ({code})
-}}
-"""
+}}"""
 
 let insertConstraintsAndReplaceVars (fsy: FSY): FSY =
     let { rules = rules; preamble = preamble } = fsy

@@ -65,7 +65,7 @@ type PreaItem =
         value: string list;
     }
     override this.ToString(): string = 
-        $"%%{this.name} {this.value |> mapToString}"
+        $"%%{this.name} {this.value |> mapToString |> concatSpaces}"
 
 type PreaCode = 
     | PreaCode of string
