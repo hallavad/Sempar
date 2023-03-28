@@ -6,33 +6,37 @@ open FSharp.Text.Lexing
 
 open PPType
 
-let usedVariables (Code code: Code): string list =
+let usedVariables (codeSnippets: string list): string list =
     let mutable vars = []
     let mutable includeNext = false
     let mutable startedIncluding = false
-    for (c : char) in code do 
-        if includeNext then
-            if System.Char.IsNumber(c) then
-                vars <- string c :: vars
-                startedIncluding <- true
-            includeNext <- false
-        else if startedIncluding then
-            if System.Char.IsNumber(c) then
-                // We know that the list isn't empty here
-                let (head :: tail) = vars
-                vars <- (head + string c) :: tail
-            else 
-                startedIncluding <- false
-        else 
-            match c with 
-            | '$' -> 
-                includeNext <- true
-            | _ -> 
+    for code in codeSnippets do
+        for (c : char) in code do 
+            if includeNext then
+                if System.Char.IsNumber(c) then
+                    vars <- string c :: vars
+                    startedIncluding <- true
                 includeNext <- false
-    List.rev vars
+            else if startedIncluding then
+                if System.Char.IsNumber(c) then
+                    // We know that the list isn't empty here
+                    let (head :: tail) = vars
+                    vars <- (head + string c) :: tail
+                else 
+                    startedIncluding <- false
+            else 
+                match c with 
+                | '$' -> 
+                    includeNext <- true
+                | _ -> 
+                    includeNext <- false
+    List.rev vars 
+        |> List.distinct
 
-let genVariableDecls (code: Code) (predefTokens: string list): string =
+let genVariableDecls (Code code: Code) (constrs: Constraint list) (predefTokens: string list): string =
+    let constrCodeSnippets = constrs |> List.map (fun (Constr c) -> c)
     code 
+        :: constrCodeSnippets 
         |> usedVariables
         |> List.map (fun v -> 
             if List.contains v predefTokens then
@@ -42,24 +46,32 @@ let genVariableDecls (code: Code) (predefTokens: string list): string =
             ) 
         |> concatNewlines
         
-let genCode (code: Code) (cs: Constraint list) (tokens: string list): Code =
+let genCode (code: Code) (cs: Constraint list) (varDecls: string): Code =
     Code $"""parserType {{
-{genVariableDecls code tokens}
+{varDecls}
   {cs |> mapToString |> concatNewlines}
   return ({code})
 }}
 """
 
-let insertConstraints (fsy: FSY): FSY =
+let insertConstraintsAndReplaceVars (fsy: FSY): FSY =
     let { rules = rules; preamble = preamble } = fsy
     let usedTokens = preamble.usedTokens
     let newRules = rules |> List.map (fun rule -> 
         let {cases = cases} = rule
         let newCases = cases |> List.map (fun case -> 
-            let {code = code; constraints = constraints } = case
+            let {code = Code code; constraints = constraints } = case
             let usedTokenIndices = case.predefinedTokenIndices usedTokens
-            let newCode = genCode code constraints usedTokenIndices
-            { case with code = newCode }
+            let regex = "\$(?=[0-9]+)"
+            let varDecls = genVariableDecls (Code code) case.constraints usedTokenIndices
+            let code = Regex.Replace(code, regex, "semparVar")
+            let newConstraints = case.constraints |> List.map (fun constr -> 
+                let (Constr oldConstraint) = constr
+                let newConstraint = Regex.Replace(oldConstraint, regex, "semparVar")
+                Constr newConstraint
+            )
+            let newCode = genCode (Code code) newConstraints varDecls
+            { case with code = newCode; constraints = newConstraints }
         )
         { rule with cases = newCases }
     )
@@ -90,7 +102,7 @@ let replaceVars (fsy: FSY): FSY =
     { fsy with rules = newRules }
     
 let preprocess (input: FSY): FSY = 
-    input |> insertConstraints |> insertImport |> replaceVars
+    input |> insertConstraintsAndReplaceVars |> insertImport 
 
 let parse (input: string): FSY = 
     let lexbuf = LexBuffer<char>.FromString input

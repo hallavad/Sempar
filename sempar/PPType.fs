@@ -99,13 +99,13 @@ type FSY =
     
 
 let testCode = Code("test code that uses $3, $7 and $11")
-let testConstraint = Constr("test constraint that uses $2 and $5")
+let testConstraint = Constr("test constraint that uses $2, $11 and $5")
 let testTokenA = Token("tokenA")
-let testTokenB = Token("tokenB")
-let testTokenC = Token("tokenC")
+let testTokenB = Token("OtherIDToken")
+let testTokenC = Token("IDToken")
 let testRuleCase = { tokens = [testTokenA; testTokenB; testTokenC]; code = testCode; constraints = [testConstraint] }
 let testRule = { name = "test_rule"; cases = [testRuleCase] }
 let testPreaCode = PreaCode("some test preamble code\nover two lines")
-let testPreaItems = [ {name = "token"; value = "ID"}; {name = "type"; value = "<CoolType> start"} ]
+let testPreaItems = [ {name = "token"; value = "IDToken"}; { name = "token"; value = "OtherIDToken"}; {name = "type"; value = "<CoolType> start"} ]
 let testPreamble = { preaCode = testPreaCode; preaItems = testPreaItems; }
 let testFSY = { preamble = testPreamble; rules = [testRule]; }
