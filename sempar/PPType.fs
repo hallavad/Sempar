@@ -13,7 +13,7 @@ type Constraint =
     | Constr of string
         override this.ToString(): string = 
             let (Constr constr) = this
-            constr
+            $"//! {constr}\n"
         static member ListToString (cs : Constraint list) : string =
             cs |> mapToString |> concatNewlines
 
@@ -39,7 +39,7 @@ type RuleCase =
         constraints: Constraint list;
     }
     override this.ToString(): string =
-        $"//! {Constraint.ListToString this.constraints} \n| {Token.ListToString this.tokens} {{ {this.code.ToString()} }}"
+        $"{Constraint.ListToString this.constraints}| {Token.ListToString this.tokens} {this.code.ToString()}"
     
     member this.predefinedTokenIndices (usedTokens: string list): string list = 
         this.tokens 
@@ -55,7 +55,7 @@ type Rule =
         cases: RuleCase list;
     }
     override this.ToString(): string =
-        $"{this.name}:\n {this.cases |> mapToString |> concatNewlines}"
+        $"{this.name}:\n{this.cases |> mapToString |> concatNewlines}\n"
 
 type Rules = Rule list
 
@@ -71,10 +71,7 @@ type PreaCode =
     | PreaCode of string
     override this.ToString(): string =
         let (PreaCode code) = this
-        $"""%%{{
-{code}
-%%}}
-"""
+        $"%%{{\n{code}\n%%}}"
 
 type Preamble = 
     {
@@ -82,10 +79,8 @@ type Preamble =
         preaItems: PreaItem list;
     }
     override this.ToString(): string =
-        $"""{this.preaCode.ToString()}
+        $"{this.preaCode.ToString()}\n\n{concatNewlines (mapToString this.preaItems)}"
 
-{concatNewlines (mapToString this.preaItems)}
-"""
     member this.usedTokens: string list = 
         this.preaItems |> List.filter (fun i -> i.name = "token") |> List.map (fun i -> i.value)
 
@@ -95,7 +90,7 @@ type FSY =
         rules: Rule list;
     }
     override this.ToString(): string =
-        $"{this.preamble.ToString()} %%%%\n {concatNewlines (mapToString this.rules)}"
+        $"{this.preamble.ToString()}\n\n%%%%\n\n{concatNewlines (mapToString this.rules)}"
     
 
 let testCode = Code("test code that uses $3, $7 and $11")

@@ -34,7 +34,7 @@ rule read =
   | ("//!" maybeWhite)    { CONSTRAINT (read_until_newline "" lexbuf) }
   | "//"     { COMMENT }
   | "|"      { PIPE }
-  | "{"      { read_bracket "" 0 lexbuf }
+  | "{" { read_bracket "{" 0 lexbuf }
   | ":"      { COLON }
   | word { ID(lexeme lexbuf)}
   | eof      { EOF }
@@ -49,7 +49,7 @@ and read_until_newline str =
 and read_bracket str level = 
   parse
   | "{"         { read_bracket (str+(lexeme lexbuf)) (level+1) lexbuf }
-  | "}"         { if level < 1 then CODE (str) else read_bracket (str+(lexeme lexbuf)) (level-1) lexbuf}
+  | "}"         { if level < 1 then CODE (str+(lexeme lexbuf)) else read_bracket (str+(lexeme lexbuf)) (level-1) lexbuf}
   | [^ '{' '}'] { read_bracket (str+(lexeme lexbuf)) level lexbuf}
   | _           { raise (Exception (sprintf "SyntaxError: Mismatched curly braces: Line: %d Column: %d" (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column))}
 
