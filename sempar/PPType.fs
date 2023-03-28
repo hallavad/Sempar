@@ -23,26 +23,6 @@ type Code =
             let (Code code) = this 
             code
 
-        member this.GenCode (cs: Constraint list) (tokens: string list): Code =
-            let (Code code) = this
-            Code $"""
-parserType {{
-    {this.GenVariableDecls tokens}
-    {cs |> mapToString |> concatNewlines}
-    return ({code})
-}}
-"""
-
-        member private this.GenVariableDecls (predefTokens: string list): string =
-            this.UsedVariables
-                |> List.map (fun v -> 
-                    if List.contains v predefTokens then
-                        $"let semparVar{v} = ${v}"
-                    else 
-                        $"let! semparVar{v} = ${v}"
-                    ) 
-                |> concatNewlines
-
         member this.UsedVariables: string list =
             let (Code code) = this
             let mutable vars = []
@@ -56,6 +36,7 @@ parserType {{
                     includeNext <- false
                 else if startedIncluding then
                     if System.Char.IsNumber(c) then
+                        // We know that the list isn't empty here
                         let (head :: tail) = vars
                         vars <- (head + string c) :: tail
                     else 
@@ -144,7 +125,7 @@ type FSY =
     
 
 let testCode = Code("test code that uses $3, $7 and $11")
-let testConstraint = Constr("test constraint")
+let testConstraint = Constr("test constraint that uses $2 and $5")
 let testTokenA = Token("tokenA")
 let testTokenB = Token("tokenB")
 let testTokenC = Token("tokenC")
