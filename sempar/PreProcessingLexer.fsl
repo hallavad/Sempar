@@ -32,7 +32,7 @@ rule read =
   | "%%"     { DOUBLEPERCENT }
   | "%"      { read_preamble_items lexbuf }
   | ("//!" maybeWhite)    { CONSTRAINT (read_until_newline "" lexbuf) }
-  | "//"     { COMMENT }
+  | "//"     { read_until_newline "" lexbuf; read lexbuf}
   | "|"      { PIPE }
   | "{" { read_bracket "" 0 lexbuf }
   | ":"      { COLON }
