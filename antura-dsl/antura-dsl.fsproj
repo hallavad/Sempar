@@ -7,14 +7,16 @@
   <Import Project="../sempar/Sempar.targets" />
   <ItemGroup>
     <Compile Include="DataModel.fs" />
-    <Sempar Include="inputs/Parser.sfsy" />
-    <FsYacc Include="inputs/Parser.sfsy.ppfsy">
+    <Sempar Include="inputs/Parser.sfsy">
+      <OtherFlags> --outputfile inputs/AnturaParser.ppfsy</OtherFlags>
+    </Sempar>
+    <FsYacc Include="inputs/AnturaParser.ppfsy">
       <OtherFlags>--module Parser</OtherFlags>
     </FsYacc>
     <FsLex Include="inputs/Lexer.fsl">
       <OtherFlags> --unicode</OtherFlags>
     </FsLex>
-    <Compile Include="Parser.sfsy.fs" />
+    <Compile Include="AnturaParser.fs" />
     <Compile Include="Lexer.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

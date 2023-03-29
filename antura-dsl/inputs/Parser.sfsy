@@ -1,5 +1,10 @@
 %{
 open DataModel 
+
+let debug_print x = 
+  printfn "" 
+  x
+
 %}
 
 %start start
@@ -32,7 +37,7 @@ start:
   | rule_list { { precision = None; rules = $1 } }
 
 precision: 
-//! errorUnless "Precision must be positive" ($2 >= 1) 
+//! errorUnless "Precision must be positive" ($2 >= 1); printfn "here: %A" x; x
   | PRECISION INT { $2 }
 
 rule_list: 

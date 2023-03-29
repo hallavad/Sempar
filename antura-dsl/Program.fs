@@ -8,6 +8,7 @@ open ParserType
 let parse (input: string): DataModel.Rules = 
     let lexbuf = LexBuffer<char>.FromString input
     let res = Parser.start Lexer.read lexbuf
+    printfn "Wrapped result: %A" res
     match res with 
     | OK r -> r
     | Warnings (r, ws) -> printfn "%A" ws; r
@@ -18,6 +19,6 @@ let parse (input: string): DataModel.Rules =
 let main argv =
     let contents = File.ReadAllLines "example/input.txt" |> String.concat "\n" 
     let parseResult = contents |> parse 
-    printfn "%A" parseResult
+    printfn "Result: %A" parseResult
 
     0

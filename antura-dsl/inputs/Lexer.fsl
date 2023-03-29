@@ -24,7 +24,8 @@ let digit = ['0'-'9']
 let white = [' ' '\t']+
 let newline = '\r' | '\n' | "\r\n"
 
-let word = ['a'-'z' 'A'-'Z' 'å' 'ä' 'ö' 'Å' 'Ä' 'Ö' '_' '-']+
+let aao = ['å' 'ä' 'ö' 'Å' 'Ä' 'Ö']
+let word = (['a'-'z' 'A'-'Z'  '_' '-'] | aao)+
 
 rule read =
   parse
@@ -82,5 +83,5 @@ and read_string str ignorequote =
   parse
   | '"'           { if ignorequote  then (read_string (str+"\\\"") false lexbuf) else STRING (str) }
   | '\\'          { read_string str true lexbuf }
-  | [^ '"' '\\']+ { read_string (str+(lexeme lexbuf)) false lexbuf }
+  | ([^ '"' '\\'] | aao)+ { read_string (str+(lexeme lexbuf)) false lexbuf }
   | eof           { raise (Exception ("String is not terminated")) }
