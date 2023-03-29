@@ -55,9 +55,8 @@ and read_bracket str level =
 
 and read_preamble_code str =
   parse
-  | (newline+ "%}" )        { PREACODE (str) }
-  | [^ '%']     { read_preamble_code (str+(lexeme lexbuf)) lexbuf}
-  | _           { raise (Exception (sprintf "SyntaxError: Mismatched curly braces: Line: %d Column: %d" (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column))}
+  | (newline+ "%}" ) { PREACODE (str) }
+  | _                { read_preamble_code (str+(lexeme lexbuf)) lexbuf}
 
 and read_preamble_items = 
   parse
