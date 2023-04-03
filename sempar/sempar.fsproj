@@ -7,7 +7,7 @@
     <Compile Include="DataModel.fs" />
     <Compile Include="HelperFunctions.fs" />
     <Compile Include="ParserType.fs" />
-    <Compile Include="Diagnostics.fs" />
+    <Compile Include="PPType.fs" />
     <FsYacc Include="PreProcessingParser.fsy">
       <OtherFlags>--module PreProcessingParser</OtherFlags>
     </FsYacc>

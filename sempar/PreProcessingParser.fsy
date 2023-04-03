@@ -1,5 +1,5 @@
 %{
-open Diagnostics
+open PPType
 %}
 
 %start start 
@@ -17,7 +17,7 @@ open Diagnostics
 %token EOF
 %token <string * string> PREAITEM
 
-%type <Diagnostics.FSY> start
+%type <PPType.FSY> start
 
 %%
 

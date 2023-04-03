@@ -1,4 +1,4 @@
-module Diagnostics
+module PPType
 
 let mapToString (os : 'a list) : string list = 
     List.map (fun x -> x.ToString()) os
