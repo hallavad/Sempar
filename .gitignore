@@ -261,3 +261,8 @@ paket-files/
 
 # Coverage Report
 MyProject_coverage.xml
+
+# Other files, added by VSCode
+sempar/PreProcessingLexer.fs
+sempar/PreProcessingParser.fsi
+sempar/PreProcessingParser.fs

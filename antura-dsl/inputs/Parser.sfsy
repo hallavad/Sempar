@@ -2,7 +2,7 @@
 open DataModel 
 
 let debug_print x = 
-  printfn "" 
+  printfn "%A" x
   x
 
 %}
@@ -37,7 +37,7 @@ start:
   | rule_list { { precision = None; rules = $1 } }
 
 precision: 
-//! errorUnless "Precision must be positive" ($2 >= 1); printfn "here: %A" x; x
+//! errorUnless "Precision must be positive" ($2 >= 1)
   | PRECISION INT { $2 }
 
 rule_list: 
@@ -74,7 +74,6 @@ transformations:
   | TRANSFORMATION ID { Some $2 }
 
 destination: 
-//! // warnUnless "Destination should probably start with \"Start\"" ($2.StartsWith("Start"))
   | DESTINATION property { $2 }
 
 property: 

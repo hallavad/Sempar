@@ -69,6 +69,7 @@ let insertConstraintsAndReplaceVars (fsy: FSY): FSY =
             let code = Regex.Replace(code, regex, "semparVar")
             let newConstraints = constraints |> List.map (fun (Constr constr) -> 
                 let newConstraint = Regex.Replace(constr, regex, "semparVar")
+                let newConstraint = "do! " + newConstraint
                 Constr newConstraint
             )
             let newCode = genCode (Code code) newConstraints varDecls

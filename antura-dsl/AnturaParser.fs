@@ -8,7 +8,7 @@ open FSharp.Text.Parsing.ParseHelpers
 open DataModel 
 
 let debug_print x = 
-  printfn "" 
+  printfn "%A" x
   x
 open ParserType
 
@@ -251,7 +251,7 @@ let _fsyacc_reductions = lazy [|
 # 48 "inputs/AnturaParser.ppfsy"
                                       parserType {
                        let semparVar2 = _2
-                       errorUnless "Precision must be positive" (semparVar2 >= 1); printfn "here: %A" x; x
+                       do! errorUnless "Precision must be positive" (semparVar2 >= 1)
                        return ( semparVar2 )
                      }
                    )
@@ -464,7 +464,7 @@ let _fsyacc_reductions = lazy [|
                        let semparVar3 = _3
                        let semparVar5 = _5
                        let semparVar7 = _7
-                       errorUnless "Tasks must be certain values" (semparVar7 = "StartDate" || semparVar7 = "EndDate" || semparVar7 = "Property")
+                       do! errorUnless "Tasks must be certain values" (semparVar7 = "StartDate" || semparVar7 = "EndDate" || semparVar7 = "Property")
                        return ( (semparVar3, semparVar5, semparVar7) )
                      }
                    )
@@ -491,14 +491,14 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 158 "inputs/AnturaParser.ppfsy"
+# 157 "inputs/AnturaParser.ppfsy"
                                              parserType {
                        let! semparVar2 = _2
-                       // warnUnless "Destination should probably start with \"Start\"" (semparVar2.StartsWith("Start"))
+                       
                        return ( semparVar2 )
                      }
                    )
-# 158 "inputs/AnturaParser.ppfsy"
+# 157 "inputs/AnturaParser.ppfsy"
                  : 'gentype_destination));
 # 503 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
@@ -506,14 +506,14 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 165 "inputs/AnturaParser.ppfsy"
+# 164 "inputs/AnturaParser.ppfsy"
                                             parserType {
                        let semparVar2 = _2
                        
                        return ( Property semparVar2 )
                      }
                    )
-# 165 "inputs/AnturaParser.ppfsy"
+# 164 "inputs/AnturaParser.ppfsy"
                  : 'gentype_property));
 |]
 # 519 "AnturaParser.fs"

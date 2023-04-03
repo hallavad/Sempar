@@ -20,13 +20,13 @@ let (<|>) (pt1: ParserType<'a>) (pt2: ParserType<'b>) : ParserType<'b> =
     | Warnings (a, ws) -> 
         match pt2 with
         | OK b -> Warnings (b, ws)
-        | Warnings (b, ws') -> Warnings (b, List.append ws ws')
+        | Warnings (b, ws') -> Warnings (b, ws @ ws')
         | Errors es -> Errors es
     | Errors es -> 
         match pt2 with 
         | OK b -> Errors es
         | Warnings (b, ws) -> Errors es
-        | Errors es2 -> Errors (List.append es es2) // Questionable if we should append here, not the same behaviour as Bind 
+        | Errors es2 -> Errors (es @ es2) // Questionable if we should append here, not the same behaviour as Bind 
 
 type ParserTypeBuilder() =
     member this.Delay(f: unit -> ParserType<'a>): ParserType<'a> =
@@ -38,7 +38,7 @@ type ParserTypeBuilder() =
         | Warnings (a, ws) -> 
             match f a with
             | OK b -> Warnings (b, ws)
-            | Warnings (b, ws') -> Warnings (b, List.append ws ws')
+            | Warnings (b, ws') -> Warnings (b, ws @ ws')
             | Errors es -> Errors es
         | Errors es -> Errors es
 
@@ -58,13 +58,19 @@ type ParserTypeBuilder() =
         | Warnings (a, ws) -> 
             match y with 
             | OK b -> Warnings ((a, b), ws)
-            | Warnings (b, ws') -> Warnings ((a, b), List.append ws ws')
+            | Warnings (b, ws') -> Warnings ((a, b), ws @ ws')
             | Errors es -> Errors es
         | Errors es -> 
             match y with
             | OK b -> Errors es
             | Warnings (b, ws) -> Errors es
-            | Errors es' -> Errors (List.append es es')
+            | Errors es' -> Errors (es @ es')
+    
+    member this.ReturnFrom(x: ParserType<'a>): ParserType<'a> =
+        x
+
+    member this.Zero(() : unit): ParserType<'a> = 
+        Errors ["Zero called, shouldn't be!"]
 
 let parserType = new ParserTypeBuilder()
 
@@ -76,8 +82,8 @@ let errorWhen (e: Error) (c: bool): ParserType<unit> = if c then OK () else erro
 let errorUnless (e: Error) (c: bool): ParserType<unit> = if not c then OK () else error e
 
 let x = parserType {
-    let! x = OK 1
-    errorWhen "sadasd" false
+    let! x = OK 1 
+    do! warnWhen "sadasd" false
     return x
 }
 
