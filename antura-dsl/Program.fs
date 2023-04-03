@@ -3,7 +3,7 @@
 open System.IO
 open FSharp.Text.Lexing
 
-open ParserType
+open Diagnostics
 
 let parse (input: string): DataModel.Rules = 
     let lexbuf = LexBuffer<char>.FromString input
@@ -18,6 +18,7 @@ let parse (input: string): DataModel.Rules =
 [<EntryPoint>]
 let main argv =
     let contents = File.ReadAllLines "example/input.txt" |> String.concat "\n" 
+    printfn "File: %A" contents
     let parseResult = contents |> parse 
     printfn "Result: %A" parseResult
 

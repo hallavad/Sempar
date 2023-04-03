@@ -47,7 +47,7 @@ let genVariableDecls (Code code: Code) (constrs: Constraint list) (predefTokens:
         |> concatNewlines
         
 let genCode (code: Code) (cs: Constraint list) (varDecls: string): Code =
-    Code $"""parserType {{
+    Code $"""sempar {{
 {varDecls}
   {cs |> List.map (fun (Constr c) -> c) |> concatNewlines}
   return ({code})
@@ -81,7 +81,7 @@ let insertConstraintsAndReplaceVars (fsy: FSY): FSY =
 
 let insertImport (fsy: FSY): FSY =
     let (PreaCode code) = fsy.preamble.preaCode
-    let newPreaCode = PreaCode(code + "\nopen ParserType")
+    let newPreaCode = PreaCode(code + "\nopen Diagnostics")
     let newPreamble = { fsy.preamble with preaCode = newPreaCode }
     { fsy with preamble = newPreamble }
 

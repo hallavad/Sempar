@@ -10,7 +10,7 @@ open DataModel
 let debug_print x = 
   printfn "%A" x
   x
-open ParserType
+open Diagnostics
 
 # 15 "AnturaParser.fs"
 // This type is the type of tokens accepted by the parser
@@ -203,7 +203,7 @@ let _fsyacc_immediateActions = [|65535us;49152us;65535us;16385us;16386us;65535us
 let _fsyacc_reductions = lazy [|
 # 204 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
-            let _1 = parseState.GetInput(1) :?> ParserType<DataModel.Rules> in
+            let _1 = parseState.GetInput(1) :?> Diagnostics<DataModel.Rules> in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
@@ -218,7 +218,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 34 "inputs/AnturaParser.ppfsy"
-                                            parserType {
+                                            sempar {
                        let! semparVar1 = _1
                        let! semparVar2 = _2
                        
@@ -226,7 +226,7 @@ let _fsyacc_reductions = lazy [|
                      }
                    )
 # 34 "inputs/AnturaParser.ppfsy"
-                 : ParserType<DataModel.Rules>));
+                 : Diagnostics<DataModel.Rules>));
 # 230 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> 'gentype_rule_list in
@@ -234,14 +234,14 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 40 "inputs/AnturaParser.ppfsy"
-                                  parserType {
+                                  sempar {
                        let! semparVar1 = _1
                        
                        return ( { precision = None; rules = semparVar1 } )
                      }
                    )
 # 40 "inputs/AnturaParser.ppfsy"
-                 : ParserType<DataModel.Rules>));
+                 : Diagnostics<DataModel.Rules>));
 # 245 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> int in
@@ -249,9 +249,9 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 48 "inputs/AnturaParser.ppfsy"
-                                      parserType {
+                                      sempar {
                        let semparVar2 = _2
-                       do! errorUnless "Precision must be positive" (semparVar2 >= 1)
+                       do! errorWhen "Precision must be positive" (semparVar2 <= 0)
                        return ( semparVar2 )
                      }
                    )
@@ -263,7 +263,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 55 "inputs/AnturaParser.ppfsy"
-                         parserType {
+                         sempar {
                        
                        return ( [] )
                      }
@@ -278,7 +278,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 60 "inputs/AnturaParser.ppfsy"
-                                       parserType {
+                                       sempar {
                        let! semparVar1 = _1
                        let! semparVar2 = _2
                        
@@ -297,7 +297,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 68 "inputs/AnturaParser.ppfsy"
-                                                                             parserType {
+                                                                             sempar {
                        let! semparVar3 = _3
                        let! semparVar4 = _4
                        let! semparVar5 = _5
@@ -319,7 +319,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 76 "inputs/AnturaParser.ppfsy"
-                                                                                       parserType {
+                                                                                       sempar {
                        let! semparVar2 = _2
                        let! semparVar4 = _4
                        let! semparVar5 = _5
@@ -337,7 +337,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 87 "inputs/AnturaParser.ppfsy"
-                         parserType {
+                         sempar {
                        
                        return ( "" )
                      }
@@ -352,7 +352,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 92 "inputs/AnturaParser.ppfsy"
-                                     parserType {
+                                     sempar {
                        let semparVar1 = _1
                        let! semparVar2 = _2
                        
@@ -368,7 +368,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 100 "inputs/AnturaParser.ppfsy"
-                                                parserType {
+                                                sempar {
                        let! semparVar2 = _2
                        
                        return ( semparVar2 )
@@ -382,7 +382,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 107 "inputs/AnturaParser.ppfsy"
-                         parserType {
+                         sempar {
                        
                        return ( [] )
                      }
@@ -397,7 +397,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 112 "inputs/AnturaParser.ppfsy"
-                                         parserType {
+                                         sempar {
                        let semparVar1 = _1
                        let! semparVar2 = _2
                        
@@ -413,7 +413,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 120 "inputs/AnturaParser.ppfsy"
-                                            parserType {
+                                            sempar {
                        let! semparVar2 = _2
                        
                        return ( semparVar2 )
@@ -427,7 +427,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 127 "inputs/AnturaParser.ppfsy"
-                         parserType {
+                         sempar {
                        
                        return ( [] )
                      }
@@ -442,7 +442,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 132 "inputs/AnturaParser.ppfsy"
-                                           parserType {
+                                           sempar {
                        let! semparVar1 = _1
                        let! semparVar2 = _2
                        
@@ -460,7 +460,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 141 "inputs/AnturaParser.ppfsy"
-                                                     parserType {
+                                                     sempar {
                        let semparVar3 = _3
                        let semparVar5 = _5
                        let semparVar7 = _7
@@ -477,7 +477,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 150 "inputs/AnturaParser.ppfsy"
-                                          parserType {
+                                          sempar {
                        let semparVar2 = _2
                        
                        return ( Some semparVar2 )
@@ -492,7 +492,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 157 "inputs/AnturaParser.ppfsy"
-                                             parserType {
+                                             sempar {
                        let! semparVar2 = _2
                        
                        return ( semparVar2 )
@@ -507,7 +507,7 @@ let _fsyacc_reductions = lazy [|
                 (
                    (
 # 164 "inputs/AnturaParser.ppfsy"
-                                            parserType {
+                                            sempar {
                        let semparVar2 = _2
                        
                        return ( Property semparVar2 )
@@ -538,5 +538,5 @@ let tables : FSharp.Text.Parsing.Tables<_> =
     numTerminals = 21;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = tables.Interpret(lexer, lexbuf, startState)
-let start lexer lexbuf : ParserType<DataModel.Rules> =
+let start lexer lexbuf : Diagnostics<DataModel.Rules> =
     engine lexer lexbuf 0 :?> _

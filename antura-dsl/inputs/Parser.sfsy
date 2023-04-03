@@ -28,7 +28,7 @@ let debug_print x =
 %token WHEN
 %token EOF
 
-%type <ParserType<DataModel.Rules>> start
+%type <Diagnostics<DataModel.Rules>> start
 
 %%
 
@@ -37,7 +37,7 @@ start:
   | rule_list { { precision = None; rules = $1 } }
 
 precision: 
-//! errorUnless "Precision must be positive" ($2 >= 1)
+//! errorWhen "Precision must be positive" ($2 <= 0)
   | PRECISION INT { $2 }
 
 rule_list: 
