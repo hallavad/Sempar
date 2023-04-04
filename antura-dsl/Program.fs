@@ -20,6 +20,8 @@ let main argv =
     let contents = File.ReadAllLines "example/input.txt" |> String.concat "\n" 
     printfn "File: %A" contents
     let parseResult = contents |> parse 
-    printfn "Result: %A" parseResult
+    printfn "parseResult: %A" parseResult
+    let transformResult = parseResult |> Transform.transform 
+    printfn "transformResult: %A" transformResult
 
     0
