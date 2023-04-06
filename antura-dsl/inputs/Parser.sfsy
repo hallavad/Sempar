@@ -1,10 +1,6 @@
 %{
 open DataModel 
 
-let debug_print x = 
-  printfn "%A" x
-  x
-
 %}
 
 %start start

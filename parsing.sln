@@ -9,6 +9,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "anutra-dsl", "antura-dsl\an
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "Tests\Tests.fsproj", "{677A3E5D-F98C-42EA-BCF2-155C978A4213}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "simplify-arith", "simplify-arith\simplify-arith.fsproj", "{C3B8EDF8-9FBB-475D-B684-F9A35673E0A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{677A3E5D-F98C-42EA-BCF2-155C978A4213}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{677A3E5D-F98C-42EA-BCF2-155C978A4213}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{677A3E5D-F98C-42EA-BCF2-155C978A4213}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3B8EDF8-9FBB-475D-B684-F9A35673E0A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3B8EDF8-9FBB-475D-B684-F9A35673E0A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3B8EDF8-9FBB-475D-B684-F9A35673E0A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3B8EDF8-9FBB-475D-B684-F9A35673E0A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

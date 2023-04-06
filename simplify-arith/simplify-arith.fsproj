@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>simplify_arith</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="../sempar/Sempar.targets" />
+  <ItemGroup>
+    <Sempar Include="inputs/Parser.sfsy">
+      <OtherFlags> --outputfile inputs/AnturaParser.ppfsy</OtherFlags>
+    </Sempar>
+    <FsYacc Include="inputs/ArithParser.ppfsy">
+      <OtherFlags>--module Parser</OtherFlags>
+    </FsYacc>
+    <FsLex Include="inputs/Lexer.fsl">
+      <OtherFlags> --unicode</OtherFlags>
+    </FsLex>
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\sempar\sempar.fsproj" />
+  </ItemGroup>
+</Project>
