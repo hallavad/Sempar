@@ -5,10 +5,20 @@ rule Sätt automatiskt produktionsstart:
 		"Göteborg - 2 Mindre projekt mellan 100tkr -625tkr"
 		"Göteborg - 3 Standard projekt över 625 tkr"
 	sources:
-		task 
-			when Referens = genomför 
-			get StartDate
+		from task where Referens = genomför get StartDate
 	transformation:
 	 	none
 	destination:
 		project property Produktionsstart
+
+rule Hämta datum från bp 2:
+	project types:
+		"Göteborg - 1 Små projekt under 100 tkr"
+		"Göteborg - 2 Mindre projekt mellan 100tkr -625tkr"
+		"Göteborg - 3 Standard projekt över 625 tkr"
+	sources: 
+		from decision point 2 get Date
+	transformation:
+		none
+	destination:
+		project property Status 

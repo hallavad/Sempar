@@ -64,7 +64,8 @@ source_list:
 
 source: 
 //! errorUnless "Tasks must be certain values" ($7 = "StartDate" || $7 = "EndDate" || $7 = "Property") 
-  | TASK WHEN ID EQUAL ID GET ID { ($3, $5, $7) }
+  | FROM_TASK_WHERE ID EQUAL ID GET ID { Task ($3, $5, $7) }
+  | FROM_DECISION_POINT INT GET ID { DecisionPoint ($2, $4) }
 
 transformations: 
   | TRANSFORMATION ID { Some $2 }

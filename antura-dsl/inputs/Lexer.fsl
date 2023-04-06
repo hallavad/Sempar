@@ -70,9 +70,8 @@ rule read =
   | "transformation:" { TRANSFORMATION }
   | "destination:" { DESTINATION }
   | "precision" { PRECISION }
-  | "task" { TASK }
+  | "from task where " { FROM_TASK_WHERE }
   | "project property" { PROJECT_PROPERTY }
-  | "when" { WHEN }
   | "get" { GET }
   | word { ID(lexeme lexbuf)}
   | eof      { EOF }
