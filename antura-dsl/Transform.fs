@@ -132,12 +132,6 @@ type TransformedSource =
             | NumericProjectProperty np -> TransformedSourceNumericProjectProperty.ToJson np
     }
 
-    static member ToJson (x:TransformedSource) = json {
-        do! Json.write "kind" x.kind
-        do! Json.write "findTaskBy" x.findTaskBy
-        do! Json.write "taskSourceValue" x.taskSourceValue
-    }
-
 type TransformedTypesMultiple = 
     {
         kind: string;
@@ -203,7 +197,7 @@ let transformTransformation (trans: DataModel.Transformation option): Transforme
         }
     | Some(trans) -> 
         Arith { 
-            kind = "Arithmetic";
+            kind = "ArithmeticOperation";
             value = trans
         }
 

@@ -9,8 +9,6 @@ open DataModel
 %token <string> STRING
 %token <string> ID
 %token COLON
-%token COMMA
-%token DOT
 %token EQUAL 
 %token PROJECT_TYPES
 %token RULE
@@ -19,6 +17,9 @@ open DataModel
 %token DESTINATION
 %token PRECISION
 %token PROJECT_PROPERTY
+%token FROM_TASK_WHERE
+%token FROM_DECISION_POINT
+%token FROM_NUMERIC_PROPERTY
 %token TASK
 %token GET
 %token WHEN
@@ -63,12 +64,13 @@ source_list:
   | source source_list { $1 :: $2 }
 
 source: 
-//! errorUnless "Tasks must be certain values" ($7 = "StartDate" || $7 = "EndDate" || $7 = "Property") 
-  | FROM_TASK_WHERE ID EQUAL ID GET ID { Task ($3, $5, $7) }
+//! errorUnless "Tasks must be certain values" ($6 = "StartDate" || $6 = "EndDate" || $6 = "Property") 
+  | FROM_TASK_WHERE ID EQUAL ID GET ID { Task ($2, $4, $6) }
   | FROM_DECISION_POINT INT GET ID { DecisionPoint ($2, $4) }
+  | FROM_NUMERIC_PROPERTY ID GET ID { NumericProjectProperty ($2, $4) }
 
 transformations: 
-  | TRANSFORMATION ID { Some $2 }
+  | TRANSFORMATION ID { match $2 with | "none" -> None | s -> Some s }
 
 destination: 
   | DESTINATION property { $2 }

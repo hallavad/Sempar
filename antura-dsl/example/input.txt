@@ -11,7 +11,7 @@ rule Sätt automatiskt produktionsstart:
 	destination:
 		project property Produktionsstart
 
-rule Hämta datum från bp 2:
+rule Hämta datum från bp:
 	project types:
 		"Göteborg - 1 Små projekt under 100 tkr"
 		"Göteborg - 2 Mindre projekt mellan 100tkr -625tkr"
@@ -21,4 +21,16 @@ rule Hämta datum från bp 2:
 	transformation:
 		none
 	destination:
-		project property Status 
+		project property Status
+
+rule Hämta numeric property:
+	project types:
+		"Göteborg - 1 Små projekt under 100 tkr"
+		"Göteborg - 2 Mindre projekt mellan 100tkr -625tkr"
+		"Göteborg - 3 Standard projekt över 625 tkr"
+	sources: 
+		from numeric property XXXX get XXX 
+	transformation:
+		none
+	destination:
+		project property Status

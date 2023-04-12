@@ -32,38 +32,9 @@ rule read =
   | white    { read lexbuf }
   | newline  { newline lexbuf; read lexbuf }
   | int      { INT (int (lexeme lexbuf)) }
-//  | float    { FLOAT (float (lexeme lexbuf)) }
-//  | "true"   { TRUE }
-//  | "false"  { FALSE }
-//  | "null"   { NULL }
   | '"'      { read_string "" false lexbuf } 
-//  | '{'      { LEFT_BRACE }
-//  | '}'      { RIGHT_BRACE }
-//  | '['      { LEFT_BRACK }
-//  | ']'      { RIGHT_BRACK }
-//  | '('      { LEFT_PAR }
-//  | ')'      { RIGHT_PAR }
   | ':'      { COLON }
-//  | ';'      { SEMICOLON }
-  | ','      { COMMA }
-//  | '.'      { DOT }
   | '='      { EQUAL}
-//  | '<'      { LESS }
-//  | '>'      { GREATER }
-//  | '%'      { PERCENT }
-//  | '#'      { HASH }
-//  | '@'      { AT }
-//  | '?'      { QUESTION }
-//  | '$'      { DOLLAR }
-//  | '&'      { AMPERSAND }
-//  | '^'      { CARET }
-//  | '*'      { STAR }
-//  | '!'      { EXCLAMATION }
-//  | '/'      { SLASH }
-//  | '\'      { BACKSLASH }
-//  | '+'      { PLUS }
-//  | '-'      { MINUS }
-//  | '_'      { UNDERSCORE }
   | "project types:" { PROJECT_TYPES }
   | "rule"   { RULE }
   | "sources:" { SOURCES }
@@ -71,6 +42,8 @@ rule read =
   | "destination:" { DESTINATION }
   | "precision" { PRECISION }
   | "from task where " { FROM_TASK_WHERE }
+  | "from decision point" { FROM_DECISION_POINT }
+  | "from numeric property" { FROM_NUMERIC_PROPERTY }
   | "project property" { PROJECT_PROPERTY }
   | "get" { GET }
   | word { ID(lexeme lexbuf)}
