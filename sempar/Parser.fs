@@ -102,11 +102,26 @@ let replaceVars (fsy: FSY): FSY =
         { rule with cases = newCases }
     )
     { fsy with rules = newRules }
-    
+
+let updateExportType (fsy: FSY): FSY =
+    let newPreaItems = fsy.preamble.preaItems |> List.map (
+        fun {name = name; value = value} -> 
+            printf "%A" value
+            match name with
+                | "type" ->  
+                    let rulename = value[1]
+                    let outputType = "<Diagnostics" + value[0] + ">"
+                    {name = name; value = [outputType; rulename]}  
+                | _ -> 
+                    {name = name; value = value}
+    ) 
+    { preamble = {  preaCode = fsy.preamble.preaCode; preaItems = newPreaItems }; rules = fsy.rules} 
+        
 let preprocess (input: FSY): FSY = 
-    input |> insertConstraintsAndReplaceVars |> insertImport 
+    input |> insertConstraintsAndReplaceVars |> insertImport |> updateExportType
 
 let parse (input: string): FSY = 
     let lexbuf = LexBuffer<char>.FromString input
     let FSY = PreProcessingParser.start PreProcessingLexer.read lexbuf
+    printf "%A" FSY
     FSY
