@@ -8,14 +8,14 @@ open Diagnostics
 %token <string> VAR
 %token PLUS MINUS TIMES DIV LPAR RPAR EOF
 %left PLUS MINUS TIMES DIV
-%type <Diagnostics<Arith>> expr
+%type <Diagnostics<Diagnostics<Arith>>> expr
 
 %%
 
 expr:
 | LPAR expr RPAR {sempar {
   let! semparVar2 = $2
-
+  
   return ( semparVar2 )
 }}
 //! do! warnWhen "Are you sure that you want to multiply by 0? It will be simplified." (semparVar3 = Num 0)
@@ -25,7 +25,7 @@ expr:
   let! semparVar1 = $1
   let! semparVar3 = $3
   do! warnWhen "Are you sure that you want to multiply by 0? It will be simplified." (semparVar3 = Num 0)
-  do! warnWhen "Are you sure that you want to multiply by 1? It will be simplified." (semparVar3 = Num 1)
+do! warnWhen "Are you sure that you want to multiply by 1? It will be simplified." (semparVar3 = Num 1)
   return ( Mul (semparVar1, semparVar3) )
 }}
 //! do! errorWhen "Are you sure that you want to divide by 0? It will not work." (semparVar3 = Num 0)
@@ -35,7 +35,7 @@ expr:
   let! semparVar1 = $1
   let! semparVar3 = $3
   do! errorWhen "Are you sure that you want to divide by 0? It will not work." (semparVar3 = Num 0)
-  do! warnWhen "Are you sure that you want to divide by 1? It will be simplified." (semparVar3 = Num 1)
+do! warnWhen "Are you sure that you want to divide by 1? It will be simplified." (semparVar3 = Num 1)
   return ( Div (semparVar1, semparVar3) )
 }}
 //! do! warnWhen "Are you sure that you want to add 0? It will be simplified." (semparVar3 = Num 0)
@@ -54,11 +54,11 @@ expr:
 }}
 | NUM {sempar {
   let semparVar1 = $1
-
+  
   return ( Num semparVar1 )
 }}
 | VAR {sempar {
   let semparVar1 = $1
-
+  
   return ( Var semparVar1 )
 }}
