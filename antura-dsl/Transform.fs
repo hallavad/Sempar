@@ -165,12 +165,17 @@ type TransformedTypes =
 
 type TransformedRule = 
     {
+        name: string option
         validFor: TransformedTypes; 
         valueSource: TransformedSource list;
         transformation: TransformedTransformation;
         destination: TransformedDestination
     }
     static member ToJson (x: TransformedRule) = json {
+        match x.name with
+        | Some n -> do! Json.write "_name" x.name
+        | None -> failwith "Not Implemented"
+
         do! Json.write "validFor" x.validFor
         do! Json.write "valueSource" x.valueSource
         do! Json.write "transformation" x.transformation
@@ -258,6 +263,7 @@ let transformRule (rule: DataModel.Rule): TransformedRule =
             }
     
     {
+        name = rule.name
         validFor = TransformedType;
         valueSource =  List.map transformSource rule.sources
         transformation = transformTransformation rule.transformation
