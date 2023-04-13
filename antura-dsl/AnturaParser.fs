@@ -6,13 +6,9 @@ open FSharp.Text.Parsing.ParseHelpers
 # 1 "inputs/AnturaParser.ppfsy"
 
 open DataModel 
-
-let debug_print x = 
-  printfn "%A" x
-  x
 open Diagnostics
 
-# 15 "AnturaParser.fs"
+# 11 "AnturaParser.fs"
 // This type is the type of tokens accepted by the parser
 type token = 
   | EOF
@@ -201,7 +197,7 @@ let _fsyacc_reductionSymbolCounts = [|1us;2us;1us;2us;0us;2us;6us;7us;0us;2us;2u
 let _fsyacc_productionToNonTerminalTable = [|0us;1us;1us;2us;3us;3us;4us;4us;5us;5us;6us;7us;7us;8us;9us;9us;10us;11us;12us;13us;|]
 let _fsyacc_immediateActions = [|65535us;49152us;65535us;16385us;16386us;65535us;16387us;65535us;16389us;65535us;65535us;65535us;65535us;65535us;16390us;65535us;65535us;65535us;65535us;65535us;16391us;65535us;16393us;65535us;16394us;65535us;16396us;65535us;16397us;65535us;16399us;65535us;65535us;65535us;65535us;65535us;65535us;16400us;65535us;16401us;65535us;16402us;65535us;16403us;|]
 let _fsyacc_reductions = lazy [|
-# 204 "AnturaParser.fs"
+# 200 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> Diagnostics<DataModel.Rules> in
             Microsoft.FSharp.Core.Operators.box
@@ -210,14 +206,14 @@ let _fsyacc_reductions = lazy [|
                       raise (FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
                  : 'gentype__startstart));
-# 213 "AnturaParser.fs"
+# 209 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> 'gentype_precision in
             let _2 = parseState.GetInput(2) :?> 'gentype_rule_list in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 34 "inputs/AnturaParser.ppfsy"
+# 30 "inputs/AnturaParser.ppfsy"
                                             sempar {
                        let! semparVar1 = _1
                        let! semparVar2 = _2
@@ -225,59 +221,59 @@ let _fsyacc_reductions = lazy [|
                        return ( { precision = Some semparVar1; rules = semparVar2 } )
                      }
                    )
-# 34 "inputs/AnturaParser.ppfsy"
+# 30 "inputs/AnturaParser.ppfsy"
                  : Diagnostics<DataModel.Rules>));
-# 230 "AnturaParser.fs"
+# 226 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> 'gentype_rule_list in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 40 "inputs/AnturaParser.ppfsy"
+# 36 "inputs/AnturaParser.ppfsy"
                                   sempar {
                        let! semparVar1 = _1
                        
                        return ( { precision = None; rules = semparVar1 } )
                      }
                    )
-# 40 "inputs/AnturaParser.ppfsy"
+# 36 "inputs/AnturaParser.ppfsy"
                  : Diagnostics<DataModel.Rules>));
-# 245 "AnturaParser.fs"
+# 241 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> int in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 48 "inputs/AnturaParser.ppfsy"
+# 44 "inputs/AnturaParser.ppfsy"
                                       sempar {
                        let semparVar2 = _2
                        do! errorWhen "Precision must be positive" (semparVar2 <= 0)
                        return ( semparVar2 )
                      }
                    )
-# 48 "inputs/AnturaParser.ppfsy"
+# 44 "inputs/AnturaParser.ppfsy"
                  : 'gentype_precision));
-# 260 "AnturaParser.fs"
+# 256 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 55 "inputs/AnturaParser.ppfsy"
+# 51 "inputs/AnturaParser.ppfsy"
                          sempar {
                        
                        return ( [] )
                      }
                    )
-# 55 "inputs/AnturaParser.ppfsy"
+# 51 "inputs/AnturaParser.ppfsy"
                  : 'gentype_rule_list));
-# 273 "AnturaParser.fs"
+# 269 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> 'gentype_rule in
             let _2 = parseState.GetInput(2) :?> 'gentype_rule_list in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 60 "inputs/AnturaParser.ppfsy"
+# 56 "inputs/AnturaParser.ppfsy"
                                        sempar {
                        let! semparVar1 = _1
                        let! semparVar2 = _2
@@ -285,9 +281,9 @@ let _fsyacc_reductions = lazy [|
                        return ( semparVar1 :: semparVar2 )
                      }
                    )
-# 60 "inputs/AnturaParser.ppfsy"
+# 56 "inputs/AnturaParser.ppfsy"
                  : 'gentype_rule_list));
-# 290 "AnturaParser.fs"
+# 286 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _3 = parseState.GetInput(3) :?> 'gentype_types in
             let _4 = parseState.GetInput(4) :?> 'gentype_sources in
@@ -296,7 +292,7 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 68 "inputs/AnturaParser.ppfsy"
+# 64 "inputs/AnturaParser.ppfsy"
                                                                              sempar {
                        let! semparVar3 = _3
                        let! semparVar4 = _4
@@ -306,9 +302,9 @@ let _fsyacc_reductions = lazy [|
                        return ( {name = None; types = semparVar3; sources = semparVar4; transformation = semparVar5; destination = semparVar6} )
                      }
                    )
-# 68 "inputs/AnturaParser.ppfsy"
+# 64 "inputs/AnturaParser.ppfsy"
                  : 'gentype_rule));
-# 311 "AnturaParser.fs"
+# 307 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> 'gentype_rule_name in
             let _4 = parseState.GetInput(4) :?> 'gentype_types in
@@ -318,7 +314,7 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 76 "inputs/AnturaParser.ppfsy"
+# 72 "inputs/AnturaParser.ppfsy"
                                                                                        sempar {
                        let! semparVar2 = _2
                        let! semparVar4 = _4
@@ -329,29 +325,29 @@ let _fsyacc_reductions = lazy [|
                        return ( {name = Some semparVar2; types = semparVar4; sources = semparVar5; transformation = semparVar6; destination = semparVar7} )
                      }
                    )
-# 76 "inputs/AnturaParser.ppfsy"
+# 72 "inputs/AnturaParser.ppfsy"
                  : 'gentype_rule));
-# 334 "AnturaParser.fs"
+# 330 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 87 "inputs/AnturaParser.ppfsy"
+# 83 "inputs/AnturaParser.ppfsy"
                          sempar {
                        
                        return ( "" )
                      }
                    )
-# 87 "inputs/AnturaParser.ppfsy"
+# 83 "inputs/AnturaParser.ppfsy"
                  : 'gentype_rule_name));
-# 347 "AnturaParser.fs"
+# 343 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> string in
             let _2 = parseState.GetInput(2) :?> 'gentype_rule_name in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 92 "inputs/AnturaParser.ppfsy"
+# 88 "inputs/AnturaParser.ppfsy"
                                      sempar {
                        let semparVar1 = _1
                        let! semparVar2 = _2
@@ -359,44 +355,44 @@ let _fsyacc_reductions = lazy [|
                        return ( semparVar1 + " " + semparVar2 )
                      }
                    )
-# 92 "inputs/AnturaParser.ppfsy"
+# 88 "inputs/AnturaParser.ppfsy"
                  : 'gentype_rule_name));
-# 364 "AnturaParser.fs"
+# 360 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> 'gentype_type_list in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 100 "inputs/AnturaParser.ppfsy"
+# 96 "inputs/AnturaParser.ppfsy"
                                                 sempar {
                        let! semparVar2 = _2
                        
                        return ( semparVar2 )
                      }
                    )
-# 100 "inputs/AnturaParser.ppfsy"
+# 96 "inputs/AnturaParser.ppfsy"
                  : 'gentype_types));
-# 379 "AnturaParser.fs"
+# 375 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 107 "inputs/AnturaParser.ppfsy"
+# 103 "inputs/AnturaParser.ppfsy"
                          sempar {
                        
                        return ( [] )
                      }
                    )
-# 107 "inputs/AnturaParser.ppfsy"
+# 103 "inputs/AnturaParser.ppfsy"
                  : 'gentype_type_list));
-# 392 "AnturaParser.fs"
+# 388 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> string in
             let _2 = parseState.GetInput(2) :?> 'gentype_type_list in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 112 "inputs/AnturaParser.ppfsy"
+# 108 "inputs/AnturaParser.ppfsy"
                                          sempar {
                        let semparVar1 = _1
                        let! semparVar2 = _2
@@ -404,44 +400,44 @@ let _fsyacc_reductions = lazy [|
                        return ( semparVar1 :: semparVar2 )
                      }
                    )
-# 112 "inputs/AnturaParser.ppfsy"
+# 108 "inputs/AnturaParser.ppfsy"
                  : 'gentype_type_list));
-# 409 "AnturaParser.fs"
+# 405 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> 'gentype_source_list in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 120 "inputs/AnturaParser.ppfsy"
+# 116 "inputs/AnturaParser.ppfsy"
                                             sempar {
                        let! semparVar2 = _2
                        
                        return ( semparVar2 )
                      }
                    )
-# 120 "inputs/AnturaParser.ppfsy"
+# 116 "inputs/AnturaParser.ppfsy"
                  : 'gentype_sources));
-# 424 "AnturaParser.fs"
+# 420 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 127 "inputs/AnturaParser.ppfsy"
+# 123 "inputs/AnturaParser.ppfsy"
                          sempar {
                        
                        return ( [] )
                      }
                    )
-# 127 "inputs/AnturaParser.ppfsy"
+# 123 "inputs/AnturaParser.ppfsy"
                  : 'gentype_source_list));
-# 437 "AnturaParser.fs"
+# 433 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _1 = parseState.GetInput(1) :?> 'gentype_source in
             let _2 = parseState.GetInput(2) :?> 'gentype_source_list in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 132 "inputs/AnturaParser.ppfsy"
+# 128 "inputs/AnturaParser.ppfsy"
                                            sempar {
                        let! semparVar1 = _1
                        let! semparVar2 = _2
@@ -449,9 +445,9 @@ let _fsyacc_reductions = lazy [|
                        return ( semparVar1 :: semparVar2 )
                      }
                    )
-# 132 "inputs/AnturaParser.ppfsy"
+# 128 "inputs/AnturaParser.ppfsy"
                  : 'gentype_source_list));
-# 454 "AnturaParser.fs"
+# 450 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _3 = parseState.GetInput(3) :?> string in
             let _5 = parseState.GetInput(5) :?> string in
@@ -459,7 +455,7 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 141 "inputs/AnturaParser.ppfsy"
+# 137 "inputs/AnturaParser.ppfsy"
                                                      sempar {
                        let semparVar3 = _3
                        let semparVar5 = _5
@@ -468,55 +464,55 @@ let _fsyacc_reductions = lazy [|
                        return ( (semparVar3, semparVar5, semparVar7) )
                      }
                    )
-# 141 "inputs/AnturaParser.ppfsy"
+# 137 "inputs/AnturaParser.ppfsy"
                  : 'gentype_source));
-# 473 "AnturaParser.fs"
+# 469 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> string in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 150 "inputs/AnturaParser.ppfsy"
+# 146 "inputs/AnturaParser.ppfsy"
                                           sempar {
                        let semparVar2 = _2
                        
                        return ( Some semparVar2 )
                      }
                    )
-# 150 "inputs/AnturaParser.ppfsy"
+# 146 "inputs/AnturaParser.ppfsy"
                  : 'gentype_transformations));
-# 488 "AnturaParser.fs"
+# 484 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> 'gentype_property in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 157 "inputs/AnturaParser.ppfsy"
+# 153 "inputs/AnturaParser.ppfsy"
                                              sempar {
                        let! semparVar2 = _2
                        
                        return ( semparVar2 )
                      }
                    )
-# 157 "inputs/AnturaParser.ppfsy"
+# 153 "inputs/AnturaParser.ppfsy"
                  : 'gentype_destination));
-# 503 "AnturaParser.fs"
+# 499 "AnturaParser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
             let _2 = parseState.GetInput(2) :?> string in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 164 "inputs/AnturaParser.ppfsy"
+# 160 "inputs/AnturaParser.ppfsy"
                                             sempar {
                        let semparVar2 = _2
                        
                        return ( Property semparVar2 )
                      }
                    )
-# 164 "inputs/AnturaParser.ppfsy"
+# 160 "inputs/AnturaParser.ppfsy"
                  : 'gentype_property));
 |]
-# 519 "AnturaParser.fs"
+# 515 "AnturaParser.fs"
 let tables : FSharp.Text.Parsing.Tables<_> = 
   { reductions = _fsyacc_reductions.Value;
     endOfInputTag = _fsyacc_endOfInputTag;

@@ -8,15 +8,18 @@
 
   <Import Project="../sempar/Sempar.targets" />
   <ItemGroup>
-    <Sempar Include="inputs/Parser.sfsy">
-      <OtherFlags> --outputfile inputs/AnturaParser.ppfsy</OtherFlags>
+    <Compile Include="ArithAST.fs"/>
+    <Sempar Include="ArithParser.sfsy">
+      <OtherFlags> --outputfile ArithParser.sempar</OtherFlags>
     </Sempar>
-    <FsYacc Include="inputs/ArithParser.ppfsy">
-      <OtherFlags>--module Parser</OtherFlags>
+    <FsYacc Include="ArithParser.sempar">
+      <OtherFlags>--module ArithParser</OtherFlags>
     </FsYacc>
-    <FsLex Include="inputs/Lexer.fsl">
+    <FsLex Include="Lexer.fsl">
       <OtherFlags> --unicode</OtherFlags>
     </FsLex>
+    <Compile Include="ArithParser.fs" />
+    <Compile Include="Lexer.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

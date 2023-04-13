@@ -9,6 +9,9 @@ let concatSpaces (ss : string list) : string =
 let concatNewlines (ss : string list) : string = 
     String.concat "\n" ss 
 
+let indent (amount : int) (str : string) : string =
+    String.replicate amount " " + str 
+
 type Constraint =
     | Constr of string
         override this.ToString(): string = 

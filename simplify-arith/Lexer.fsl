@@ -1,10 +1,9 @@
 {
-
 module Lexer
 
 open FSharp.Text.Lexing
 open System
-open Parser
+open ArithParser
 
 exception SyntaxError of string
 
@@ -18,7 +17,7 @@ let digit = ['0'-'9']
 let int = ['-' '+']? digit+
 let frac = '.' digit*
 let exp = ['e' 'E'] ['-' '+']? digit+
-let float = '-'? digit* frac? exp?
+let float = '-'? digit+ frac? exp?
 
 let white = [' ' '\t']+
 let newline = '\r' | '\n' | "\r\n"
@@ -32,6 +31,7 @@ rule read =
   parse
   | white    { read lexbuf }
   | newline  { newline lexbuf; read lexbuf }
+  | var      { VAR (lexeme lexbuf) }
   | float    { NUM (float (lexeme lexbuf)) }
   | '+'      { PLUS }
   | '-'      { MINUS }
@@ -39,6 +39,5 @@ rule read =
   | '/'      { DIV }
   | '('      { LPAR }
   | ')'      { RPAR }
-  | var      { VAR (lexeme lexbuf) }
   | eof      { EOF }
   | _ { raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (lexeme lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) }
