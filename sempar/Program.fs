@@ -11,8 +11,8 @@ type CliArguments =
     interface IArgParserTemplate with
         member s.Usage =
             match s with
-            | InputFile _ -> "The input .sfsy file"
-            | OutputFile _ -> "Specify an output file (default: append .ppfsy to inputfilename)"
+            | InputFile _ -> "The input .sempar file"
+            | OutputFile _ -> "Specify an output file (default: append .fsy to inputfilename)"
         
 
 [<EntryPoint>]
@@ -26,7 +26,7 @@ let main argv =
     let inputfilePath = arguments.GetResult InputFile
 
     let outputFilePath = match arguments.Contains OutputFile with
-                                | false -> inputfilePath + ".ppfsy"
+                                | false -> inputfilePath + ".fsy"
                                 | true -> arguments.GetResult OutputFile
 
     let contents = File.ReadAllLines inputfilePath |> String.concat "\n" 

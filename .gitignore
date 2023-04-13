@@ -266,3 +266,7 @@ MyProject_coverage.xml
 sempar/PreProcessingLexer.fs
 sempar/PreProcessingParser.fsi
 sempar/PreProcessingParser.fs
+
+antura-dsl/inputs/AnturaParser.sempar.fsy
+antura-dsl/AnturaParser.fs
+antura-dsl/AnturaParser.fsi
