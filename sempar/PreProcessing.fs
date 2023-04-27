@@ -4,7 +4,7 @@ open System.Text.RegularExpressions
 
 open FSharp.Text.Lexing
 
-open PPType
+open DataModel
 
 let usedVariables (codeSnippets: string list): string list =
     let mutable vars = []

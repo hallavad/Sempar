@@ -1,5 +1,5 @@
 %{
-open PPType
+open DataModel
 %}
 
 %start start 
@@ -17,7 +17,7 @@ open PPType
 %token EOF
 %token <string * string> PREAITEM
 
-%type <PPType.FSY> start
+%type <DataModel.FSY> start
 
 %%
 

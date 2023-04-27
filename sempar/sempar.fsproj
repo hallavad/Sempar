@@ -5,7 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Diagnostics.fs" />
-    <Compile Include="PPType.fs" />
+    <Compile Include="DataModel.fs" />
     <FsYacc Include="PreProcessingParser.fsy">
       <OtherFlags>--module PreProcessingParser</OtherFlags>
     </FsYacc>
