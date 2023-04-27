@@ -29,8 +29,11 @@ rule Hämta numeric property:
 		"Göteborg - 2 Mindre projekt mellan 100tkr -625tkr"
 		"Göteborg - 3 Standard projekt över 625 tkr"
 	sources: 
-		from numeric property XXXX get XXX 
+		get numeric property XXXXXXX 
+		get numeric property XXXXX
+		get numeric property XXXX
+		get numeric property XXX 
 	transformation:
-		none
+		(VAL0 + VAL1)
 	destination:
 		project property Status
