@@ -11,7 +11,7 @@ open ArithAST
 
 %left PLUS MINUS TIMES DIV
 
-%type <Diagnostics<Arith>> expr
+%type <Arith> expr
 
 %%
 

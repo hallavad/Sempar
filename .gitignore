@@ -272,4 +272,4 @@ antura-dsl/AnturaParser.fs
 antura-dsl/AnturaParser.fsi
 simplify-arith/ArithParser.fs
 simplify-arith/ArithParser.fsi
-simplify-arith/ArithParser.sempar
+simplify-arith/ArithParser.sempar.fsy

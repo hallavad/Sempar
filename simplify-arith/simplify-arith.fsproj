@@ -9,11 +9,11 @@
   <Import Project="../sempar/Sempar.targets" />
   <ItemGroup>
     <Compile Include="ArithAST.fs"/>
-    <Sempar Include="ArithParser.sfsy">
-      <OtherFlags> --outputfile ArithParser.sempar</OtherFlags>
+    <Sempar Include="ArithParser.sempar">
+      <OtherFlags> --outputfile ArithParser.sempar.fsy</OtherFlags>
     </Sempar>
-    <FsYacc Include="ArithParser.sempar">
-      <OtherFlags>--module ArithParser</OtherFlags>
+    <FsYacc Include="ArithParser.sempar.fsy">
+      <OtherFlags>--module ArithParser -o ArithParser.fs</OtherFlags>
     </FsYacc>
     <FsLex Include="Lexer.fsl">
       <OtherFlags> --unicode</OtherFlags>
