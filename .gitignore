@@ -274,3 +274,4 @@ simplify-arith/ArithParser.fs
 simplify-arith/ArithParser.fsi
 simplify-arith/ArithParser.sempar.fsy
 simplify-arith/inputs/ArithParser.sempar.fsy
+.config/dotnet-tools.json
