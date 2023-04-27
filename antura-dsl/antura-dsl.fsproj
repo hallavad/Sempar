@@ -7,7 +7,7 @@
   <Import Project="../sempar/Sempar.targets" />
   <ItemGroup>
     <Compile Include="DataModel.fs" />
-    <Sempar Include="inputs/Parser.sempar">
+    <Sempar Include="inputs/AnturaParser.sempar">
       <OtherFlags> --outputfile inputs/AnturaParser.sempar.fsy</OtherFlags>
     </Sempar>
     <FsYacc Include="inputs/AnturaParser.sempar.fsy">
