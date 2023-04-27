@@ -270,3 +270,6 @@ sempar/PreProcessingParser.fs
 antura-dsl/inputs/AnturaParser.sempar.fsy
 antura-dsl/AnturaParser.fs
 antura-dsl/AnturaParser.fsi
+simplify-arith/ArithParser.fs
+simplify-arith/ArithParser.fsi
+simplify-arith/ArithParser.sempar
