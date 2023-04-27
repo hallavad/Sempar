@@ -1,7 +1,5 @@
 module Diagnostics
 
-open HelperFunctions
-
 type Error = string
 type Warning = string
 

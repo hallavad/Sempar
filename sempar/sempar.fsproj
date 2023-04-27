@@ -5,7 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DataModel.fs" />
-    <Compile Include="HelperFunctions.fs" />
     <Compile Include="Diagnostics.fs" />
     <Compile Include="PPType.fs" />
     <FsYacc Include="PreProcessingParser.fsy">
