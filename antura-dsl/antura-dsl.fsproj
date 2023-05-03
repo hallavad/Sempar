@@ -5,6 +5,7 @@
     <RootNamespace>test_msbuild_action</RootNamespace>
   </PropertyGroup>
   <Import Project="../sempar/Sempar.targets" />
+  
   <ItemGroup>
     <Compile Include="DataModel.fs" />
     <Sempar Include="inputs/AnturaParser.sempar">
@@ -22,7 +23,8 @@
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\sempar\sempar.fsproj" />
+    <ProjectReference Include="../sempar/sempar.fsproj" />
+    <ProjectReference Include="../simplify-arith/simplify-arith.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="chiron" Version="6.3.1" />
