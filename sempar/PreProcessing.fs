@@ -106,7 +106,6 @@ let replaceVars (fsy: FSY): FSY =
 let updateExportType (fsy: FSY): FSY =
     let newPreaItems = fsy.preamble.preaItems |> List.map (
         fun {name = name; value = value} -> 
-            printf "%A" value
             match name with
                 | "type" ->  
                     let rulename = value[1]
@@ -123,5 +122,4 @@ let preprocess (input: FSY): FSY =
 let parse (input: string): FSY = 
     let lexbuf = LexBuffer<char>.FromString input
     let FSY = PreProcessingParser.start PreProcessingLexer.read lexbuf
-    printf "%A" FSY
     FSY

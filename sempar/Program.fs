@@ -30,7 +30,7 @@ let main argv =
                                 | true -> arguments.GetResult OutputFile
 
     let contents = File.ReadAllLines inputfilePath |> String.concat "\n" 
-    let parseResult = contents |> PreProcessing.parse |> PreProcessing.preprocess |> (fun x -> printfn "%A" x; x.ToString())
+    let parseResult = contents |> PreProcessing.parse |> PreProcessing.preprocess |> (fun x -> x.ToString())
     File.WriteAllText(outputFilePath, parseResult)
 
     0

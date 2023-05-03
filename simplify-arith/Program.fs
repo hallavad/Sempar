@@ -8,7 +8,6 @@ open ArithLib
 [<EntryPoint>]
 let main argv =
     let contents = File.ReadAllLines "example/input.txt" |> String.concat "\n" 
-    printfn "File: %A" contents
     let parseResult = contents |> parse 
     let parseResult = match parseResult with 
                       | OK r -> 
