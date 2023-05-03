@@ -7,12 +7,12 @@ let concatNewlines (ss : string list) : string =
     String.concat "\n" ss 
 
 let tab = "    "
-let rec tabs (n) = 
+let rec tabs n = 
     match n with 
         | 0 -> "" 
         | _ -> tabs (n-1) + tab 
 
-let prefixTabs (n) (str)= (tabs n) + str
+let prefixTabs n str = tabs n + str
 
 type TransformedDestination = 
     {
