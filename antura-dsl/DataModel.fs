@@ -1,6 +1,8 @@
 module DataModel
 
-type Transformation = string
+open ArithAST
+
+type Transformation = Arith
 
 type Destination =
   | Property of string

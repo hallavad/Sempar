@@ -1,6 +1,6 @@
 %{
 open DataModel 
-
+open ArithLib
 %}
 
 %start start
@@ -69,7 +69,14 @@ source:
   | FROM_NUMERIC_PROPERTY ID GET ID { NumericProjectProperty ($2, $4) }
 
 transformations: 
-  | TRANSFORMATION ID { match $2 with | "none" -> None | s -> Some s }
+  | TRANSFORMATION ID { 
+      match $2 with 
+      | "none" -> None 
+      | s -> match (parse s) with
+             | OK t -> Some t
+             | Warnings (t, ws) -> Some t
+             | Errors es -> None
+  }
 
 destination: 
   | DESTINATION property { $2 }

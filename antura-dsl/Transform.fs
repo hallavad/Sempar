@@ -203,7 +203,7 @@ let transformTransformation (trans: DataModel.Transformation option): Transforme
     | Some(trans) -> 
         Arith { 
             kind = "ArithmeticOperation";
-            value = trans
+            value = ArithAST.arithToString trans
         }
 
     
