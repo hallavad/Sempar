@@ -24,6 +24,7 @@ open ArithLib
 %token GET
 %token WHEN
 %token EOF
+%token <string> ARITH
 
 %type <DataModel.Rules> start
 
@@ -70,10 +71,11 @@ source:
 
 transformations: 
   | TRANSFORMATION ID { 
+      printfn "$2: %A" $2
       match $2 with 
       | "none" -> None 
       | s -> match (parse s) with
-             | OK t -> Some t
+             | OK t -> printfn "%A" t; Some t
              | Warnings (t, ws) -> Some t
              | Errors es -> None
   }

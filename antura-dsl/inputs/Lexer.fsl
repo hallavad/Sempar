@@ -25,7 +25,10 @@ let white = [' ' '\t']+
 let newline = '\r' | '\n' | "\r\n"
 
 let aao = ['å' 'ä' 'ö' 'Å' 'Ä' 'Ö']
-let word = (['a'-'z' 'A'-'Z'  '_' '-'] | aao)+
+let letter = ['a'-'z' 'A'-'Z'  '_' '-']
+let word = (letter | aao)+
+
+let arith_expr = (digit | letter | ['+' '*' '-' '/' '(' ')'])+
 
 rule read =
   parse
@@ -47,6 +50,7 @@ rule read =
   | "project property" { PROJECT_PROPERTY }
   | "get" { GET }
   | word { ID(lexeme lexbuf)}
+  | arith_expr { ARITH (lexeme lexbuf) }
   | eof      { EOF }
   | _ { raise (Exception (sprintf "SyntaxError: Unexpected char: '%s' Line: %d Column: %d" (lexeme lexbuf) (lexbuf.StartPos.Line+1) lexbuf.StartPos.Column)) }
 
