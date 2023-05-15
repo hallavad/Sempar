@@ -1,8 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
 		<CompileDependsOn>CallSempar;$(CompileDependsOn)</CompileDependsOn>
-		<SemparToolPath Condition="'$(SemparToolPath)' == ''">$(MSBuildThisFileDirectory)bin\Debug\net6.0</SemparToolPath>
-		<SemparToolExe Condition="'$(SemparToolExe)' == ''">Sempar.dll</SemparToolExe>
+		<SemparToolPath Condition="'$(SemparToolPath)' == ''">$(MSBuildThisFileDirectory)bin\Debug\net7.0</SemparToolPath>
+		<SemparToolExe Condition="'$(SemparToolExe)' == ''">sempar.dll</SemparToolExe>
         <SemparToolRunner Condition="'$(UseSemparToolRunner)' != 'false' AND '$(SemparToolRunner)' == ''">dotnet </SemparToolRunner>
 	</PropertyGroup>
 
