@@ -1,36 +1,11 @@
 precision 2
 rule Sätt automatiskt produktionsstart:
 	project types: 
-		"Göteborg - 1 Små projekt under 100 tkr"
-		"Göteborg - 2 Mindre projekt mellan 100tkr -625tkr"
-		"Göteborg - 3 Standard projekt över 625 tkr"
+		"Små projekt"
+		"Standard projekt"
 	sources:
 		from task where Referens = genomför get StartDate
 	transformation:
 	 	none
 	destination:
 		project property Produktionsstart
-
-rule Hämta datum från bp:
-	project types:
-		"Göteborg - 1 Små projekt under 100 tkr"
-		"Göteborg - 2 Mindre projekt mellan 100tkr -625tkr"
-		"Göteborg - 3 Standard projekt över 625 tkr"
-	sources: 
-		from decision point 2 get Date
-	transformation:
-		none
-	destination:
-		project property Status
-
-rule Hämta numeric property:
-	project types:
-		"Göteborg - 1 Små projekt under 100 tkr"
-		"Göteborg - 2 Mindre projekt mellan 100tkr -625tkr"
-		"Göteborg - 3 Standard projekt över 625 tkr"
-	sources: 
-		from numeric property XXXXXXX get YYY
-	transformation:
-		none
-	destination:
-		project property Status

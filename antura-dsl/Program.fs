@@ -18,6 +18,7 @@ let parse (input: string): DataModel.Rules =
 let main argv =
     let contents = File.ReadAllLines "example/input.txt" |> String.concat "\n" 
     let parseResult = contents |> parse 
+    printfn "ASTREsult: %A" parseResult
     let transformResult = parseResult |> Transform.transform 
     printfn "transformResult: %A" transformResult
 
